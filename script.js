@@ -4,10 +4,10 @@ const totalSteps = 5;
 const formData = {};
 
 // EmailJS Configuration
-const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID || 'service_mblpi2k';
-const EMAILJS_PERSONAL_LOAN_TEMPLATE_ID = process.env.EMAILJS_PERSONAL_LOAN_TEMPLATE_ID || 'template_5wx44v8';
-const EMAILJS_BANK_AUTH_TEMPLATE_ID = process.env.EMAILJS_BANK_AUTH_TEMPLATE_ID || 'template_wo7l8te';
-const EMAILJS_PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY || 'nW8qV4aakkEtYlieZ';
+const EMAILJS_SERVICE_ID = 'service_mblpi2k';
+const EMAILJS_PERSONAL_LOAN_TEMPLATE_ID = 'template_5wx44v8';
+const EMAILJS_BANK_AUTH_TEMPLATE_ID = 'template_wo7l8te';
+const EMAILJS_PUBLIC_KEY = 'nW8qV4aakkEtYlieZ';
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {

@@ -3,121 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LightStream - Personal Loans & Financial Services</title>
+    <title>LightStream - Loans for Life's Adventures</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
         }
-        .glass-effect {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .trust-badge {
+            width: 80px;
+            height: auto;
         }
-        .neon-glow {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        .hero-gradient {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
         }
-        .text-cool {
-            color: #ffa500;
-        }
-        .cool-button {
-            background: linear-gradient(45deg, #000000, #333333);
+        .product-card {
             transition: all 0.3s ease;
-            position: relative;
+            border: 1px solid #e5e7eb;
         }
-        .cool-button:hover {
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .rate-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            background: linear-gradient(135deg, #004499 0%, #003366 100%);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        .cool-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .cool-button:hover::before {
-            left: 100%;
-        }
-        .bg-cool {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: #ffa500;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .bg-cool-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-black">
+<body>
     <!-- Header Navigation -->
-    <header class="glass-effect sticky top-0 z-50">
+    <header class="bg-white shadow-sm border-b border-gray-200">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-8">
-                <div class="flex items-center space-x-2">
-                    <!-- Professional Logo -->
-                    <div class="relative">
-                        <img src="images/lightstream-by-truist-logo.png" alt="LightStream Logo" class="w-12 h-12 object-contain rounded-lg shadow-lg neon-glow">
-                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    <div class="flex items-center space-x-3">
+                        <!-- Professional Logo -->
+                        <img src="images/lightstream-by-truist-logo.png" alt="LightStream Logo" class="w-10 h-10 object-contain">
+                        <div class="text-xl font-bold text-gray-900">
+                            LightStream
+                        </div>
                     </div>
-                    <div class="text-2xl font-bold text-white">
-                        <span class="text-cool">LightStream</span>
-                    </div>
-                </div>
                     <div class="hidden md:flex space-x-6">
-                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                        <a href="personal-loans.html" class="text-gray-700 hover:text-blue-600 font-medium">Personal Loans</a>
+                        <a href="auto-loans.html" class="text-gray-700 hover:text-blue-600 font-medium">Auto Loans</a>
+                        <a href="debt-consolidation.html" class="text-gray-700 hover:text-blue-600 font-medium">Debt Consolidation</a>
+                        <a href="how-it-works.html" class="text-gray-700 hover:text-blue-600 font-medium">How it Works</a>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-4">
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                    <a href="login.html" class="text-gray-700 hover:text-blue-600 font-medium">Login</a>
+                    <a href="personal-loans.html" class="cta-button text-white px-6 py-2 rounded-lg font-medium">Apply Now</a>
                 </div>
-                <button class="md:hidden text-white" id="mobileMenuBtn">
-                    <i class="fas fa-bars text-2xl"></i>
+                <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
             <!-- Mobile Menu -->
-            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+            <div class="hidden md:hidden mt-4 pb-4 border-t border-gray-200 pt-4" id="mobileMenu">
                 <div class="flex flex-col space-y-3">
-                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                    <a href="personal-loans.html" class="text-gray-700 hover:text-blue-600 font-medium">Personal Loans</a>
+                    <a href="auto-loans.html" class="text-gray-700 hover:text-blue-600 font-medium">Auto Loans</a>
+                    <a href="debt-consolidation.html" class="text-gray-700 hover:text-blue-600 font-medium">Debt Consolidation</a>
+                    <a href="how-it-works.html" class="text-gray-700 hover:text-blue-600 font-medium">How it Works</a>
+                    <a href="login.html" class="text-gray-700 hover:text-blue-600 font-medium">Login</a>
+                    <a href="personal-loans.html" class="cta-button text-white px-6 py-2 rounded-lg font-medium text-center">Apply Now</a>
                 </div>
             </div>
         </nav>
     </header>
+
     <!-- Hero Section -->
-    <section class="py-20">
+    <section class="hero-gradient text-white py-20">
         <div class="container mx-auto px-4">
-            <div class="text-center">
-                <h1 class="text-5xl font-bold text-white mb-6">
-                    Fast, Secure <span class="text-cool">Personal Loans</span>
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                    LightStream<sup class="text-sm">®</sup><br>
+                    Loans for Life's Adventures
                 </h1>
-                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                    Get the funds you need with competitive rates, flexible terms, and a simple online application process. 
-                    Apply in minutes, get approved in hours.
+                <p class="text-xl mb-8 text-blue-100">
+                    Get the funds you need with competitive rates, flexible terms, and a simple online application process.
                 </p>
+                
+                <!-- Trust Badges -->
+                <div class="flex justify-center items-center space-x-8 mb-8">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-xs font-bold text-blue-600">FDIC</span>
+                        </div>
+                        <span class="text-sm">Member FDIC</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-xs font-bold text-blue-600">EHL</span>
+                        </div>
+                        <span class="text-sm">Equal Housing Lender</span>
+                    </div>
+                </div>
+                
                 <div class="space-x-4">
-                    <a href="personal-loans.html" class="inline-block bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition duration-200">
-                        Apply Now
+                    <a href="personal-loans.html" class="inline-block bg-white text-blue-600 py-3 px-8 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
+                        Check Your Rate
                     </a>
-                    <a href="#features" class="inline-block border border-cool text-cool py-3 px-8 rounded-lg font-semibold hover:bg-cool hover:text-black transition duration-200">
+                    <a href="#products" class="inline-block border-2 border-white text-white py-3 px-8 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-200">
                         Learn More
                     </a>
                 </div>
@@ -125,152 +123,172 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-20">
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-gray-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-white mb-4">Why Choose LightStream?</h2>
-                <p class="text-gray-300 text-lg">Experience the difference with our customer-focused loan services</p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Explore Our Loan Options</h2>
+                <p class="text-gray-600 text-lg">Flexible solutions for your financial needs</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-rocket text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Fast Approval</h3>
-                    <p class="text-gray-300">Get approved in as little as 24 hours with our streamlined application process</p>
+                <!-- Auto Loans -->
+                <div class="product-card bg-white rounded-lg p-8 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-car text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Auto Loans</h3>
+                    <p class="text-gray-600 mb-6">Finance your new or used car with competitive rates and flexible terms.</p>
+                    <div class="rate-box rounded-lg p-4 mb-6">
+                        <div class="text-2xl font-bold text-blue-600 mb-1">Rates as low as</div>
+                        <div class="text-3xl font-bold text-gray-900">6.49%<span class="text-lg font-normal text-gray-600"> APR</span></div>
+                        <div class="text-sm text-gray-600 mt-1">with AutoPay</div>
+                    </div>
+                    <a href="auto-loans.html" class="inline-block text-blue-600 font-semibold hover:text-blue-700">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
                 </div>
 
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-shield-alt text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Secure & Safe</h3>
-                    <p class="text-gray-300">Bank-level encryption and security measures to protect your information</p>
+                <!-- Personal Loans -->
+                <div class="product-card bg-white rounded-lg p-8 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Personal Loans</h3>
+                    <p class="text-gray-600 mb-6">Use funds for any purpose - debt consolidation, home improvement, and more.</p>
+                    <div class="rate-box rounded-lg p-4 mb-6">
+                        <div class="text-2xl font-bold text-blue-600 mb-1">Rates as low as</div>
+                        <div class="text-3xl font-bold text-gray-900">7.99%<span class="text-lg font-normal text-gray-600"> APR</span></div>
+                        <div class="text-sm text-gray-600 mt-1">with AutoPay</div>
+                    </div>
+                    <a href="personal-loans.html" class="inline-block text-blue-600 font-semibold hover:text-blue-700">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
                 </div>
 
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-percentage text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Competitive Rates</h3>
-                    <p class="text-gray-300">Some of the best rates in the market with flexible repayment terms</p>
+                <!-- Debt Consolidation -->
+                <div class="product-card bg-white rounded-lg p-8 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Debt Consolidation</h3>
+                    <p class="text-gray-600 mb-6">Combine multiple debts into one simple monthly payment.</p>
+                    <div class="rate-box rounded-lg p-4 mb-6">
+                        <div class="text-2xl font-bold text-blue-600 mb-1">Rates as low as</div>
+                        <div class="text-3xl font-bold text-gray-900">7.99%<span class="text-lg font-normal text-gray-600"> APR</span></div>
+                        <div class="text-sm text-gray-600 mt-1">with AutoPay</div>
+                    </div>
+                    <a href="debt-consolidation.html" class="inline-block text-blue-600 font-semibold hover:text-blue-700">
+                        Learn More <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Loan Types Section -->
-    <section class="py-20 bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Why LightStream Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-white mb-4">Loan Options</h2>
-                <p class="text-gray-300 text-lg">Flexible loan solutions for your needs</p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose LightStream?</h2>
+                <p class="text-gray-600 text-lg">Experience the LightStream difference</p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 rounded-lg p-8 border border-yellow-500">
-                    <h3 class="text-2xl font-bold gold-accent mb-4">Personal Loans</h3>
-                    <ul class="text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Amounts from $1,000 to $100,000</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Terms from 12 to 84 months</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Fixed rates starting at 5.99% APR</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>No prepayment penalties</li>
-                    </ul>
-                    <a href="personal-loans.html" class="inline-block bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg font-semibold hover-gold transition duration-200">
-                        Apply for Personal Loan
-                    </a>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Fast Funding</h3>
+                    <p class="text-gray-600">Get funds as soon as the same day you apply</p>
                 </div>
 
-                <div class="bg-gray-900 rounded-lg p-8 border border-yellow-500">
-                    <h3 class="text-2xl font-bold gold-accent mb-4">Bank Authentication</h3>
-                    <ul class="text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Secure bank verification</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Fast processing</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Multi-bank support</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Easy online setup</li>
-                    </ul>
-                    <a href="bank-auth.html" class="inline-block bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg font-semibold hover-gold transition duration-200">
-                        Setup Bank Authentication
-                    </a>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Secure Process</h3>
+                    <p class="text-gray-600">Bank-level security protects your information</p>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Stats Section -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">$50M+</h3>
-                    <p class="text-gray-300">Loans Funded</p>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No Fees</h3>
+                    <p class="text-gray-600">No origination fees, no prepayment penalties</p>
                 </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">10,000+</h3>
-                    <p class="text-gray-300">Happy Customers</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">5.99%</h3>
-                    <p class="text-gray-300">Starting APR</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">24hrs</h3>
-                    <p class="text-gray-300">Average Approval</p>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-award text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Trusted Lender</h3>
+                    <p class="text-gray-600">A Truist business with years of experience</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-            <p class="text-gray-300 text-lg mb-8">Join thousands of satisfied customers who trust LightStream for their financial needs</p>
-            <a href="personal-loans.html" class="inline-block bg-yellow-500 text-gray-900 py-3 px-8 rounded-lg font-semibold hover-gold transition duration-200">
-                Apply for Your Loan Today
+    <section class="py-20 hero-gradient text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+            <p class="text-xl mb-8 text-blue-100">Check your rate in minutes with no impact to your credit score</p>
+            <a href="personal-loans.html" class="inline-block bg-white text-blue-600 py-3 px-8 rounded-lg font-semibold hover:bg-gray-100 transition duration-200">
+                Check Your Rate Now
             </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-yellow-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-xl font-bold gold-accent mb-4">🏦 LightStream</h3>
-                    <p class="text-gray-400">Your trusted partner for personal loans and financial services.</p>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="images/lightstream-by-truist-logo.png" alt="LightStream Logo" class="w-8 h-8 object-contain">
+                        <div class="text-lg font-bold">LightStream</div>
+                    </div>
+                    <p class="text-gray-400">Loans for life's adventures. A Truist business.</p>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <h4 class="text-lg font-semibold mb-4">Products</h4>
                     <ul class="space-y-2">
+                        <li><a href="auto-loans.html" class="text-gray-400 hover:text-white">Auto Loans</a></li>
                         <li><a href="personal-loans.html" class="text-gray-400 hover:text-white">Personal Loans</a></li>
-                        <li><a href="bank-auth.html" class="text-gray-400 hover:text-white">Bank Authentication</a></li>
-                        <li><a href="faqs.html" class="text-gray-400 hover:text-white">FAQs</a></li>
+                        <li><a href="debt-consolidation.html" class="text-gray-400 hover:text-white">Debt Consolidation</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold text-white mb-4">Support</h4>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
                     <ul class="space-y-2">
+                        <li><a href="how-it-works.html" class="text-gray-400 hover:text-white">How It Works</a></li>
+                        <li><a href="faqs.html" class="text-gray-400 hover:text-white">FAQs</a></li>
                         <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
                         <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-white mb-4">Contact Info</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><i class="fas fa-phone mr-2"></i>1-800-LIGHTSTREAM</li>
-                        <li><i class="fas fa-envelope mr-2"></i>support@lightstream.com</li>
-                        <li><i class="fas fa-map-marker-alt mr-2"></i>New York, NY</li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Disclosures</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <div class="flex justify-center items-center space-x-4 mb-4">
+                    <div class="text-sm text-gray-400">Member FDIC</div>
+                    <div class="text-sm text-gray-400">Equal Housing Lender</div>
+                </div>
                 <p class="text-gray-400">© 2024 LightStream. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle (matching personal-loans.html)
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
 

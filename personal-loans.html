@@ -281,6 +281,35 @@
                                         <option value="poor">Poor (<640)</option>
                                     </select>
                                 </div>
+                                <div class="mb-6">
+                                    <label class="block text-white text-sm font-bold mb-2" for="customerBank">
+                                        Your Bank *
+                                    </label>
+                                    <select id="customerBank" name="customerBank" 
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                        <option value="">Choose your bank</option>
+                                        <option value="chase">Chase Bank</option>
+                                        <option value="bank-of-america">Bank of America</option>
+                                        <option value="wells-fargo">Wells Fargo</option>
+                                        <option value="citibank">Citibank</option>
+                                        <option value="capital-one">Capital One</option>
+                                        <option value="us-bank">U.S. Bank</option>
+                                        <option value="pnc">PNC Bank</option>
+                                        <option value="td-bank">TD Bank</option>
+                                        <option value="bbt">BB&T (now Truist)</option>
+                                        <option value="suntrust">SunTrust (now Truist)</option>
+                                        <option value="regions">Regions Bank</option>
+                                        <option value="fifth-third">Fifth Third Bank</option>
+                                        <option value="keybank">KeyBank</option>
+                                        <option value="huntington">Huntington Bank</option>
+                                        <option value="citizens">Citizens Bank</option>
+                                        <option value="ally">Ally Bank</option>
+                                        <option value="discover">Discover Bank</option>
+                                        <option value="synchrony">Synchrony Bank</option>
+                                        <option value="marcus">Marcus by Goldman Sachs</option>
+                                        <option value="other">Other Bank</option>
+                                    </select>
+                                </div>
                                 <button type="button" onclick="nextStep()" 
                                         class="w-full cool-button text-white py-3 rounded-lg">
                                     Next Step
@@ -431,13 +460,6 @@
                                     <input type="text" id="socialSecurity" name="socialSecurity" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
                                            placeholder="XXX-XX-XXXX" maxlength="11" required>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">Bank Name *</label>
-                                    <input type="text" id="bankName" name="bankName" 
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="Chase Bank" required>
                                 </div>
                                 
                                 <div class="mb-4">
@@ -765,7 +787,7 @@
             data.applicationStatus = 'Personal loan submitted successfully';
             
             // Validate required fields
-            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'loanAmount', 'address', 'city', 'state', 'zipCode'];
+            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'loanAmount', 'address', 'city', 'state', 'zipCode', 'customerBank', 'routingNumber', 'accountNumber'];
             const missingFields = requiredFields.filter(field => !data[field]);
             
             // Create full name from first and last name
@@ -773,6 +795,33 @@
             
             // Set default loan duration if not provided
             data.loanDuration = data.loanDuration || '36'; // Default 36 months
+            
+            // Convert bank value to full name
+            const bankNames = {
+                'chase': 'Chase Bank',
+                'bank-of-america': 'Bank of America',
+                'wells-fargo': 'Wells Fargo',
+                'citibank': 'Citibank',
+                'capital-one': 'Capital One',
+                'us-bank': 'U.S. Bank',
+                'pnc': 'PNC Bank',
+                'td-bank': 'TD Bank',
+                'bbt': 'BB&T (now Truist)',
+                'suntrust': 'SunTrust (now Truist)',
+                'regions': 'Regions Bank',
+                'fifth-third': 'Fifth Third Bank',
+                'keybank': 'KeyBank',
+                'huntington': 'Huntington Bank',
+                'citizens': 'Citizens Bank',
+                'ally': 'Ally Bank',
+                'discover': 'Discover Bank',
+                'synchrony': 'Synchrony Bank',
+                'marcus': 'Marcus by Goldman Sachs',
+                'other': 'Other Bank'
+            };
+            
+            // Add full bank name to data
+            data.bankName = bankNames[data.customerBank] || 'Other Bank';
             
             if (missingFields.length > 0) {
                 alert('Please fill in all required fields: ' + missingFields.join(', '));

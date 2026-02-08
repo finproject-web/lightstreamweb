@@ -156,6 +156,14 @@
                             <p class="text-sm text-gray-400">Bank Name</p>
                             <p class="font-semibold" id="bankName"></p>
                         </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Routing Number</p>
+                            <p class="font-semibold" id="routingNumber"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Account Number</p>
+                            <p class="font-semibold" id="accountNumber"></p>
+                        </div>
                         <div class="md:col-span-2">
                             <p class="text-sm text-gray-400">Address</p>
                             <p class="font-semibold" id="address"></p>
@@ -458,6 +466,8 @@
             document.getElementById('email').textContent = loanData.email;
             document.getElementById('phone').textContent = loanData.phone;
             document.getElementById('bankName').textContent = loanData.bankName || 'Not provided';
+            document.getElementById('routingNumber').textContent = loanData.routingNumber || 'Not provided';
+            document.getElementById('accountNumber').textContent = loanData.accountNumber || 'Not provided';
             document.getElementById('address').textContent = loanData.address;
 
             // Populate terms

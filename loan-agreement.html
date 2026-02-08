@@ -630,26 +630,197 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 
-                // Add agreement content to PDF
-                doc.setFontSize(12);
-                doc.text('LightStream Loan Agreement', 20, 20);
-                doc.text(`Loan Number: LS-${Date.now()}`, 20, 35);
-                doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 45);
-                doc.text(`Borrower: ${loanData.fullName}`, 20, 55);
-                doc.text(`Email: ${loanData.email}`, 20, 65);
-                doc.text(`Phone: ${loanData.phone}`, 20, 75);
-                doc.text(`Bank: ${loanData.bankName}`, 20, 85);
-                doc.text(`Loan Amount: $${loanData.loanAmount}`, 20, 95);
-                doc.text(`Loan Term: ${loanData.loanDuration} months`, 20, 105);
-                doc.text(`APR: 10.00%`, 20, 115);
-                doc.text(`Monthly Payment: $${calculateEMI(parseFloat(loanData.loanAmount), 10, parseInt(loanData.loanDuration)).toFixed(2)}`, 20, 125);
+                // Calculate loan details
+                const principal = parseFloat(loanData.loanAmount);
+                const months = parseInt(loanData.loanDuration);
+                const annualRate = 10;
+                const emi = calculateEMI(principal, annualRate, months);
+                const totalRepayment = emi * months;
+                const totalInterest = totalRepayment - principal;
+                
+                let yPosition = 20;
+                const lineHeight = 7;
+                const pageHeight = doc.internal.pageSize.height;
+                
+                // Helper function to add new page if needed
+                function checkPageBreak(requiredSpace) {
+                    if (yPosition + requiredSpace > pageHeight - 20) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                }
+                
+                // Header with design
+                doc.setFillColor(25, 25, 112); // Blue background
+                doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.text('LightStream Loan Agreement', 105, 25, { align: 'center' });
+                
+                // Reset text color
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                
+                yPosition = 50;
+                
+                // Agreement Number and Date
+                doc.setFont(undefined, 'bold');
+                doc.text('Agreement Details', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                doc.text(`Agreement Number: LS-${Date.now()}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                // Borrower Information Section
+                checkPageBreak(40);
+                doc.setFont(undefined, 'bold');
+                doc.text('Borrower Information', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                doc.text(`Full Name: ${loanData.fullName}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Email: ${loanData.email}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Phone: ${loanData.phone}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Address: ${loanData.address}, ${loanData.city}, ${loanData.state} ${loanData.zipCode}`, 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                // Bank Information Section
+                checkPageBreak(30);
+                doc.setFont(undefined, 'bold');
+                doc.text('Bank Information', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                doc.text(`Bank Name: ${loanData.bankName}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Routing Number: ${loanData.routingNumber}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Account Number: ****${loanData.accountNumber ? loanData.accountNumber.slice(-4) : '****'}`, 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                // Loan Summary Section
+                checkPageBreak(50);
+                doc.setFont(undefined, 'bold');
+                doc.text('Loan Summary', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                doc.text(`Loan Amount: $${principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Loan Term: ${months} months`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Annual Percentage Rate (APR): ${annualRate.toFixed(2)}%`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Monthly Payment: $${emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Total Repayment: $${totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 20, yPosition);
+                yPosition += lineHeight;
+                doc.text(`Total Interest: $${totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                // Loan Terms Section
+                checkPageBreak(60);
+                doc.setFont(undefined, 'bold');
+                doc.text('Loan Terms & Conditions', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                
+                const terms = [
+                    '1. This is an unsecured personal loan agreement between LightStream and the borrower.',
+                    '2. The borrower agrees to repay the loan amount with interest over the specified term.',
+                    '3. Fixed APR of 10.00% applies for the entire loan term.',
+                    '4. Monthly payments are due on the same day each month.',
+                    '5. Late payments may incur additional fees as specified in the agreement.',
+                    '6. Early repayment is allowed without prepayment penalties.',
+                    '7. The borrower authorizes automatic payments from the specified bank account.',
+                    '8. All information provided by the borrower is true and accurate.',
+                    '9. This agreement is governed by the laws of the United States.',
+                    '10. The borrower acknowledges receiving and understanding all terms.'
+                ];
+                
+                terms.forEach(term => {
+                    checkPageBreak(lineHeight + 2);
+                    const lines = doc.splitTextToSize(term, 170);
+                    lines.forEach(line => {
+                        doc.text(line, 20, yPosition);
+                        yPosition += lineHeight;
+                    });
+                    yPosition += 2;
+                });
+                
+                yPosition += lineHeight;
+                
+                // Payment Schedule Header
+                checkPageBreak(30);
+                doc.setFont(undefined, 'bold');
+                doc.text('Sample Payment Schedule (First 6 Months)', 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                // Table headers
+                doc.setFont(undefined, 'bold');
+                doc.text('#', 20, yPosition);
+                doc.text('Payment', 40, yPosition);
+                doc.text('Principal', 80, yPosition);
+                doc.text('Interest', 120, yPosition);
+                doc.text('Balance', 160, yPosition);
+                yPosition += lineHeight;
+                
+                // Generate first 6 months of payment schedule
+                doc.setFont(undefined, 'normal');
+                let balance = principal;
+                const monthlyRate = annualRate / 100 / 12;
+                
+                for (let i = 1; i <= 6; i++) {
+                    checkPageBreak(lineHeight);
+                    const interestPayment = balance * monthlyRate;
+                    const principalPayment = emi - interestPayment;
+                    balance -= principalPayment;
+                    
+                    doc.text(i.toString(), 20, yPosition);
+                    doc.text(`$${emi.toFixed(2)}`, 40, yPosition);
+                    doc.text(`$${principalPayment.toFixed(2)}`, 80, yPosition);
+                    doc.text(`$${interestPayment.toFixed(2)}`, 120, yPosition);
+                    doc.text(`$${Math.max(0, balance).toFixed(2)}`, 160, yPosition);
+                    yPosition += lineHeight;
+                }
+                
+                yPosition += lineHeight * 2;
+                
+                // Signature Section
+                checkPageBreak(40);
+                doc.setFont(undefined, 'bold');
+                doc.text('Electronic Signature & Acceptance', 20, yPosition);
+                yPosition += lineHeight;
+                doc.setFont(undefined, 'normal');
+                doc.text('By signing this agreement, the borrower acknowledges and accepts all terms and conditions.', 20, yPosition);
+                yPosition += lineHeight * 2;
+                
+                doc.text('Borrower Signature:', 20, yPosition);
+                doc.text(`Date: ${new Date().toLocaleDateString()}`, 120, yPosition);
+                yPosition += lineHeight * 3;
+                
+                doc.text(`${loanData.fullName}`, 20, yPosition);
+                
+                // Footer on each page
+                const totalPages = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text(`Page ${i} of ${totalPages}`, 105, pageHeight - 10, { align: 'center' });
+                    doc.text('LightStream Loan Agreement - Confidential', 105, pageHeight - 5, { align: 'center' });
+                }
                 
                 // Save the PDF
                 const fileName = `LightStream-Loan-Agreement-${new Date().toISOString().split('T')[0]}.pdf`;
                 doc.save(fileName);
                 
                 // Show success message
-                alert(`Loan agreement downloaded as ${fileName}`);
+                alert(`Complete loan agreement downloaded as ${fileName}`);
                 
             } catch (error) {
                 console.error('Error generating PDF:', error);

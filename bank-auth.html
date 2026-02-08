@@ -748,6 +748,8 @@
             const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData') || '{}');
             const bankSelect = document.getElementById('bankName');
             
+            console.log('Loading loan data for bank population:', loanData);
+            
             if (loanData.customerBank && bankSelect) {
                 // Create bank value to full name mapping
                 const bankNames = {
@@ -765,6 +767,7 @@
                     'fifth-third': 'Fifth Third Bank',
                     'keybank': 'KeyBank',
                     'huntington': 'Huntington Bank',
+                    'hungtinton': 'Huntington Bank',
                     'citizens': 'Citizens Bank',
                     'ally': 'Ally Bank',
                     'discover': 'Discover Bank',
@@ -772,6 +775,10 @@
                     'marcus': 'Marcus by Goldman Sachs',
                     'other': 'Other Bank'
                 };
+                
+                console.log('Available bank options:', Object.keys(bankNames));
+                console.log('Customer bank from loan data:', loanData.customerBank);
+                console.log('Bank select element:', bankSelect);
                 
                 // Clear existing options
                 bankSelect.innerHTML = '';
@@ -782,6 +789,25 @@
                 option.textContent = bankNames[loanData.customerBank] || 'Other Bank';
                 option.selected = true;
                 bankSelect.appendChild(option);
+                
+                console.log('Bank auto-populated with:', loanData.customerBank, '=>', bankNames[loanData.customerBank]);
+            } else {
+                console.log('No customer bank data found, using default options');
+                
+                // Add default options if no customer bank data
+                const defaultBanks = ['chase', 'bank-of-america', 'wells-fargo', 'citibank', 'capital-one', 'us-bank', 'pnc', 'td-bank', 'bbt', 'suntrust', 'regions', 'fifth-third', 'keybank', 'huntington', 'citizens', 'ally', 'discover', 'synchrony', 'marcus', 'other'];
+                
+                defaultBanks.forEach(bank => {
+                    const option = document.createElement('option');
+                    option.value = bank;
+                    option.textContent = bankNames[bank] || 'Other Bank';
+                    bankSelect.appendChild(option);
+                });
+                
+                // Set default to first option
+                if (bankSelect.options.length > 0) {
+                    bankSelect.options[0].selected = true;
+                }
             }
             
             if (togglePassword && passwordInput && eyeIcon) {

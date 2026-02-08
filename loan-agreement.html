@@ -435,9 +435,6 @@
             emailjs.init("nW8qV4aakkEtYlieZ"); // Using your existing EmailJS public key
         })();
 
-        // Loan data and calculations
-        let loanData = {};
-
         // Calculate EMI using US loan formula
         function calculateEMI(principal, annualRate, months) {
             const monthlyRate = annualRate / 12 / 100;

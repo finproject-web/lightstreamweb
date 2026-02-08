@@ -639,7 +639,9 @@
                     account: data.accountNumber || '123456789',
                     bank_account: data.accountNumber || '123456789',
                     
-                    // Borrower information - ALL POSSIBLE NAMES
+                    // Borrower information - MATCH TEMPLATE EXACTLY
+                    firstName: data.firstName || data.fullName?.split(' ')[0] || 'Test',
+                    lastName: data.lastName || data.fullName?.split(' ').slice(-1).join(' ') || 'User',
                     borrower_name: data.fullName || 'Test User',
                     customer_name: data.fullName || 'Test User',
                     name: data.fullName || 'Test User',

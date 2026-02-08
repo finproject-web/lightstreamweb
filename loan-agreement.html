@@ -410,27 +410,14 @@
         </div>
     </main>
 
-    <!-- OTP Modal -->
-    <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="glass-effect rounded-lg p-8 max-w-md w-full mx-4">
-            <h3 class="text-2xl font-bold text-yellow-500 mb-4">Verify Your Identity</h3>
-            <p class="text-gray-300 mb-6">We've sent a 6-digit OTP to your email. Please enter it below to complete your agreement.</p>
-            <div class="space-y-4">
-                <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP" 
-                    class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center text-2xl tracking-widest focus:border-yellow-500 focus:outline-none">
-                <button id="verifyOtpBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
-                    Verify OTP
-                </button>
-                <button id="resendOtpBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold transition">
-                    Resend OTP
-                </button>
-                <button id="cancelOtpBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition">
-                    Cancel
-                </button>
-            </div>
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-8">
+        <div class="container mx-auto text-center text-gray-600">
+            <p>&copy; 2024 LightStream. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
+    <!-- Scripts -->
     <script>
         // Initialize EmailJS
         (function() {
@@ -474,31 +461,6 @@
             }
 
             return schedule;
-        }
-
-        // Generate 6-digit OTP
-        function generateOTP() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        // Send OTP via EmailJS
-        async function sendOTP(email, otp) {
-            try {
-                const templateParams = {
-                    to_email: email,
-                    otp: otp,
-                    loan_amount: loanData.loanAmount,
-                    borrower_name: loanData.fullName,
-                    application_type: 'Loan Agreement OTP'
-                };
-
-                await emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams);
-                return true;
-            } catch (error) {
-                console.error('Error sending OTP:', error);
-                // For demo purposes, we'll return true even if email fails
-                return true;
-            }
         }
 
         // Load loan data from sessionStorage
@@ -610,15 +572,30 @@
             const downloadBtn = document.getElementById('downloadBtn');
             const printBtn = document.getElementById('printBtn');
 
-            agreeBtn.addEventListener('click', async () => {
-                const otp = generateOTP();
-                sessionStorage.setItem('loanOTP', otp);
-                
-                const otpSent = await sendOTP(loanData.email, otp);
-                if (otpSent) {
-                    document.getElementById('otpModal').classList.remove('hidden');
-                } else {
-                    alert('Failed to send OTP. Please try again.');
+            agreeBtn.addEventListener('click', () => {
+                // Direct agreement - no OTP verification needed
+                if (confirm('Are you sure you agree to this loan agreement?')) {
+                    // Mark agreement as accepted
+                    const agreementData = {
+                        ...loanData,
+                        agreementAccepted: true,
+                        agreementDate: new Date().toLocaleString(),
+                        agreementStatus: 'Accepted and Downloaded'
+                    };
+                    
+                    // Store agreement acceptance
+                    sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+                    
+                    // Auto-download agreement
+                    generateAndDownloadPDF();
+                    
+                    // Show success message
+                    alert('Loan agreement accepted! Your agreement has been downloaded.');
+                    
+                    // Redirect to success page after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'loan-success.html';
+                    }, 2000);
                 }
             });
 
@@ -680,57 +657,11 @@
             }
         }
 
-        // Handle OTP verification
-        function handleOTPVerification() {
-            const otpInput = document.getElementById('otpInput');
-            const verifyBtn = document.getElementById('verifyOtpBtn');
-            const resendBtn = document.getElementById('resendOtpBtn');
-            const cancelBtn = document.getElementById('cancelOtpBtn');
-
-            verifyBtn.addEventListener('click', () => {
-                const enteredOTP = otpInput.value;
-                const storedOTP = sessionStorage.getItem('loanOTP');
-
-                if (enteredOTP === storedOTP) {
-                    sessionStorage.setItem('loanAgreementSigned', 'true');
-                    window.location.href = 'loan-success.html';
-                } else {
-                    alert('Invalid OTP. Please try again.');
-                    otpInput.value = '';
-                }
-            });
-
-            resendBtn.addEventListener('click', async () => {
-                const otp = generateOTP();
-                sessionStorage.setItem('loanOTP', otp);
-                
-                const otpSent = await sendOTP(loanData.email, otp);
-                if (otpSent) {
-                    alert('OTP has been resent to your email.');
-                } else {
-                    alert('Failed to resend OTP. Please try again.');
-                }
-            });
-
-            cancelBtn.addEventListener('click', () => {
-                document.getElementById('otpModal').classList.add('hidden');
-                otpInput.value = '';
-            });
-
-            // Auto-focus OTP input
-            otpInput.addEventListener('input', (e) => {
-                if (e.target.value.length === 6) {
-                    verifyBtn.click();
-                }
-            });
-        }
-
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             loadLoanData();
             initializeAccordions();
             handleAgreementButtons();
-            handleOTPVerification();
         });
     </script>
 </body>

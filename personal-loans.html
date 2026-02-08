@@ -765,8 +765,14 @@
             data.applicationStatus = 'Personal loan submitted successfully';
             
             // Validate required fields
-            const requiredFields = ['fullName', 'email', 'phone', 'loanAmount', 'loanDuration', 'address', 'city', 'state', 'zipCode'];
+            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'loanAmount', 'address', 'city', 'state', 'zipCode'];
             const missingFields = requiredFields.filter(field => !data[field]);
+            
+            // Create full name from first and last name
+            data.fullName = (data.firstName || '') + ' ' + (data.lastName || '');
+            
+            // Set default loan duration if not provided
+            data.loanDuration = data.loanDuration || '36'; // Default 36 months
             
             if (missingFields.length > 0) {
                 alert('Please fill in all required fields: ' + missingFields.join(', '));

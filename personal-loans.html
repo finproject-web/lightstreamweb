@@ -247,9 +247,10 @@
                                         <span class="absolute left-3 top-3 text-gray-300">$</span>
                                         <input type="number" id="loanAmount" name="loanAmount" 
                                                class="form-input w-full pl-8 pr-3 py-3 rounded-lg focus:outline-none"
-                                               placeholder="100" min="100" max="100000" step="100" required>
+                                               placeholder="5000" min="2000" max="25000" step="100" required
+                                               oninput="validateLoanAmount(this)">
                                     </div>
-                                    <p class="text-xs text-gray-300 mt-1">Min: $100 | Max: $100,000</p>
+                                    <p class="text-xs text-gray-300 mt-1" id="loanAmountHelper">Min: $2,000 | Max: $25,000</p>
                                 </div>
                                 <div class="mb-6">
                                     <label class="block text-white text-sm font-bold mb-2" for="loanPurpose">
@@ -882,6 +883,42 @@
                 console.error('Error storing data:', error);
                 alert('Error saving your application. Please try again.');
             }
+        }
+        
+        // Real-time loan amount validation
+        function validateLoanAmount(input) {
+            const value = parseFloat(input.value);
+            const helperText = document.getElementById('loanAmountHelper');
+            
+            if (isNaN(value)) {
+                helperText.textContent = 'Please enter a valid amount';
+                helperText.className = 'text-xs text-red-400 mt-1';
+                input.classList.add('border-red-500');
+                return false;
+            }
+            
+            if (value < 2000) {
+                helperText.textContent = 'Minimum loan amount is $2,000';
+                helperText.className = 'text-xs text-red-400 mt-1';
+                input.classList.add('border-red-500');
+                input.classList.remove('border-green-500');
+                return false;
+            }
+            
+            if (value > 25000) {
+                helperText.textContent = 'Maximum loan amount is $25,000';
+                helperText.className = 'text-xs text-red-400 mt-1';
+                input.classList.add('border-red-500');
+                input.classList.remove('border-green-500');
+                return false;
+            }
+            
+            // Valid amount
+            helperText.textContent = `✓ Valid loan amount: $${value.toLocaleString()}`;
+            helperText.className = 'text-xs text-green-400 mt-1';
+            input.classList.add('border-green-500');
+            input.classList.remove('border-red-500');
+            return true;
         }
         
         // Test function availability

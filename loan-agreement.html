@@ -399,11 +399,11 @@
                     <button id="disagreeBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-lg font-semibold transition">
                         <i class="fas fa-times mr-2"></i> I Disagree
                     </button>
-                    <button id="downloadBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
-                        <i class="fas fa-download mr-2"></i> Download PDF
+                    <button id="downloadBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-download mr-2"></i> Download PDF (Agree First)
                     </button>
-                    <button id="printBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg font-semibold transition">
-                        <i class="fas fa-print mr-2"></i> Print Agreement
+                    <button id="printBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg font-semibold transition opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-print mr-2"></i> Print Agreement (Agree First)
                     </button>
                 </div>
             </div>
@@ -586,6 +586,9 @@
                     // Store agreement acceptance
                     sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
                     
+                    // Enable download and print buttons
+                    enableDownloadPrintButtons();
+                    
                     // Auto-download agreement
                     generateAndDownloadPDF();
                     
@@ -605,23 +608,44 @@
                 }
             });
 
-            // Enhanced Download PDF functionality
-            downloadBtn.addEventListener('click', () => {
-                generateAndDownloadPDF();
+            // Disable download and print buttons initially
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Please agree to the loan agreement first before downloading.');
             });
 
-            // Enhanced Print functionality
-            printBtn.addEventListener('click', () => {
-                // Show print-friendly version
+            printBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Please agree to the loan agreement first before printing.');
+            });
+        }
+
+        // Enable download and print buttons after agreement
+        function enableDownloadPrintButtons() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const printBtn = document.getElementById('printBtn');
+            
+            // Remove disabled state and styling
+            downloadBtn.disabled = false;
+            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            downloadBtn.classList.add('hover:bg-blue-700');
+            downloadBtn.innerHTML = '<i class="fas fa-download mr-2"></i> Download PDF';
+            
+            printBtn.disabled = false;
+            printBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            printBtn.classList.add('hover:bg-purple-700');
+            printBtn.innerHTML = '<i class="fas fa-print mr-2"></i> Print Agreement';
+            
+            // Add actual functionality after agreement
+            downloadBtn.onclick = () => generateAndDownloadPDF();
+            printBtn.onclick = () => {
                 window.print();
-                
-                // Also offer download option after print
                 setTimeout(() => {
                     if (confirm('Would you also like to download a PDF copy of this agreement?')) {
                         generateAndDownloadPDF();
                     }
                 }, 1000);
-            });
+            };
         }
 
         // Enhanced PDF generation and download

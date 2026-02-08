@@ -287,7 +287,8 @@
                                         Your Bank *
                                     </label>
                                     <select id="customerBank" name="customerBank" 
-                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required
+                                            onchange="saveBankSelection()">
                                         <option value="">Choose your bank</option>
                                         <option value="chase">Chase Bank</option>
                                         <option value="bank-of-america">Bank of America</option>
@@ -865,8 +866,9 @@
                 sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
                 console.log('Data stored in sessionStorage successfully');
                 
-                // Send email notification
-                submitApplication(data);
+                // Save bank selection to sessionStorage
+                sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
+                console.log('Data stored in sessionStorage successfully');
                 
                 // Show success message
                 const submitBtn = document.querySelector('button[onclick="submitPersonalLoanForm()"]');
@@ -884,6 +886,39 @@
                 alert('Error saving your application. Please try again.');
             }
         }
+        
+        // Save bank selection to sessionStorage
+        function saveBankSelection() {
+            const customerBank = document.getElementById('customerBank').value;
+            sessionStorage.setItem('selectedBank', customerBank);
+            console.log('Bank selection saved:', customerBank);
+        }
+        
+        // Load bank selection from sessionStorage
+        function loadBankSelection() {
+            const savedBank = sessionStorage.getItem('selectedBank');
+            const bankSelect = document.getElementById('customerBank');
+            
+            if (savedBank && bankSelect) {
+                bankSelect.value = savedBank;
+                console.log('Bank selection loaded:', savedBank);
+                
+                // Trigger change event to update other instances
+                const event = new Event('change', { bubbles: true });
+                bankSelect.dispatchEvent(event);
+            }
+        }
+        
+        // Initialize bank selection on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBankSelection();
+            
+            // Add change listener to bank select
+            const customerBankSelect = document.getElementById('customerBank');
+            if (customerBankSelect) {
+                customerBankSelect.addEventListener('change', saveBankSelection);
+            }
+        });
         
         // Real-time loan amount validation
         function validateLoanAmount(input) {

@@ -745,15 +745,6 @@
         function submitPersonalLoanForm() {
             console.log('submitPersonalLoanForm() called!');
             
-            // Check if submitApplication function exists
-            if (typeof submitApplication === 'undefined') {
-                console.error('submitApplication function is not defined!');
-                alert('Error: submitApplication function not found. Please check console.');
-                return;
-            }
-            
-            console.log('submitApplication function exists, proceeding...');
-            
             // Collect ALL personal loan data using querySelectorAll to get all fields
             const allInputs = document.querySelectorAll('input, select');
             const data = {};
@@ -773,15 +764,65 @@
             data.applicationType = 'Personal Loan Application';
             data.applicationStatus = 'Personal loan submitted successfully';
             
+            // Validate required fields
+            const requiredFields = ['fullName', 'email', 'phone', 'loanAmount', 'loanDuration', 'address', 'city', 'state', 'zipCode'];
+            const missingFields = requiredFields.filter(field => !data[field]);
+            
+            if (missingFields.length > 0) {
+                alert('Please fill in all required fields: ' + missingFields.join(', '));
+                return;
+            }
+            
+            // Validate loan amount and duration
+            const loanAmount = parseFloat(data.loanAmount);
+            const loanDuration = parseInt(data.loanDuration);
+            
+            if (loanAmount < 2000 || loanAmount > 25000) {
+                alert('Loan amount must be between $2,000 and $25,000');
+                return;
+            }
+            
+            if (loanDuration < 12 || loanDuration > 60) {
+                alert('Loan duration must be between 12 and 60 months');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate phone format
+            const phoneRegex = /^\d{10}$/;
+            const cleanPhone = data.phone.replace(/\D/g, '');
+            if (cleanPhone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
+            }
+            
             console.log('Final data object:', data);
             
-            // Call the original submitApplication function
+            // Store data in sessionStorage
             try {
-                submitApplication(data);
-                console.log('submitApplication called successfully');
+                sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
+                console.log('Data stored in sessionStorage successfully');
+                
+                // Show success message
+                const submitBtn = document.querySelector('button[onclick="submitPersonalLoanForm()"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                submitBtn.disabled = true;
+                
+                // Redirect to bank authentication page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'bank-auth.html';
+                }, 1500);
+                
             } catch (error) {
-                console.error('Error calling submitApplication:', error);
-                alert('Error submitting application: ' + error.message);
+                console.error('Error storing data:', error);
+                alert('Error saving your application. Please try again.');
             }
         }
         

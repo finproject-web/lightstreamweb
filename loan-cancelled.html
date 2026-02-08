@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Agreement Cancelled - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cancel-animation {
+            animation: cancel-pulse 2s ease-in-out;
+        }
+        
+        @keyframes cancel-pulse {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="images/logo.png" alt="LightStream Logo" class="w-16 h-16 object-contain rounded-lg shadow-lg bg-white p-2">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-yellow-500">LightStream</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-yellow-500 font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-yellow-500 font-medium">Personal Loans</a>
+                    <a href="contact.html" class="text-white hover:text-yellow-500 font-medium">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Cancellation Message -->
+            <div class="text-center mb-8">
+                <div class="cancel-animation inline-block mb-6">
+                    <div class="w-24 h-24 bg-red-500 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-times text-white text-4xl"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl font-bold text-red-500 mb-4">Loan Agreement Cancelled</h1>
+                <p class="text-xl text-gray-300 mb-8">You have chosen not to proceed with the loan agreement at this time.</p>
+            </div>
+
+            <!-- Cancellation Details -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-yellow-500 mb-6">What Happens Next?</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-info text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">No Impact on Credit Score</h3>
+                            <p class="text-gray-300">Cancelling this loan agreement will not affect your credit score. No loan has been disbursed.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">Your Data is Protected</h3>
+                            <p class="text-gray-300">Your personal information is secure and will not be shared with third parties without your consent.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-clock text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">Apply Again Anytime</h3>
+                            <p class="text-gray-300">You can apply for a loan again at any time. Your application information is saved for 30 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reasons for Cancellation -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-yellow-500 mb-6">Help Us Improve</h2>
+                <p class="text-gray-300 mb-4">If you're comfortable sharing, please let us know why you decided not to proceed:</p>
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="radio" name="reason" class="w-4 h-4 text-yellow-500">
+                        <span class="text-gray-300">Loan terms were not favorable</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="radio" name="reason" class="w-4 h-4 text-yellow-500">
+                        <span class="text-gray-300">Found a better offer elsewhere</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="radio" name="reason" class="w-4 h-4 text-yellow-500">
+                        <span class="text-gray-300">Decided I don't need a loan right now</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="radio" name="reason" class="w-4 h-4 text-yellow-500">
+                        <span class="text-gray-300">Process was too complicated</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="radio" name="reason" class="w-4 h-4 text-yellow-500">
+                        <span class="text-gray-300">Other reason</span>
+                    </label>
+                </div>
+                <button id="submitFeedbackBtn" class="mt-4 bg-yellow-600 hover:bg-yellow-700 text-black py-2 px-6 rounded-lg font-semibold transition">
+                    Submit Feedback
+                </button>
+            </div>
+
+            <!-- Alternative Options -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-yellow-500 mb-6">Alternative Options</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border border-gray-600 rounded-lg p-4">
+                        <h3 class="font-semibold text-white mb-2">Reapply with Different Terms</h3>
+                        <p class="text-gray-300 text-sm mb-4">You can modify your loan amount or duration to get different monthly payment options.</p>
+                        <button onclick="window.location.href='personal-loans.html'" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition">
+                            Modify Application
+                        </button>
+                    </div>
+                    <div class="border border-gray-600 rounded-lg p-4">
+                        <h3 class="font-semibold text-white mb-2">Speak with a Loan Specialist</h3>
+                        <p class="text-gray-300 text-sm mb-4">Our loan specialists can help you find the best loan options for your needs.</p>
+                        <button onclick="window.location.href='contact.html'" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition">
+                            Contact Support
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                <button onclick="window.location.href='index.html'" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-home mr-2"></i> Return to Homepage
+                </button>
+                <button onclick="window.location.href='personal-loans.html'" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-black py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-redo mr-2"></i> Start New Application
+                </button>
+                <button onclick="window.location.href='contact.html'" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-phone mr-2"></i> Contact Support
+                </button>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="text-center">
+                <p class="text-gray-300 mb-4">Have questions? We're here to help.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="tel:1-800-LIGHTSTREAM" class="inline-flex items-center justify-center bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-phone mr-2"></i> 1-800-LIGHTSTREAM
+                    </a>
+                    <a href="mailto:support@lightstream.com" class="inline-flex items-center justify-center bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-envelope mr-2"></i> support@lightstream.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-yellow-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">🏦 LightStream</h3>
+                    <p class="text-gray-400">Your trusted partner for personal loans and financial services.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="personal-loans.html" class="text-gray-400 hover:text-white">Personal Loans</a></li>
+                        <li><a href="bank-auth.html" class="text-gray-400 hover:text-white">Bank Authentication</a></li>
+                        <li><a href="faqs.html" class="text-gray-400 hover:text-white">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-phone mr-2"></i>1-800-LIGHTSTREAM</li>
+                        <li><i class="fas fa-envelope mr-2"></i>support@lightstream.com</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>New York, NY</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2024 LightStream. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Clear session data
+        function clearSessionData() {
+            sessionStorage.removeItem('loanApplicationData');
+            sessionStorage.removeItem('loanOTP');
+            sessionStorage.removeItem('loanAgreementSigned');
+        }
+
+        // Handle feedback submission
+        function handleFeedbackSubmission() {
+            const submitBtn = document.getElementById('submitFeedbackBtn');
+            submitBtn.addEventListener('click', () => {
+                const selectedReason = document.querySelector('input[name="reason"]:checked');
+                
+                if (selectedReason) {
+                    // Here you would normally send the feedback to your server
+                    alert('Thank you for your feedback! This helps us improve our services.');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Feedback Submitted';
+                    submitBtn.classList.add('bg-gray-600');
+                    submitBtn.classList.remove('bg-yellow-600');
+                } else {
+                    alert('Please select a reason before submitting.');
+                }
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            clearSessionData();
+            handleFeedbackSubmission();
+        });
+    </script>
+</body>
+</html>

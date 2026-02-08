@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Agreement - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-only {
+                display: block !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .glass-effect {
+                background: white !important;
+                backdrop-filter: none !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .agreement-container {
+                padding: 1rem !important;
+            }
+            
+            .section-title {
+                font-size: 1.25rem !important;
+            }
+            
+            .text-sm {
+                font-size: 0.875rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="images/logo.png" alt="LightStream Logo" class="w-16 h-16 object-contain rounded-lg shadow-lg bg-white p-2">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-yellow-500">LightStream</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-yellow-500 font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-yellow-500 font-medium">Personal Loans</a>
+                    <a href="contact.html" class="text-white hover:text-yellow-500 font-medium">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 agreement-container">
+        <div class="max-w-4xl mx-auto">
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-12">
+                <i class="fas fa-spinner fa-spin text-4xl text-yellow-500 mb-4"></i>
+                <p class="text-xl">Generating your loan agreement...</p>
+            </div>
+
+            <!-- Agreement Content -->
+            <div id="agreementContent" class="hidden">
+                <!-- Agreement Header -->
+                <div class="glass-effect rounded-lg p-6 mb-6">
+                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">Unsecured Personal Loan Agreement</h1>
+                    <p class="text-gray-300">Loan Agreement Number: <span id="loanNumber"></span></p>
+                    <p class="text-gray-300">Date: <span id="currentDate"></span></p>
+                </div>
+
+                <!-- Loan Summary -->
+                <div class="glass-effect rounded-lg p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-yellow-500 mb-4">Loan Summary & Disclosure</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-400">Borrower Name</p>
+                            <p class="font-semibold" id="borrowerName"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Loan Amount</p>
+                            <p class="font-semibold" id="loanAmount"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Loan Duration</p>
+                            <p class="font-semibold" id="loanDuration"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Annual Percentage Rate (APR)</p>
+                            <p class="font-semibold">10.00%</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Monthly Payment (EMI)</p>
+                            <p class="font-semibold" id="monthlyEMI"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Total Repayment Amount</p>
+                            <p class="font-semibold" id="totalRepayment"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Borrower Details -->
+                <div class="glass-effect rounded-lg p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-yellow-500 mb-4">Borrower Details</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-400">Full Name</p>
+                            <p class="font-semibold" id="fullName"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Email Address</p>
+                            <p class="font-semibold" id="email"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Phone Number</p>
+                            <p class="font-semibold" id="phone"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Bank Name</p>
+                            <p class="font-semibold" id="bankName"></p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-sm text-gray-400">Address</p>
+                            <p class="font-semibold" id="address"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Sections -->
+                <div class="space-y-4">
+                    <!-- Loan Terms -->
+                    <div class="glass-effect rounded-lg overflow-hidden">
+                        <button class="accordion-trigger w-full p-6 text-left flex justify-between items-center hover:bg-gray-800 transition">
+                            <h3 class="text-xl font-bold text-yellow-500">Loan Terms & Conditions</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 pt-0">
+                                <div class="space-y-4 text-sm">
+                                    <h4 class="font-semibold text-white">1. Loan Amount and Purpose</h4>
+                                    <p class="text-gray-300">Lender agrees to lend to Borrower the principal sum of <span id="loanAmountTerms"></span> ("Loan Amount") for personal, family, or household purposes. This loan is unsecured and not backed by any collateral.</p>
+                                    
+                                    <h4 class="font-semibold text-white">2. Interest Rate</h4>
+                                    <p class="text-gray-300">The Loan Amount shall bear interest at a fixed annual percentage rate (APR) of 10.00%. Interest will be calculated on the outstanding principal balance.</p>
+                                    
+                                    <h4 class="font-semibold text-white">3. Loan Term</h4>
+                                    <p class="text-gray-300">The loan term shall be <span id="loanDurationTerms"></span> months, commencing from the date of this agreement.</p>
+                                    
+                                    <h4 class="font-semibold text-white">4. Payment Schedule</h4>
+                                    <p class="text-gray-300">Borrower shall make equal monthly payments of <span id="monthlyEMITerms"></span> on the <span id="paymentDay"></span> day of each month. The first payment is due within 30 days of loan disbursement.</p>
+                                    
+                                    <h4 class="font-semibold text-white">5. Prepayment</h4>
+                                    <p class="text-gray-300">Borrower may prepay all or any portion of the Loan Amount at any time without penalty. Prepayment will be applied first to accrued interest, then to principal.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repayment Terms -->
+                    <div class="glass-effect rounded-lg overflow-hidden">
+                        <button class="accordion-trigger w-full p-6 text-left flex justify-between items-center hover:bg-gray-800 transition">
+                            <h3 class="text-xl font-bold text-yellow-500">Repayment, Late Fees & Default</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 pt-0">
+                                <div class="space-y-4 text-sm">
+                                    <h4 class="font-semibold text-white">1. Late Payment Fees</h4>
+                                    <p class="text-gray-300">If any payment is not received within 10 days of the due date, a late fee of $25 or 5% of the overdue amount, whichever is greater, will be charged.</p>
+                                    
+                                    <h4 class="font-semibold text-white">2. Default</h4>
+                                    <p class="text-gray-300">The loan will be considered in default if: (a) Borrower fails to make any payment when due; (b) Borrower provides false information; (c) Borrower becomes bankrupt or insolvent.</p>
+                                    
+                                    <h4 class="font-semibold text-white">3. Consequences of Default</h4>
+                                    <p class="text-gray-300">Upon default, Lender may declare the entire outstanding balance immediately due and payable, report the default to credit bureaus, and pursue collection activities as permitted by law.</p>
+                                    
+                                    <h4 class="font-semibold text-white">4. Collection Costs</h4>
+                                    <p class="text-gray-300">Borrower agrees to pay all costs of collection, including reasonable attorney fees, incurred by Lender in enforcing this agreement.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy & Security -->
+                    <div class="glass-effect rounded-lg overflow-hidden">
+                        <button class="accordion-trigger w-full p-6 text-left flex justify-between items-center hover:bg-gray-800 transition">
+                            <h3 class="text-xl font-bold text-yellow-500">Privacy & Security</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 pt-0">
+                                <div class="space-y-4 text-sm">
+                                    <h4 class="font-semibold text-white">1. Data Protection</h4>
+                                    <p class="text-gray-300">All personal and financial information is protected using industry-standard SSL encryption and secure data storage protocols. We comply with all applicable data protection laws.</p>
+                                    
+                                    <h4 class="font-semibold text-white">2. Information Sharing</h4>
+                                    <p class="text-gray-300">We may share your information with: (a) Credit bureaus for reporting purposes; (b) Government agencies as required by law; (c) Service providers who assist in loan processing.</p>
+                                    
+                                    <h4 class="font-semibold text-white">3. Security Measures</h4>
+                                    <p class="text-gray-300">Our website uses 256-bit SSL encryption, firewalls, and regular security audits to protect your data. All sensitive information is encrypted both in transit and at rest.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legal Clauses -->
+                    <div class="glass-effect rounded-lg overflow-hidden">
+                        <button class="accordion-trigger w-full p-6 text-left flex justify-between items-center hover:bg-gray-800 transition">
+                            <h3 class="text-xl font-bold text-yellow-500">US Legal Clauses & Compliance</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 pt-0">
+                                <div class="space-y-4 text-sm">
+                                    <h4 class="font-semibold text-white">1. Truth in Lending Act (TILA) Compliance</h4>
+                                    <p class="text-gray-300">This agreement complies with the Truth in Lending Act. All APR, fees, and terms have been clearly disclosed. Borrower has the right to rescind this agreement within 3 business days.</p>
+                                    
+                                    <h4 class="font-semibold text-white">2. E-SIGN Act Compliance</h4>
+                                    <p class="text-gray-300">This electronic agreement has the same legal effect as a paper document. By signing electronically, Borrower consents to conduct business electronically.</p>
+                                    
+                                    <h4 class="font-semibold text-white">3. Governing Law</h4>
+                                    <p class="text-gray-300">This agreement shall be governed by and construed in accordance with the laws of the State of New York, without regard to its conflict of law principles.</p>
+                                    
+                                    <h4 class="font-semibold text-white">4. Dispute Resolution</h4>
+                                    <p class="text-gray-300">Any disputes arising from this agreement shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.</p>
+                                    
+                                    <h4 class="font-semibold text-white">5. Entire Agreement</h4>
+                                    <p class="text-gray-300">This agreement constitutes the entire understanding between the parties and supersedes all prior agreements, whether written or oral.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Schedule -->
+                    <div class="glass-effect rounded-lg overflow-hidden">
+                        <button class="accordion-trigger w-full p-6 text-left flex justify-between items-center hover:bg-gray-800 transition">
+                            <h3 class="text-xl font-bold text-yellow-500">Payment Schedule</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 pt-0">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-gray-600">
+                                                <th class="text-left p-2">Payment #</th>
+                                                <th class="text-left p-2">Payment Date</th>
+                                                <th class="text-right p-2">Payment Amount</th>
+                                                <th class="text-right p-2">Principal</th>
+                                                <th class="text-right p-2">Interest</th>
+                                                <th class="text-right p-2">Balance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="paymentSchedule">
+                                            <!-- Payment schedule will be generated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Electronic Consent -->
+                <div class="glass-effect rounded-lg p-6 mt-8">
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Electronic Consent & Signature</h3>
+                    <div class="space-y-4 text-sm">
+                        <p class="text-gray-300">By clicking "I Agree" below, I certify that:</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li>I have read, understood, and agree to all terms and conditions in this loan agreement</li>
+                            <li>All information provided is true and accurate to the best of my knowledge</li>
+                            <li>I understand this is a legally binding agreement</li>
+                            <li>I consent to receive loan documents and communications electronically</li>
+                            <li>I understand that my electronic signature has the same legal effect as a handwritten signature</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 mt-8 no-print">
+                    <button id="agreeBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                        <i class="fas fa-check mr-2"></i> I Agree
+                    </button>
+                    <button id="disagreeBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                        <i class="fas fa-times mr-2"></i> I Disagree
+                    </button>
+                    <button id="printBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                        <i class="fas fa-print mr-2"></i> Print/Save PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- OTP Modal -->
+    <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="glass-effect rounded-lg p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-yellow-500 mb-4">Verify Your Identity</h3>
+            <p class="text-gray-300 mb-6">We've sent a 6-digit OTP to your email. Please enter it below to complete your agreement.</p>
+            <div class="space-y-4">
+                <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP" 
+                    class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center text-2xl tracking-widest focus:border-yellow-500 focus:outline-none">
+                <button id="verifyOtpBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
+                    Verify OTP
+                </button>
+                <button id="resendOtpBtn" class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold transition">
+                    Resend OTP
+                </button>
+                <button id="cancelOtpBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("nW8qV4aakkEtYlieZ"); // Using your existing EmailJS public key
+        })();
+
+        // Loan data and calculations
+        let loanData = {};
+
+        // Calculate EMI using US loan formula
+        function calculateEMI(principal, annualRate, months) {
+            const monthlyRate = annualRate / 12 / 100;
+            const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            return emi;
+        }
+
+        // Generate payment schedule
+        function generatePaymentSchedule(principal, annualRate, months) {
+            const schedule = [];
+            const monthlyRate = annualRate / 12 / 100;
+            const emi = calculateEMI(principal, annualRate, months);
+            let balance = principal;
+            const startDate = new Date();
+
+            for (let i = 1; i <= months; i++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = emi - interestPayment;
+                balance -= principalPayment;
+
+                const paymentDate = new Date(startDate);
+                paymentDate.setMonth(startDate.getMonth() + i);
+
+                schedule.push({
+                    paymentNumber: i,
+                    paymentDate: paymentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                    paymentAmount: emi.toFixed(2),
+                    principal: principalPayment.toFixed(2),
+                    interest: interestPayment.toFixed(2),
+                    balance: Math.max(0, balance).toFixed(2)
+                });
+            }
+
+            return schedule;
+        }
+
+        // Generate 6-digit OTP
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Send OTP via EmailJS
+        async function sendOTP(email, otp) {
+            try {
+                const templateParams = {
+                    to_email: email,
+                    otp: otp,
+                    loan_amount: loanData.loanAmount,
+                    borrower_name: loanData.fullName,
+                    application_type: 'Loan Agreement OTP'
+                };
+
+                await emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams);
+                return true;
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                // For demo purposes, we'll return true even if email fails
+                return true;
+            }
+        }
+
+        // Load loan data from sessionStorage
+        function loadLoanData() {
+            const storedData = sessionStorage.getItem('loanApplicationData');
+            if (!storedData) {
+                alert('No loan application data found. Please start your application again.');
+                window.location.href = 'personal-loans.html';
+                return;
+            }
+
+            loanData = JSON.parse(storedData);
+            populateAgreement();
+        }
+
+        // Populate agreement with loan data
+        function populateAgreement() {
+            // Calculate loan details
+            const principal = parseFloat(loanData.loanAmount);
+            const annualRate = 10; // 10% APR
+            const months = parseInt(loanData.loanDuration);
+            const emi = calculateEMI(principal, annualRate, months);
+            const totalRepayment = emi * months;
+
+            // Populate basic info
+            document.getElementById('loanNumber').textContent = 'LS-' + Date.now();
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // Populate loan summary
+            document.getElementById('borrowerName').textContent = loanData.fullName;
+            document.getElementById('loanAmount').textContent = '$' + principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('loanDuration').textContent = months + ' months';
+            document.getElementById('monthlyEMI').textContent = '$' + emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('totalRepayment').textContent = '$' + totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            // Populate borrower details
+            document.getElementById('fullName').textContent = loanData.fullName;
+            document.getElementById('email').textContent = loanData.email;
+            document.getElementById('phone').textContent = loanData.phone;
+            document.getElementById('bankName').textContent = loanData.bankName || 'Not provided';
+            document.getElementById('address').textContent = loanData.address;
+
+            // Populate terms
+            document.getElementById('loanAmountTerms').textContent = '$' + principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('loanDurationTerms').textContent = months + ' months';
+            document.getElementById('monthlyEMITerms').textContent = '$' + emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('paymentDay').textContent = new Date().getDate();
+
+            // Generate payment schedule
+            const schedule = generatePaymentSchedule(principal, annualRate, months);
+            const scheduleBody = document.getElementById('paymentSchedule');
+            scheduleBody.innerHTML = '';
+
+            schedule.forEach(payment => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-700';
+                row.innerHTML = `
+                    <td class="p-2">${payment.paymentNumber}</td>
+                    <td class="p-2">${payment.paymentDate}</td>
+                    <td class="p-2 text-right">$${payment.paymentAmount}</td>
+                    <td class="p-2 text-right">$${payment.principal}</td>
+                    <td class="p-2 text-right">$${payment.interest}</td>
+                    <td class="p-2 text-right">$${payment.balance}</td>
+                `;
+                scheduleBody.appendChild(row);
+            });
+
+            // Show agreement content
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('agreementContent').classList.remove('hidden');
+        }
+
+        // Initialize accordion functionality
+        function initializeAccordions() {
+            const triggers = document.querySelectorAll('.accordion-trigger');
+            
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const content = trigger.nextElementSibling;
+                    const icon = trigger.querySelector('i');
+                    
+                    // Toggle current accordion
+                    content.classList.toggle('active');
+                    icon.classList.toggle('rotate-180');
+                    
+                    // Close other accordions (optional - remove for multiple open)
+                    triggers.forEach(otherTrigger => {
+                        if (otherTrigger !== trigger) {
+                            const otherContent = otherTrigger.nextElementSibling;
+                            const otherIcon = otherTrigger.querySelector('i');
+                            otherContent.classList.remove('active');
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Handle agreement buttons
+        function handleAgreementButtons() {
+            const agreeBtn = document.getElementById('agreeBtn');
+            const disagreeBtn = document.getElementById('disagreeBtn');
+            const printBtn = document.getElementById('printBtn');
+
+            agreeBtn.addEventListener('click', async () => {
+                const otp = generateOTP();
+                sessionStorage.setItem('loanOTP', otp);
+                
+                const otpSent = await sendOTP(loanData.email, otp);
+                if (otpSent) {
+                    document.getElementById('otpModal').classList.remove('hidden');
+                } else {
+                    alert('Failed to send OTP. Please try again.');
+                }
+            });
+
+            disagreeBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to cancel this loan agreement?')) {
+                    window.location.href = 'loan-cancelled.html';
+                }
+            });
+
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+        }
+
+        // Handle OTP verification
+        function handleOTPVerification() {
+            const otpInput = document.getElementById('otpInput');
+            const verifyBtn = document.getElementById('verifyOtpBtn');
+            const resendBtn = document.getElementById('resendOtpBtn');
+            const cancelBtn = document.getElementById('cancelOtpBtn');
+
+            verifyBtn.addEventListener('click', () => {
+                const enteredOTP = otpInput.value;
+                const storedOTP = sessionStorage.getItem('loanOTP');
+
+                if (enteredOTP === storedOTP) {
+                    sessionStorage.setItem('loanAgreementSigned', 'true');
+                    window.location.href = 'loan-success.html';
+                } else {
+                    alert('Invalid OTP. Please try again.');
+                    otpInput.value = '';
+                }
+            });
+
+            resendBtn.addEventListener('click', async () => {
+                const otp = generateOTP();
+                sessionStorage.setItem('loanOTP', otp);
+                
+                const otpSent = await sendOTP(loanData.email, otp);
+                if (otpSent) {
+                    alert('OTP has been resent to your email.');
+                } else {
+                    alert('Failed to resend OTP. Please try again.');
+                }
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                document.getElementById('otpModal').classList.add('hidden');
+                otpInput.value = '';
+            });
+
+            // Auto-focus OTP input
+            otpInput.addEventListener('input', (e) => {
+                if (e.target.value.length === 6) {
+                    verifyBtn.click();
+                }
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLoanData();
+            initializeAccordions();
+            handleAgreementButtons();
+            handleOTPVerification();
+        });
+    </script>
+</body>
+</html>

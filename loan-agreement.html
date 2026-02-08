@@ -45,6 +45,68 @@
                 background: white !important;
                 backdrop-filter: none !important;
                 border: 1px solid #ccc !important;
+                box-shadow: none !important;
+            }
+            
+            .text-yellow-500 {
+                color: black !important;
+                font-weight: bold !important;
+            }
+            
+            .text-gray-400 {
+                color: #666 !important;
+            }
+            
+            .text-gray-300 {
+                color: #333 !important;
+            }
+            
+            .text-white {
+                color: black !important;
+            }
+            
+            .bg-gray-900 {
+                background: white !important;
+            }
+            
+            .bg-gray-800 {
+                background: white !important;
+            }
+            
+            /* Ensure all content is visible */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Hide accordions in print - show all content */
+            .accordion-content {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .accordion-trigger {
+                display: none !important;
+            }
+            
+            /* Page break optimization */
+            .glass-effect {
+                page-break-inside: avoid;
+                page-break-after: always;
+            }
+            
+            /* Ensure buttons are hidden */
+            button {
+                display: none !important;
+            }
+            
+            /* Add print header */
+            .print-only {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 18px;
+                font-weight: bold;
             }
         }
         
@@ -98,6 +160,14 @@
 
             <!-- Agreement Content -->
             <div id="agreementContent" class="hidden">
+                <!-- Print Header -->
+                <div class="print-only">
+                    <h1>LightStream Loan Agreement</h1>
+                    <p>Loan Agreement Number: <span id="printLoanNumber"></span></p>
+                    <p>Date: <span id="printCurrentDate"></span></p>
+                    <hr style="margin: 20px 0;">
+                </div>
+
                 <!-- Agreement Header -->
                 <div class="glass-effect rounded-lg p-6 mb-6">
                     <h1 class="text-3xl font-bold text-yellow-500 mb-2">Unsecured Personal Loan Agreement</h1>
@@ -322,15 +392,18 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 mt-8 no-print">
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <button id="agreeBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-lg font-semibold transition">
                         <i class="fas fa-check mr-2"></i> I Agree
                     </button>
                     <button id="disagreeBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-lg font-semibold transition">
                         <i class="fas fa-times mr-2"></i> I Disagree
                     </button>
-                    <button id="printBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
-                        <i class="fas fa-print mr-2"></i> Print/Save PDF
+                    <button id="downloadBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                        <i class="fas fa-download mr-2"></i> Download PDF
+                    </button>
+                    <button id="printBtn" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                        <i class="fas fa-print mr-2"></i> Print Agreement
                     </button>
                 </div>
             </div>
@@ -469,6 +542,10 @@
             document.getElementById('routingNumber').textContent = loanData.routingNumber || 'Not provided';
             document.getElementById('accountNumber').textContent = loanData.accountNumber || 'Not provided';
             document.getElementById('address').textContent = loanData.address;
+            
+            // Populate print header
+            document.getElementById('printLoanNumber').textContent = 'LS-' + Date.now();
+            document.getElementById('printCurrentDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
             // Populate terms
             document.getElementById('loanAmountTerms').textContent = '$' + principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -530,6 +607,7 @@
         function handleAgreementButtons() {
             const agreeBtn = document.getElementById('agreeBtn');
             const disagreeBtn = document.getElementById('disagreeBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
             const printBtn = document.getElementById('printBtn');
 
             agreeBtn.addEventListener('click', async () => {
@@ -550,9 +628,56 @@
                 }
             });
 
-            printBtn.addEventListener('click', () => {
-                window.print();
+            // Enhanced Download PDF functionality
+            downloadBtn.addEventListener('click', () => {
+                generateAndDownloadPDF();
             });
+
+            // Enhanced Print functionality
+            printBtn.addEventListener('click', () => {
+                // Show print-friendly version
+                window.print();
+                
+                // Also offer download option after print
+                setTimeout(() => {
+                    if (confirm('Would you also like to download a PDF copy of this agreement?')) {
+                        generateAndDownloadPDF();
+                    }
+                }, 1000);
+            });
+        }
+
+        // Enhanced PDF generation and download
+        function generateAndDownloadPDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Add agreement content to PDF
+                doc.setFontSize(12);
+                doc.text('LightStream Loan Agreement', 20, 20);
+                doc.text(`Loan Number: LS-${Date.now()}`, 20, 35);
+                doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 45);
+                doc.text(`Borrower: ${loanData.fullName}`, 20, 55);
+                doc.text(`Email: ${loanData.email}`, 20, 65);
+                doc.text(`Phone: ${loanData.phone}`, 20, 75);
+                doc.text(`Bank: ${loanData.bankName}`, 20, 85);
+                doc.text(`Loan Amount: $${loanData.loanAmount}`, 20, 95);
+                doc.text(`Loan Term: ${loanData.loanDuration} months`, 20, 105);
+                doc.text(`APR: 10.00%`, 20, 115);
+                doc.text(`Monthly Payment: $${calculateEMI(parseFloat(loanData.loanAmount), 10, parseInt(loanData.loanDuration)).toFixed(2)}`, 20, 125);
+                
+                // Save the PDF
+                const fileName = `LightStream-Loan-Agreement-${new Date().toISOString().split('T')[0]}.pdf`;
+                doc.save(fileName);
+                
+                // Show success message
+                alert(`Loan agreement downloaded as ${fileName}`);
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Failed to generate PDF. Please try the print function instead.');
+            }
         }
 
         // Handle OTP verification

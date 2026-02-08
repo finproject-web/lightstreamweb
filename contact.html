@@ -225,9 +225,11 @@
             
             <!-- Footer Contact Section -->
             <div class="footer-contact">
-                <a href="tel:1-800-LIGHTSTREAM">1-800-LIGHTSTREAM</a>
-                <a href="mailto:support@lightstream.com">support@lightstream.com</a>
-                <a href="#">New York, NY</a>
+                <div class="contact-details">
+                    <a href="tel:1-800-LIGHTSTREAM">1-800-LIGHTSTREAM</a>
+                    <a href="mailto:support@lightstream.com">support@lightstream.com</a>
+                    <a href="#">New York, NY</a>
+                </div>
                 <!-- Social Media Icons -->
                 <div class="social-icons">
                     <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
@@ -295,7 +297,7 @@
       gap: 16px;
       flex-wrap: wrap;
       white-space: nowrap;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
     
     footer .footer-links a {
@@ -314,22 +316,28 @@
     /* Footer Contact Section */
     footer .footer-contact {
       display: flex;
-      gap: 24px;
+      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       margin-bottom: 24px;
       padding-bottom: 20px;
       border-bottom: 1px solid #333;
     }
     
-    footer .footer-contact a {
+    footer .contact-details {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    footer .contact-details a {
       color: #ffffff;
       text-decoration: none;
       font-size: 14px;
       transition: all 0.3s ease;
     }
     
-    footer .footer-contact a:hover {
+    footer .contact-details a:hover {
       color: #ffa500;
     }
     
@@ -337,7 +345,6 @@
     footer .social-icons {
       display: flex;
       gap: 12px;
-      margin-left: auto;
     }
     
     footer .social-icons a {
@@ -434,19 +441,24 @@
       footer .footer-links {
         flex-direction: column;
         gap: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
       }
       
       footer .footer-contact {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 16px;
+        gap: 16px;
+        margin-bottom: 20px;
         padding-bottom: 16px;
       }
       
+      footer .contact-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      
       footer .social-icons {
-        margin-left: 0;
         margin-top: 12px;
       }
       

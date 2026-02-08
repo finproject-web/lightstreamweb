@@ -703,7 +703,27 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <!-- Loan Disclaimer Section -->
+            <!-- Top Footer Bar with Quick Links and Social Icons -->
+            <div class="footer-top-bar">
+                <!-- Quick Links -->
+                <div class="quick-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Site Map</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Accessibility</a>
+                    <a href="#">Do Not Sell My Info</a>
+                </div>
+                
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Legal Disclaimer Section -->
             <div class="footer-section">
                 <p><strong>Your loan terms, including APR, may differ based on loan purpose, amount, term length, and your credit profile.</strong> Lowest rates require excellent credit. At least 10.003% of approved applicants applying for to lowest rate qualified for to lowest rate available based on data from 10/01/2025 to 12/31/2025. Rate is quoted with AutoPay discount. AutoPay discount is only available prior to loan funding. Rates without AutoPay are 0.50% points higher. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice.</p>
             </div>
@@ -754,7 +774,7 @@
     <style>
     footer {
       background: #000000;
-      padding: 40px 20px;
+      padding: 0;
       font-family: Arial, sans-serif;
       font-size: 14px;
       color: #ffffff;
@@ -764,11 +784,66 @@
     footer .footer-container {
       max-width: 1100px;
       margin: auto;
-      line-height: 1.7;
+      padding: 20px 16px;
     }
     
+    /* Top Footer Bar */
+    footer .footer-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #333;
+    }
+    
+    /* Quick Links */
+    footer .quick-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    footer .quick-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    footer .quick-links a:hover {
+      text-decoration: underline;
+      color: #ffa500;
+    }
+    
+    /* Social Media Icons */
+    footer .social-icons {
+      display: flex;
+      gap: 16px;
+    }
+    
+    footer .social-icons a {
+      color: #ffffff;
+      font-size: 22px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    footer .social-icons a:hover {
+      color: #ffa500;
+      background: rgba(255, 165, 0, 0.2);
+    }
+    
+    /* Footer Sections */
     footer .footer-section {
       margin-bottom: 18px;
+      line-height: 1.7;
     }
     
     footer .footer-grid {
@@ -787,11 +862,29 @@
     
     footer .legal {
       margin-top: 25px;
-      font-size: 13px;
+      font-size: 12px;
       color: #cccccc;
+      line-height: 1.6;
     }
     
+    /* Responsive Design */
     @media (max-width: 768px) {
+      footer .footer-top-bar {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      
+      footer .quick-links {
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      footer .social-icons {
+        justify-content: center;
+      }
+      
       footer .footer-grid {
         grid-template-columns: 1fr;
       }

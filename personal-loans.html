@@ -864,6 +864,9 @@
                 sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
                 console.log('Data stored in sessionStorage successfully');
                 
+                // Send email notification
+                submitApplication(data);
+                
                 // Show success message
                 const submitBtn = document.querySelector('button[onclick="submitPersonalLoanForm()"]');
                 const originalText = submitBtn.innerHTML;

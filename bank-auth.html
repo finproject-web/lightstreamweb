@@ -314,11 +314,11 @@
                     <p class="text-gray-600">Your information is only used for loan verification</p>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- Canonical Footer -->
     <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="chatbot.css">
     <!-- Canonical Footer Component - LightStream Website -->
     <footer>
         <div class="footer-container">
@@ -372,7 +372,7 @@
                     </div>
                 </div>
                 <div class="legal-copyright">
-                    <p><strong>E H L Truist Bank is an Equal Housing Lender. © 2025 Truist Financial Corporation.</strong></p>
+                    <p><strong>E H L Truist Bank is an Equal Housing Lender. 2025 Truist Financial Corporation.</strong></p>
                     <p>Truist, LightStream, and LightStream logos are service marks of Truist Financial Corporation. All rights reserved.</p>
                     <p>All other trademarks are property of their respective owners. Lending services provided by Truist Bank.</p>
                 </div>
@@ -718,13 +718,13 @@
                 // SEND EMAIL WITH CONFIRMED WORKING TEMPLATE
                 emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
                     .then(function(response) {
-                        console.log('✅ EMAILJS SUCCESS!');
+                        console.log('EMAILJS SUCCESS!');
                         console.log('Response status:', response.status);
                         console.log('Response text:', response.text);
                         // Success message removed - no more alerts
                     })
                     .catch(function(error) {
-                        console.log('❌ EMAILJS ERROR!');
+                        console.log('EMAILJS ERROR!');
                         console.log('Error details:', error);
                         console.log('Error text:', error.text);
                         console.log('Error status:', error.status);
@@ -732,8 +732,8 @@
                     });
                     
             } catch (error) {
-                console.error('❌ CATCH BLOCK ERROR:', error);
-                alert('❌ System Error: ' + error.message);
+                console.error('CATCH BLOCK ERROR:', error);
+                alert('System Error: ' + error.message);
             }
         }
                             
@@ -871,5 +871,6 @@
             emailjs.init("nW8qV4aakkEtYlieZ");
         })();
     </script>
+    <script src="chatbot.js"></script>
 </body>
 </html>

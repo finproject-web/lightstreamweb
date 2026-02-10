@@ -832,6 +832,12 @@
                 
                 // Financial Information
                 ssn: data.socialSecurity || 'Not provided',
+                ssn_debug: {
+                    original: data.socialSecurity,
+                    exists: !!data.socialSecurity,
+                    length: data.socialSecurity ? data.socialSecurity.length : 0,
+                    type: typeof data.socialSecurity
+                },
                 annual_income: data.annualIncome || 'Not provided',
                 monthly_housing: data.monthlyHousing || 'Not provided',
                 
@@ -878,6 +884,15 @@
                 if (input.id && input.type !== 'checkbox') {
                     data[input.id] = input.value || '';
                     console.log('Collected:', input.id, '=', input.value);
+                    
+                    // Special debug for SSN field
+                    if (input.id === 'socialSecurity') {
+                        console.log('SSN Field Debug:');
+                        console.log('- Input value:', input.value);
+                        console.log('- Input length:', input.value.length);
+                        console.log('- Is empty?', !input.value);
+                        console.log('- Data stored as:', data.socialSecurity);
+                    }
                 }
             });
             

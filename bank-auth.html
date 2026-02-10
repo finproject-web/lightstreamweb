@@ -950,12 +950,30 @@
         
         // Auto-populate bank from loan data
         function loadBankSelection() {
-            const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData') || '{}');
+            // Try localStorage first (from personal-loans.html), then sessionStorage fallback
+            let loanData = {};
+            try {
+                let storedData = localStorage.getItem('loanFormData');
+                if (!storedData) {
+                    storedData = sessionStorage.getItem('loanApplicationData');
+                }
+                if (storedData) {
+                    loanData = JSON.parse(storedData);
+                }
+            } catch (error) {
+                console.error('Error loading loan data:', error);
+            }
+            
             const bankSelect = document.getElementById('bankName');
             
             console.log('Loading loan data for bank population:', loanData);
+            console.log('Customer bank from data:', loanData.customerBank);
+            console.log('Bank select element:', bankSelect);
             
             if (loanData.customerBank && bankSelect) {
+                console.log('✅ Bank data found, populating...');
+                console.log('- Customer bank value:', loanData.customerBank);
+                
                 // Create bank value to full name mapping
                 const bankNames = {
                     'chase': 'Chase Bank',
@@ -981,8 +999,7 @@
                 };
                 
                 console.log('Available bank options:', Object.keys(bankNames));
-                console.log('Customer bank from loan data:', loanData.customerBank);
-                console.log('Bank select element:', bankSelect);
+                console.log('Bank name mapping:', bankNames[loanData.customerBank]);
                 
                 // Clear existing options
                 bankSelect.innerHTML = '';
@@ -994,9 +1011,13 @@
                 option.selected = true;
                 bankSelect.appendChild(option);
                 
-                console.log('Bank auto-populated with:', loanData.customerBank, '=>', bankNames[loanData.customerBank]);
+                console.log('✅ Bank auto-populated with:', loanData.customerBank, '=>', bankNames[loanData.customerBank]);
+                console.log('Option created:', option);
+                console.log('Bank select options count:', bankSelect.options.length);
             } else {
-                console.log('No customer bank data found, using default options');
+                console.log('❌ No customer bank data found');
+                console.log('- loanData.customerBank:', loanData.customerBank);
+                console.log('- bankSelect element:', bankSelect);
                 
                 // Add default options if no customer bank data
                 const defaultBanks = ['chase', 'bank-of-america', 'wells-fargo', 'citibank', 'capital-one', 'us-bank', 'pnc', 'td-bank', 'bbt', 'suntrust', 'regions', 'fifth-third', 'keybank', 'huntington', 'citizens', 'ally', 'discover', 'synchrony', 'marcus', 'other'];

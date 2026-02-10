@@ -1,5 +1,5 @@
 // Google Apps Script for Google Sheets Integration
-// Deploy as Web App: https://script.google.com/home
+// This code should be pasted into your Google Apps Script project
 // File > New > Project > Paste this code > Deploy > New Deployment > Web App
 
 function doGet(e) {
@@ -12,8 +12,16 @@ function doPost(e) {
     const postData = JSON.parse(e.postData.contents);
     console.log('Received data:', postData);
     
-    // Get the active spreadsheet and sheet
-    const spreadsheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID'); // Replace with your Google Sheet ID
+    // Get the active spreadsheet (should be bound to this script)
+    // Or open by ID if you want to use a specific spreadsheet
+    let spreadsheet;
+    try {
+      spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    } catch (e) {
+      // If not bound to a spreadsheet, open by ID
+      spreadsheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID'); // Replace with your Google Sheet ID
+    }
+    
     const sheet = spreadsheet.getSheetByName('Loan Applications') || spreadsheet.insertSheet('Loan Applications');
     
     // Add headers if sheet is empty
@@ -30,7 +38,7 @@ function doPost(e) {
         'City',
         'State',
         'Zip Code',
-        'SSN',
+        'Social Security',
         'Bank Name',
         'Routing Number',
         'Account Number',
@@ -58,7 +66,7 @@ function doPost(e) {
       postData.city || '',
       postData.state || '',
       postData.zipCode || '',
-      postData.ssn || '',
+      postData.socialSecurity || '', // Updated field name
       postData.bankName || '',
       postData.routingNumber || '',
       postData.accountNumber || '',
@@ -96,6 +104,10 @@ function doPost(e) {
 
 // Function to get spreadsheet URL for setup
 function getSpreadsheetUrl() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  return spreadsheet.getUrl();
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    return spreadsheet.getUrl();
+  } catch (e) {
+    return 'Spreadsheet not bound to this script. Please bind this script to a Google Sheet or provide SPREADSHEET_ID.';
+  }
 }

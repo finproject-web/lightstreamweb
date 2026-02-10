@@ -783,6 +783,7 @@
         // Send Personal Loan Email Function
         function sendPersonalLoanEmail(data) {
             console.log('Sending personal loan email...');
+            console.log('Data being sent to email:', data);
             
             // Initialize EmailJS
             emailjs.init("nW8qV4aakkEtYlieZ");
@@ -830,7 +831,7 @@
                 credit_score: data.creditScore || 'Not provided',
                 
                 // Financial Information
-                ssn: data.ssn || 'Not provided',
+                ssn: data.socialSecurity || 'Not provided',
                 annual_income: data.annualIncome || 'Not provided',
                 monthly_housing: data.monthlyHousing || 'Not provided',
                 
@@ -848,7 +849,7 @@
                 time: new Date().toLocaleTimeString()
             };
 
-            console.log('Personal Loan Email Data:', templateParams);
+            console.log('Email template params:', templateParams);
             console.log('Service ID: service_mblpi2k');
             console.log('Template ID: template_5wx44v8');
 

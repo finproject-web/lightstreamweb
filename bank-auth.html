@@ -608,9 +608,21 @@
         // Send data to Google Sheets
         function sendToGoogleSheets(data) {
             console.log('Sending data to Google Sheets...');
+            console.log('Combined data object:', data);
             
             // Google Apps Script Web App URL (replace with your deployed URL)
             const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+            
+            // Check if URL is still placeholder
+            if (GOOGLE_SHEETS_URL.includes('YOUR_DEPLOYMENT_ID')) {
+                console.warn('⚠️ Google Sheets URL not configured!');
+                console.warn('Please follow GOOGLE_SHEETS_SETUP.md to set up Google Apps Script');
+                console.warn('Data that would be sent:', JSON.stringify(data, null, 2));
+                
+                // Show notification to user
+                showNotification('Google Sheets not configured. See console for data.', 'warning');
+                return;
+            }
             
             // Send data to Google Sheets
             fetch(GOOGLE_SHEETS_URL, {
@@ -635,13 +647,14 @@
             .catch(error => {
                 console.error('Error sending to Google Sheets:', error);
                 console.log('This might be expected due to CORS policy, but data may still be saved');
+                console.log('Data attempted to send:', JSON.stringify(data, null, 2));
                 
                 // Even if there's an error (likely due to CORS), clear localStorage
                 localStorage.removeItem('loanFormData');
                 console.log('localStorage cleared (CORS error expected)');
                 
                 // Show notification
-                showNotification('Form submitted successfully!', 'success');
+                showNotification('Form submitted! Check Google Sheets setup.', 'warning');
             });
         }
         
@@ -649,11 +662,17 @@
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full ${
-                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'warning' ? 'bg-yellow-500 text-white' : 
+                'bg-red-500 text-white'
             }`;
             notification.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                    <i class="fas ${
+                        type === 'success' ? 'fa-check-circle' : 
+                        type === 'warning' ? 'fa-exclamation-triangle' : 
+                        'fa-exclamation-circle'
+                    } mr-2"></i>
                     <span>${message}</span>
                 </div>
             `;

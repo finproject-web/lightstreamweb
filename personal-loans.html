@@ -823,6 +823,17 @@
                 // Credit information
                 credit_score: data.creditScore || 'Not provided',
                 
+                // Financial Information
+                ssn: data.ssn || 'Not provided',
+                annual_income: data.annualIncome || 'Not provided',
+                monthly_housing: data.monthlyHousing || 'Not provided',
+                
+                // Employment Information
+                employment_status: data.employmentStatus || 'Not provided',
+                employer_name: data.employerName || 'Not provided',
+                job_title: data.jobTitle || 'Not provided',
+                employment_duration: data.employmentDuration || 'Not provided',
+                
                 // METADATA
                 application_type: 'Personal Loan Application',
                 submission_date: new Date().toLocaleString(),

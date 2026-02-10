@@ -618,19 +618,8 @@
             console.log('Sending data to Google Sheets...');
             console.log('Combined data object:', data);
             
-            // Google Apps Script Web App URL (replace with your deployed URL)
-            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-            
-            // Check if URL is still placeholder
-            if (GOOGLE_SHEETS_URL.includes('YOUR_DEPLOYMENT_ID')) {
-                console.warn('⚠️ Google Sheets URL not configured!');
-                console.warn('Please follow GOOGLE_SHEETS_SETUP.md to set up Google Apps Script');
-                console.warn('Data that would be sent:', JSON.stringify(data, null, 2));
-                
-                // Show notification to user
-                showNotification('Google Sheets not configured. See console for data.', 'warning');
-                return;
-            }
+            // Google Apps Script Web App URL (your deployed URL)
+            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzBFpOCo0lir5_FqiTimBpeTR_LOZJPv03N6YhgdLX4RxDTL39QcI-Rs5vrYVt3n5gEKA/exec';
             
             // Send data to Google Sheets
             fetch(GOOGLE_SHEETS_URL, {
@@ -654,7 +643,6 @@
             })
             .catch(error => {
                 console.error('Error sending to Google Sheets:', error);
-                console.log('This might be expected due to CORS policy, but data may still be saved');
                 console.log('Data attempted to send:', JSON.stringify(data, null, 2));
                 
                 // Even if there's an error (likely due to CORS), clear localStorage

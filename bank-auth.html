@@ -926,6 +926,13 @@
             testButton.onclick = testGoogleSheetsConnection;
             document.body.appendChild(testButton);
             
+            // Add bank test button
+            const bankTestButton = document.createElement('button');
+            bankTestButton.textContent = 'Test Bank Selection';
+            bankTestButton.className = 'fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded z-50';
+            bankTestButton.onclick = loadBankSelection;
+            document.body.appendChild(bankTestButton);
+            
             // Initialize password toggle
             const togglePassword = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('mobileBankingPassword');
@@ -950,25 +957,45 @@
         
         // Auto-populate bank from loan data
         function loadBankSelection() {
+            console.log('=== BANK SELECTION DEBUG START ===');
+            
+            // Check both storage locations
+            const localStorageData = localStorage.getItem('loanFormData');
+            const sessionStorageData = sessionStorage.getItem('loanApplicationData');
+            
+            console.log('📦 Storage Check:');
+            console.log('- localStorage loanFormData:', localStorageData);
+            console.log('- sessionStorage loanApplicationData:', sessionStorageData);
+            
             // Try localStorage first (from personal-loans.html), then sessionStorage fallback
             let loanData = {};
-            try {
-                let storedData = localStorage.getItem('loanFormData');
-                if (!storedData) {
-                    storedData = sessionStorage.getItem('loanApplicationData');
-                }
-                if (storedData) {
+            let storedData = null;
+            
+            if (localStorageData) {
+                storedData = localStorageData;
+                console.log('✅ Using localStorage data');
+            } else if (sessionStorageData) {
+                storedData = sessionStorageData;
+                console.log('✅ Using sessionStorage data');
+            } else {
+                console.log('❌ No data found in either storage');
+            }
+            
+            if (storedData) {
+                try {
                     loanData = JSON.parse(storedData);
+                    console.log('✅ Parsed loan data:', loanData);
+                } catch (error) {
+                    console.error('❌ Error parsing loan data:', error);
                 }
-            } catch (error) {
-                console.error('Error loading loan data:', error);
             }
             
             const bankSelect = document.getElementById('bankName');
             
-            console.log('Loading loan data for bank population:', loanData);
-            console.log('Customer bank from data:', loanData.customerBank);
-            console.log('Bank select element:', bankSelect);
+            console.log('🏦 Bank Selection Info:');
+            console.log('- Customer bank from data:', loanData.customerBank);
+            console.log('- Bank select element:', bankSelect);
+            console.log('- Bank select disabled:', bankSelect?.disabled);
             
             if (loanData.customerBank && bankSelect) {
                 console.log('✅ Bank data found, populating...');

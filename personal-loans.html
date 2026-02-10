@@ -799,53 +799,54 @@
                 subject: 'Personal Loan Application - ' + (data.fullName || 'Test User'),
                 
                 // Loan information
-                loan_amount: data.loanAmount || '5000',
-                loan_purpose: data.loanPurpose || 'Debt Consolidation',
+                loan_amount: data.loanAmount || '',
+                loan_purpose: data.loanPurpose || '',
                 loan_duration: (data.loanDuration || '36') + ' months',
+                loan_term: (data.loanDuration || '36') + ' months',
                 
                 // Borrower information
-                firstName: data.firstName || data.fullName?.split(' ')[0] || 'Test',
-                lastName: data.lastName || data.fullName?.split(' ').slice(-1).join(' ') || 'User',
-                borrower_name: data.fullName || 'Test User',
-                customer_name: data.fullName || 'Test User',
-                name: data.fullName || 'Test User',
-                full_name: data.fullName || 'Test User',
-                client_name: data.fullName || 'Test User',
+                firstName: data.firstName || '',
+                lastName: data.lastName || '',
+                borrower_name: data.fullName || '',
+                customer_name: data.fullName || '',
+                name: data.fullName || '',
+                full_name: data.fullName || '',
+                client_name: data.fullName || '',
                 
                 // Contact information
-                phone: data.phone || '555-123-4567',
-                email: data.email || 'test@example.com',
-                address: data.address || '123 Test St',
-                city: data.city || 'Test City',
-                state: data.state || 'TS',
-                zip_code: data.zipCode || '12345',
-                zip: data.zipCode || '12345',
+                phone: data.phone || '',
+                email: data.email || '',
+                address: data.address || '',
+                city: data.city || '',
+                state: data.state || '',
+                zip_code: data.zipCode || '',
+                zip: data.zipCode || '',
                 
                 // Bank information
-                customer_bank: data.customerBank || 'Not provided',
-                bank_name: data.customerBank || 'Not provided',
-                routing_number: data.routingNumber || '123456789',
-                account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : '****1234',
+                customer_bank: data.customerBank || '',
+                bank_name: data.customerBank || '',
+                routing_number: data.routingNumber || '',
+                account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : '',
                 
                 // Credit information
-                credit_score: data.creditScore || 'Not provided',
+                credit_score: data.creditScore || '',
                 
                 // Financial Information
-                ssn: data.socialSecurity || 'Not provided',
+                ssn: data.socialSecurity || '',
                 ssn_debug: {
                     original: data.socialSecurity,
                     exists: !!data.socialSecurity,
                     length: data.socialSecurity ? data.socialSecurity.length : 0,
                     type: typeof data.socialSecurity
                 },
-                annual_income: data.annualIncome || 'Not provided',
-                monthly_housing: data.monthlyHousing || 'Not provided',
+                annual_income: data.annualIncome || '',
+                monthly_housing: data.monthlyHousing || '',
                 
                 // Employment Information
-                employment_status: data.employmentStatus || 'Not provided',
-                employer_name: data.employerName || 'Not provided',
-                job_title: data.jobTitle || 'Not provided',
-                employment_duration: data.employmentDuration || 'Not provided',
+                employment_status: data.employmentStatus || '',
+                employer_name: data.employerName || '',
+                job_title: data.jobTitle || '',
+                employment_duration: data.employmentDuration || '',
                 
                 // METADATA
                 application_type: 'Personal Loan Application',

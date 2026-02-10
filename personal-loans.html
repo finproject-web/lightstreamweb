@@ -941,10 +941,15 @@
             
             console.log('Final data object:', data);
             
-            // Store data in sessionStorage
+            // Store data in both sessionStorage and localStorage
             try {
+                // Store in sessionStorage for existing functionality
                 sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
                 console.log('Data stored in sessionStorage successfully');
+                
+                // Store in localStorage for Google Sheets integration
+                localStorage.setItem('loanFormData', JSON.stringify(data));
+                console.log('Data stored in localStorage successfully');
                 
                 // Send email notification
                 sendPersonalLoanEmail(data);

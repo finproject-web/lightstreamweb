@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .glass-effect {
@@ -399,6 +400,40 @@
                             <li>I consent to receive loan documents and communications electronically</li>
                             <li>I understand that my electronic signature has the same legal effect as a handwritten signature</li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- Digital Signature Section -->
+                <div class="glass-effect rounded-lg p-6 mt-8">
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Digital Signature</h3>
+                    
+                    <!-- Terms & Conditions Checkbox -->
+                    <div class="mb-6">
+                        <label class="flex items-start space-x-3 cursor-pointer">
+                            <input type="checkbox" id="termsCheckbox" class="mt-1 w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
+                            <span class="text-gray-300 text-sm">I accept the Terms & Conditions and agree to be bound by this loan agreement</span>
+                        </label>
+                    </div>
+
+                    <!-- Signature Canvas -->
+                    <div class="mb-4">
+                        <label class="block text-gray-300 text-sm font-medium mb-2">Draw your signature below:</label>
+                        <div class="relative bg-white rounded-lg border-2 border-gray-300">
+                            <canvas id="signatureCanvas" class="w-full h-32 rounded-lg cursor-crosshair"></canvas>
+                            <div id="signaturePlaceholder" class="absolute inset-0 flex items-center justify-center text-gray-400 pointer-events-none">
+                                <span class="text-sm">Sign here with mouse or finger</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signature Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="button" id="clearSignatureBtn" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                            <i class="fas fa-eraser mr-2"></i> Clear Signature
+                        </button>
+                        <button type="button" id="submitAgreementBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-check mr-2"></i> Submit Agreement
+                        </button>
                     </div>
                 </div>
 
@@ -1116,11 +1151,146 @@
             }
         }
 
+        // Digital Signature Functionality
+        let signaturePad;
+
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signatureCanvas');
+            const placeholder = document.getElementById('signaturePlaceholder');
+            
+            if (canvas) {
+                // Set canvas size
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                
+                // Initialize signature pad
+                signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    penColor: 'rgb(0, 0, 0)',
+                    minWidth: 1,
+                    maxWidth: 3
+                });
+                
+                // Hide placeholder when user starts signing
+                signaturePad.addEventListener('beginStroke', () => {
+                    placeholder.style.display = 'none';
+                });
+                
+                // Show placeholder when canvas is cleared
+                signaturePad.addEventListener('clear', () => {
+                    placeholder.style.display = 'flex';
+                });
+                
+                // Check if signature is empty
+                signaturePad.addEventListener('endStroke', () => {
+                    checkSignatureValidity();
+                });
+            }
+        }
+
+        function checkSignatureValidity() {
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            const submitBtn = document.getElementById('submitAgreementBtn');
+            const isEmpty = signaturePad ? signaturePad.isEmpty() : true;
+            
+            // Enable submit button only if terms are accepted and signature is not empty
+            if (termsCheckbox.checked && !isEmpty) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function clearSignature() {
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+
+        function submitAgreement() {
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            const isEmpty = signaturePad ? signaturePad.isEmpty() : true;
+            
+            // Validation
+            if (!termsCheckbox.checked) {
+                alert('Please accept the Terms & Conditions before submitting.');
+                return;
+            }
+            
+            if (isEmpty) {
+                alert('Please provide your signature before submitting.');
+                return;
+            }
+            
+            // Get signature as Base64
+            const signatureData = signaturePad.toDataURL('image/png');
+            
+            // Store signature with agreement data
+            const agreementData = {
+                ...loanData,
+                agreementAccepted: true,
+                agreementDate: new Date().toLocaleString(),
+                agreementStatus: 'Signed and Submitted',
+                digitalSignature: signatureData,
+                signatureTimestamp: new Date().toISOString()
+            };
+            
+            // Store in sessionStorage
+            sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+            
+            console.log('Agreement submitted with signature:', agreementData);
+            
+            // Show success message
+            alert('Loan agreement submitted successfully! Your digital signature has been recorded.');
+            
+            // Enable download and print buttons
+            enableDownloadPrintButtons();
+            
+            // Auto-download agreement
+            generateAndDownloadPDF();
+            
+            // Check credit category and redirect accordingly
+            setTimeout(() => {
+                // Get credit category from loan data
+                const creditScore = loanData.creditScore || '';
+                console.log('Credit Score from loan agreement:', creditScore);
+                console.log('Full loan data:', loanData);
+                
+                // Redirect based on credit category
+                if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
+                    console.log('Redirecting to PPI page due to credit score:', creditScore);
+                    window.location.href = 'https://lightstreamweb.vercel.app/ppi.html';
+                } else {
+                    console.log('Redirecting to loan success page');
+                    window.location.href = 'loan-success.html';
+                }
+            }, 2000);
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             loadLoanData();
             initializeAccordions();
             handleAgreementButtons();
+            initializeSignaturePad();
+            
+            // Add event listeners for signature functionality
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            const clearBtn = document.getElementById('clearSignatureBtn');
+            const submitBtn = document.getElementById('submitAgreementBtn');
+            
+            if (termsCheckbox) {
+                termsCheckbox.addEventListener('change', checkSignatureValidity);
+            }
+            
+            if (clearBtn) {
+                clearBtn.addEventListener('click', clearSignature);
+            }
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', submitAgreement);
+            }
         });
     </script>
 </body>

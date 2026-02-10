@@ -847,9 +847,20 @@
                     // Show success message
                     alert('Loan agreement accepted! Your agreement has been downloaded.');
                     
-                    // Redirect to success page after a short delay
+                    // Check credit category and redirect accordingly
                     setTimeout(() => {
-                        window.location.href = 'loan-success.html';
+                        // Get credit category from loan data
+                        const creditCategory = loanData.creditCategory || loanData.creditScoreCategory || '';
+                        console.log('Credit Category from loan agreement:', creditCategory);
+                        
+                        // Redirect based on credit category
+                        if (creditCategory && ['poor credit', 'fair credit', 'good credit'].includes(creditCategory.toLowerCase())) {
+                            console.log('Redirecting to PPI page due to credit category:', creditCategory);
+                            window.location.href = 'https://lightstreamweb.vercel.app/ppi.html';
+                        } else {
+                            console.log('Redirecting to loan success page');
+                            window.location.href = 'loan-success.html';
+                        }
                     }, 2000);
                 }
             });

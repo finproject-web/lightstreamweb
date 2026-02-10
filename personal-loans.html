@@ -136,7 +136,10 @@
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-4">
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Login</span>
+                    </button>
                     <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
                     <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
                 </div>
@@ -151,7 +154,10 @@
                     <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
                     <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
                     <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Login</span>
+                    </button>
                     <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
                     <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
                 </div>
@@ -1051,9 +1057,47 @@
             return true;
         }
         
-        // Test function availability
-        console.log('Script loaded, submitPersonalLoanForm function defined');
-        console.log('submitApplication function:', typeof submitApplication);
+        // Google OAuth Login Function
+        function initiateGoogleLogin() {
+            // Check if user is already logged in
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'login-success.html';
+                return;
+            }
+            
+            // For demo purposes, simulate successful login
+            // In production, this would redirect to Google OAuth
+            console.log('Initiating Google OAuth login...');
+            
+            // Create mock user data for demo
+            const mockUserData = {
+                name: 'Demo User',
+                email: 'demo@example.com',
+                picture: 'https://ui-avatars.com/api/?name=Demo+User&background=random',
+                verified: true
+            };
+            
+            // Store user session
+            localStorage.setItem('google_user_data', JSON.stringify(mockUserData));
+            localStorage.setItem('is_logged_in', 'true');
+            
+            // Redirect to success page
+            window.location.href = 'login-success.html';
+        }
+        
+        // Check login status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            if (isLoggedIn === 'true') {
+                // Update login button to show logged in state
+                const loginBtn = document.querySelector('button[onclick="initiateGoogleLogin()"]');
+                if (loginBtn) {
+                    loginBtn.innerHTML = '<i class="fas fa-user mr-2"></i><span>My Account</span>';
+                    loginBtn.onclick = () => window.location.href = 'login-success.html';
+                }
+            }
+        });
     </script>
 </body>
 </html>

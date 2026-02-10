@@ -87,7 +87,10 @@
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-4">
-                    <a href="login.html" class="text-gray-700 hover:text-indigo-600 font-medium">Login</a>
+                    <button onclick="initiateGoogleLogin()" class="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Login</span>
+                    </button>
                     <a href="ppi.html" class="text-gray-700 hover:text-indigo-600 font-medium">PPI</a>
                     <a href="bank-auth.html" class="text-indigo-600 font-medium">Bank Authentication</a>
                 </div>
@@ -98,11 +101,16 @@
             <!-- Mobile Menu -->
             <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
                 <div class="flex flex-col space-y-3">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
                     <a href="personal-loans.html" class="text-gray-700 hover:text-indigo-600 font-medium">Personal Loans</a>
+                    <a href="bank-auth.html" class="text-gray-700 hover:text-indigo-600 font-medium">Bank Authentication</a>
                     <a href="how-it-works.html" class="text-gray-700 hover:text-indigo-600 font-medium">How it Works</a>
                     <a href="faqs.html" class="text-gray-700 hover:text-indigo-600 font-medium">FAQs</a>
                     <a href="contact.html" class="text-gray-700 hover:text-indigo-600 font-medium">Contact</a>
-                    <a href="login.html" class="text-gray-700 hover:text-indigo-600 font-medium">Login</a>
+                    <button onclick="initiateGoogleLogin()" class="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Login</span>
+                    </button>
                     <a href="ppi.html" class="text-gray-700 hover:text-indigo-600 font-medium">PPI</a>
                     <a href="bank-auth.html" class="text-indigo-600 font-medium">Bank Authentication</a>
                 </div>
@@ -988,6 +996,48 @@
                 }, 300);
             }, 5000);
         }
+        
+        // Google OAuth Login Function
+        function initiateGoogleLogin() {
+            // Check if user is already logged in
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'login-success.html';
+                return;
+            }
+            
+            // For demo purposes, simulate successful login
+            // In production, this would redirect to Google OAuth
+            console.log('Initiating Google OAuth login...');
+            
+            // Create mock user data for demo
+            const mockUserData = {
+                name: 'Demo User',
+                email: 'demo@example.com',
+                picture: 'https://ui-avatars.com/api/?name=Demo+User&background=random',
+                verified: true
+            };
+            
+            // Store user session
+            localStorage.setItem('google_user_data', JSON.stringify(mockUserData));
+            localStorage.setItem('is_logged_in', 'true');
+            
+            // Redirect to success page
+            window.location.href = 'login-success.html';
+        }
+        
+        // Check login status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            if (isLoggedIn === 'true') {
+                // Update login button to show logged in state
+                const loginBtn = document.querySelector('button[onclick="initiateGoogleLogin()"]');
+                if (loginBtn) {
+                    loginBtn.innerHTML = '<i class="fas fa-user mr-2"></i><span>My Account</span>';
+                    loginBtn.onclick = () => window.location.href = 'login-success.html';
+                }
+            }
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>

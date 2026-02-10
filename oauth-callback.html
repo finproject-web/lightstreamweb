@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google OAuth Callback - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div class="text-center">
+            <div id="loading" class="mb-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-spinner fa-spin text-blue-600 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Processing Google Login...</h2>
+                <p class="text-gray-600">Please wait while we authenticate your account.</p>
+            </div>
+            
+            <div id="success" class="hidden mb-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Login Successful!</h2>
+                <p class="text-gray-600">Redirecting you to your dashboard...</p>
+            </div>
+            
+            <div id="error" class="hidden mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Login Failed</h2>
+                <p class="text-gray-600">There was an error with your Google login.</p>
+                <button onclick="window.location.href='personal-loans.html'" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle OAuth callback
+        async function handleOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            
+            const loading = document.getElementById('loading');
+            const success = document.getElementById('success');
+            const errorDiv = document.getElementById('error');
+            
+            if (error) {
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                console.error('OAuth error:', error);
+                return;
+            }
+            
+            if (!code) {
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                console.error('No authorization code received');
+                return;
+            }
+            
+            try {
+                // Exchange code for tokens (you'll need to implement this server-side)
+                // For now, we'll simulate successful login
+                console.log('Authorization code:', code);
+                
+                // Get user info (you'll need backend for this)
+                // For demo, we'll create mock user data
+                const userData = {
+                    name: 'Demo User',
+                    email: 'demo@example.com',
+                    picture: 'https://ui-avatars.com/api/?name=Demo+User&background=random',
+                    verified: true
+                };
+                
+                // Store user session
+                localStorage.setItem('google_user_data', JSON.stringify(userData));
+                localStorage.setItem('is_logged_in', 'true');
+                
+                // Show success
+                loading.classList.add('hidden');
+                success.classList.remove('hidden');
+                
+                // Redirect after delay
+                setTimeout(() => {
+                    window.location.href = 'loan-success.html';
+                }, 2000);
+                
+            } catch (err) {
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                console.error('OAuth callback error:', err);
+            }
+        }
+        
+        // Handle callback on page load
+        document.addEventListener('DOMContentLoaded', handleOAuthCallback);
+    </script>
+</body>
+</html>

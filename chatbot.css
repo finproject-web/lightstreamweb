@@ -188,16 +188,23 @@
     height: 60px;
     background: linear-gradient(135deg, #03a84e, #0288d1);
     border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(3, 168, 78, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    font-size: 28px;
     color: white;
-    font-size: 24px;
-    transition: all 0.3s;
+    border: 3px solid white;
+    box-shadow: 0 4px 20px rgba(3, 168, 78, 0.3);
+    transition: all 0.3s ease;
     z-index: 9998;
-    border: 2px solid white;
+    /* Ensure proper touch target size */
+    min-width: 60px;
+    min-height: 60px;
+    /* Prevent accidental clicks */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #chatbot-toggle:hover {
@@ -220,7 +227,7 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     #chatbot-widget {
         width: 280px;
         height: 420px;
@@ -229,15 +236,38 @@
     }
     
     #chatbot-toggle {
-        width: 50px;
-        height: 50px;
-        right: 10px;
-        bottom: 10px;
-        font-size: 20px;
+        width: 56px;
+        height: 56px;
+        right: 15px;
+        bottom: 15px;
+        font-size: 24px;
+        /* Ensure proper touch target for mobile */
+        min-width: 56px;
+        min-height: 56px;
+        border: 3px solid white;
+        /* Add more spacing to prevent accidental clicks */
+        margin: 5px;
     }
     
     .shortcut-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+    #chatbot-toggle {
+        width: 56px;
+        height: 56px;
+        right: 10px;
+        bottom: 10px;
+        font-size: 22px;
+        /* Even larger touch target for small screens */
+        min-width: 56px;
+        min-height: 56px;
+        border: 4px solid white;
+        /* Add padding around touch target */
+        padding: 2px;
     }
 }
 

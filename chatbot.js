@@ -9,7 +9,9 @@ class LightStreamChatbot {
     init() {
         this.createChatbotHTML();
         this.attachEventListeners();
-        this.addWelcomeMessage();
+        // Remove welcome message to prevent auto-popup indication
+        // Only add welcome message when user first opens chat
+        this.messages = [];
     }
 
     createChatbotHTML() {
@@ -70,6 +72,11 @@ class LightStreamChatbot {
             widget.classList.remove('chatbot-hidden');
             toggle.classList.add('chatbot-hidden');
             widget.classList.remove('chatbot-minimized');
+            
+            // Add welcome message only on first open
+            if (this.messages.length === 0) {
+                this.addWelcomeMessage();
+            }
         } else {
             widget.classList.add('chatbot-hidden');
             toggle.classList.remove('chatbot-hidden');
@@ -195,5 +202,18 @@ class LightStreamChatbot {
 
 // Initialize chatbot when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure chatbot is hidden on page load
+    setTimeout(() => {
+        const widget = document.getElementById('chatbot-widget');
+        const toggle = document.getElementById('chatbot-toggle');
+        
+        if (widget) {
+            widget.classList.add('chatbot-hidden');
+        }
+        if (toggle) {
+            toggle.classList.remove('chatbot-hidden');
+        }
+    }, 100);
+    
     new LightStreamChatbot();
 });

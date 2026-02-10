@@ -681,26 +681,60 @@
             const testData = {
                 test: true,
                 timestamp: new Date().toISOString(),
-                message: 'Test connection from website'
+                message: 'Test connection from website',
+                loanAmount: '1000',
+                loanPurpose: 'test',
+                name: 'Test User',
+                email: 'test@example.com'
             };
             
             const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyFwPK0gH2Fk1KhEVZquyBKASRi40K3mBwtL4KJYIIf/exec';
             
-            console.log('Sending test data:', testData);
+            console.log('📤 Sending test data:', testData);
+            console.log('🔗 URL:', GOOGLE_SHEETS_URL);
             
+            // Try with CORS mode first
             fetch(GOOGLE_SHEETS_URL, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'cors', // Try cors first to see if we get a response
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(testData)
             })
             .then(response => {
-                console.log('✅ Test response:', response);
+                console.log('✅ CORS Test response:', response);
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                return response.json().catch(() => {
+                    console.log('Could not parse JSON response (expected for no-cors)');
+                    throw new Error('Trying no-cors mode...');
+                });
+            })
+            .then(data => {
+                console.log('✅ Success! Google Sheets response:', data);
+            })
+            .catch(error => {
+                console.log('⚠️ CORS failed, trying no-cors mode...');
+                
+                // Now try with no-cors (original method)
+                return fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+            })
+            .then(response => {
+                console.log('✅ No-cors test completed:', response);
+                console.log('📊 Check your Google Sheet for test data!');
             })
             .catch(error => {
                 console.error('❌ Test failed:', error);
+                console.error('Error details:', error.message);
             });
         }
         

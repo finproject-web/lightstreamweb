@@ -752,7 +752,7 @@
 
         // Load loan data from sessionStorage
         function loadLoanData() {
-            const storedData = sessionStorage.getItem('loanApplicationData');
+            const storedData = localStorage.getItem('loanApplicationData') || sessionStorage.getItem('loanApplicationData');
             if (!storedData) {
                 alert('No loan application data found. Please start your application again.');
                 window.location.href = 'personal-loans.html';

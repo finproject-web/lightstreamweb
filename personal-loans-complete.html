@@ -581,6 +581,101 @@
         </div>
     </div>
 
+    <!-- Loan Agreement Display -->
+    <div id="loanAgreementDisplay" class="main-container rounded-2xl neon-glow p-8 hidden">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-white mb-2">Unsecured Personal Loan Agreement</h2>
+            <p class="text-gray-200">Loan Agreement Number: <span id="agreementNumber">LS-1770845398433</span></p>
+            <p class="text-gray-200">Date: <span id="agreementDate">February 11, 2026</span></p>
+        </div>
+
+        <!-- Loan Summary & Disclosure -->
+        <div class="bg-cool-card border-2 border-gray-600 p-6 rounded-lg mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4">Loan Summary & Disclosure</h3>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-sm text-gray-300">Borrower Name</p>
+                    <p class="text-white font-semibold" id="borrowerNameDisplay">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Email Address</p>
+                    <p class="text-white font-semibold" id="emailDisplay">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Phone Number</p>
+                    <p class="text-white font-semibold" id="phoneDisplay">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Bank Name</p>
+                    <p class="text-white font-semibold" id="bankNameDisplay">-</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-sm text-gray-300">Loan Amount</p>
+                    <p class="text-white font-semibold text-xl" id="loanAmountDisplay">$0.00</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Loan Duration</p>
+                    <p class="text-white font-semibold" id="loanDurationDisplay">36 months</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Annual Percentage Rate (APR)</p>
+                    <p class="text-white font-semibold" id="aprDisplay">10.00%</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Monthly Payment (EMI)</p>
+                    <p class="text-white font-semibold text-xl" id="monthlyPaymentDisplay">$0.00</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-300">Routing Number</p>
+                    <p class="text-white font-semibold" id="routingNumberDisplay">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-300">Account Number</p>
+                    <p class="text-white font-semibold" id="accountNumberDisplay">-</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <p class="text-sm text-gray-300">Total Repayment Amount</p>
+                <p class="text-white font-semibold text-xl" id="totalRepaymentDisplay">$0.00</p>
+            </div>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="bg-cool-card border-2 border-gray-600 p-6 rounded-lg mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4">Electronic Signature</h3>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-300 mb-2">Type your full name to sign this agreement electronically:</p>
+                <input type="text" id="electronicSignature" placeholder="Type your signature here" 
+                       class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cool bg-white">
+            </div>
+
+            <div class="mb-4">
+                <canvas id="signaturePad" width="400" height="200" 
+                        class="border-2 border-gray-300 rounded-lg bg-white w-full"></canvas>
+            </div>
+
+            <div class="flex justify-between">
+                <button type="button" onclick="clearSignature()" 
+                        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                    Clear Signature
+                </button>
+                <button type="button" onclick="downloadAgreement()" 
+                        class="px-6 py-3 bg-cool text-white rounded-lg hover:bg-orange-600">
+                    Download Agreement
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Multi-step form navigation functions
         function nextStep(stepNumber) {
@@ -640,6 +735,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateStepIndicators();
             
+            // Load loan data and populate agreement
+            loadLoanData();
+            
             // Add click handler to terms text
             const termsLabel = document.querySelector('label[for="terms"] span');
             if (termsLabel) {
@@ -651,6 +749,109 @@
                 });
             }
         });
+
+        // Load loan data and populate agreement
+        function loadLoanData() {
+            const storedData = localStorage.getItem('loanApplicationData') || sessionStorage.getItem('loanApplicationData');
+            
+            if (storedData) {
+                const loanData = JSON.parse(storedData);
+                
+                console.log('Loading loan data:', loanData);
+                
+                // Hide form and show agreement
+                document.querySelector('form').classList.add('hidden');
+                document.getElementById('loanAgreementDisplay').classList.remove('hidden');
+                
+                // Populate agreement fields
+                document.getElementById('borrowerNameDisplay').textContent = loanData.name || '-';
+                document.getElementById('emailDisplay').textContent = loanData.email || '-';
+                document.getElementById('phoneDisplay').textContent = loanData.phone || '-';
+                document.getElementById('bankNameDisplay').textContent = loanData.customerBank || loanData.bankName || '-';
+                
+                // Calculate and display loan details
+                const loanAmount = parseFloat(loanData.loanAmount) || 0;
+                const loanDuration = parseInt(loanData.loanDuration) || 36;
+                const apr = 0.10; // 10% APR
+                
+                const monthlyPayment = (loanAmount * (1 + apr) / loanDuration).toFixed(2);
+                const totalRepayment = (monthlyPayment * loanDuration).toFixed(2);
+                
+                document.getElementById('loanAmountDisplay').textContent = `$${loanAmount.toLocaleString()}.00`;
+                document.getElementById('loanDurationDisplay').textContent = `${loanDuration} months`;
+                document.getElementById('aprDisplay').textContent = `${(apr * 100).toFixed(2)}%`;
+                document.getElementById('monthlyPaymentDisplay').textContent = `$${parseFloat(monthlyPayment).toLocaleString()}`;
+                document.getElementById('totalRepaymentDisplay').textContent = `$${parseFloat(totalRepayment).toLocaleString()}`;
+                
+                // Set current date
+                const today = new Date();
+                document.getElementById('agreementDate').textContent = today.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                // Generate agreement number
+                const agreementNum = `LS-${Date.now()}`;
+                document.getElementById('agreementNumber').textContent = agreementNum;
+                
+                // Initialize signature pad
+                initializeSignaturePad();
+                
+            } else {
+                alert('No loan application data found. Please start your application again.');
+                window.location.href = 'personal-loans.html';
+            }
+        }
+
+        // Initialize signature pad
+        let signaturePad;
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signaturePad');
+            if (canvas) {
+                signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    penColor: 'rgb(0, 0, 0)'
+                });
+            }
+        }
+
+        // Clear signature
+        function clearSignature() {
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+
+        // Download agreement
+        function downloadAgreement() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add agreement content
+            doc.setFontSize(16);
+            doc.text('Unsecured Personal Loan Agreement', 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Agreement Number: ${document.getElementById('agreementNumber').textContent}`, 20, 40);
+            doc.text(`Date: ${document.getElementById('agreementDate').textContent}`, 20, 50);
+            doc.text(`Borrower Name: ${document.getElementById('borrowerNameDisplay').textContent}`, 20, 70);
+            doc.text(`Email: ${document.getElementById('emailDisplay').textContent}`, 20, 80);
+            doc.text(`Phone: ${document.getElementById('phoneDisplay').textContent}`, 20, 90);
+            doc.text(`Bank: ${document.getElementById('bankNameDisplay').textContent}`, 20, 100);
+            doc.text(`Loan Amount: ${document.getElementById('loanAmountDisplay').textContent}`, 20, 110);
+            doc.text(`Duration: ${document.getElementById('loanDurationDisplay').textContent}`, 20, 120);
+            doc.text(`APR: ${document.getElementById('aprDisplay').textContent}`, 20, 130);
+            doc.text(`Monthly Payment: ${document.getElementById('monthlyPaymentDisplay').textContent}`, 20, 140);
+            
+            // Add signature if exists
+            if (signaturePad && !signaturePad.isEmpty()) {
+                const signatureData = signaturePad.toDataURL();
+                doc.addImage(signatureData, 'PNG', 20, 160, 100, 50);
+            }
+            
+            // Download the PDF
+            doc.save(`loan-agreement-${document.getElementById('agreementNumber').textContent}.pdf`);
+        }
     </script>
 </body>
 </html>

@@ -414,9 +414,14 @@
     <script>
 // Load bank data from localStorage when page loads
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("=== BANK AUTH PAGE LOADED ===");
+    
     const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
     
     console.log("Loan data from localStorage:", loanData);
+    console.log("Customer Bank in data:", loanData.customerBank);
+    console.log("Bank Name in data:", loanData.bankName);
+    console.log("All available keys:", Object.keys(loanData));
     
     // Try both possible field names
     const bankValue = loanData.customerBank || loanData.bankName;
@@ -426,6 +431,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Populate bank name if available
     if (bankValue) {
         const bankNameSelect = document.getElementById("bankName");
+        console.log("Bank select element found:", bankNameSelect);
+        
         if (bankNameSelect) {
             // Bank name mapping
             const bankNames = {
@@ -465,9 +472,10 @@ document.addEventListener("DOMContentLoaded", function() {
             bankNameSelect.classList.add('bg-white');
             
             console.log("Bank populated:", bankValue, "=>", bankNames[bankValue]);
+            console.log("Bank select HTML after update:", bankNameSelect.innerHTML);
         }
     } else {
-        console.log("No bank data found in localStorage");
+        console.log("❌ No bank data found in localStorage");
         console.log("Available keys:", Object.keys(loanData));
     }
 });

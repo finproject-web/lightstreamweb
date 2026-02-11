@@ -922,6 +922,12 @@ function nextStep() {
     if (nextStep && nextStep.classList.contains('form-step')) {
         currentStep.classList.remove('active');
         nextStep.classList.add('active');
+        
+        // Update application summary when reaching review step
+        if (nextStep.id === 'step5') {
+            updateApplicationSummary();
+        }
+        
         window.scrollTo(0, 0);
     }
 }

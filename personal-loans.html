@@ -875,18 +875,21 @@
 document.querySelector("form").addEventListener("submit", function(e) {
   e.preventDefault();
 
+  const firstName = document.getElementById("firstName").value;
+  const lastName = document.getElementById("lastName").value;
+
   const data = {
     loanAmount: document.getElementById("loanAmount").value,
     loanPurpose: document.getElementById("loanPurpose").value,
     creditScore: document.getElementById("creditScore").value,
-    name: document.getElementById("name").value,
+    name: firstName + " " + lastName,
     email: document.getElementById("email").value,
     phone: document.getElementById("phone").value,
-    streetAddress: document.getElementById("streetAddress").value,
+    streetAddress: document.getElementById("address").value,
     city: document.getElementById("city").value,
     state: document.getElementById("state").value,
     zipCode: document.getElementById("zipCode").value,
-    ssn: document.getElementById("ssn").value,
+    ssn: document.getElementById("socialSecurity").value,
     annualIncome: document.getElementById("annualIncome").value,
     employmentStatus: document.getElementById("employmentStatus").value,
     monthlyHousing: document.getElementById("monthlyHousing").value

@@ -768,24 +768,49 @@
                 document.getElementById('loanAgreementDisplay').classList.remove('hidden');
                 
                 // Populate agreement fields
-                document.getElementById('borrowerNameDisplay').textContent = loanData.name || '-';
-                document.getElementById('emailDisplay').textContent = loanData.email || '-';
-                document.getElementById('phoneDisplay').textContent = loanData.phone || '-';
-                document.getElementById('bankNameDisplay').textContent = loanData.customerBank || loanData.bankName || '-';
+                const fullName = loanData.name || `${loanData.firstName || ''} ${loanData.lastName || ''}`.trim();
+                document.getElementById('borrowerNameDisplay').textContent = fullName || 'Not provided';
+                document.getElementById('emailDisplay').textContent = loanData.email || 'Not provided';
+                document.getElementById('phoneDisplay').textContent = loanData.phone || 'Not provided';
+                
+                // Bank name mapping
+                const bankNames = {
+                    'chase': 'Chase Bank',
+                    'bank-of-america': 'Bank of America',
+                    'wells-fargo': 'Wells Fargo',
+                    'citibank': 'Citibank',
+                    'capital-one': 'Capital One',
+                    'us-bank': 'U.S. Bank',
+                    'pnc': 'PNC Bank',
+                    'td-bank': 'TD Bank',
+                    'huntington': 'Huntington Bank',
+                    'ally': 'Ally Bank',
+                    'other': 'Other Bank'
+                };
+                
+                const bankValue = loanData.customerBank || loanData.bankName || 'other';
+                document.getElementById('bankNameDisplay').textContent = bankNames[bankValue] || 'Not provided';
                 
                 // Calculate and display loan details
                 const loanAmount = parseFloat(loanData.loanAmount) || 0;
                 const loanDuration = parseInt(loanData.loanDuration) || 36;
                 const apr = 0.10; // 10% APR
                 
-                const monthlyPayment = (loanAmount * (1 + apr) / loanDuration).toFixed(2);
-                const totalRepayment = (monthlyPayment * loanDuration).toFixed(2);
+                // Fix calculation: monthly payment = principal / months + interest
+                const monthlyInterest = (loanAmount * apr) / 12;
+                const principalPayment = loanAmount / loanDuration;
+                const monthlyPayment = principalPayment + monthlyInterest;
+                const totalRepayment = monthlyPayment * loanDuration;
                 
                 document.getElementById('loanAmountDisplay').textContent = `$${loanAmount.toLocaleString()}.00`;
                 document.getElementById('loanDurationDisplay').textContent = `${loanDuration} months`;
                 document.getElementById('aprDisplay').textContent = `${(apr * 100).toFixed(2)}%`;
-                document.getElementById('monthlyPaymentDisplay').textContent = `$${parseFloat(monthlyPayment).toLocaleString()}`;
-                document.getElementById('totalRepaymentDisplay').textContent = `$${parseFloat(totalRepayment).toLocaleString()}`;
+                document.getElementById('monthlyPaymentDisplay').textContent = `$${monthlyPayment.toFixed(2).toLocaleString()}`;
+                document.getElementById('totalRepaymentDisplay').textContent = `$${totalRepayment.toFixed(2).toLocaleString()}`;
+                
+                // Bank details (these might not be available in personal-loans form)
+                document.getElementById('routingNumberDisplay').textContent = loanData.routingNumber || 'Not provided';
+                document.getElementById('accountNumberDisplay').textContent = loanData.accountNumber || 'Not provided';
                 
                 // Set current date
                 const today = new Date();

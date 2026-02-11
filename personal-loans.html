@@ -873,6 +873,70 @@
     <script>
 console.log("Script loaded - setting up form listener");
 
+// Missing function definitions
+function validateLoanAmount(input) {
+    const value = parseFloat(input.value);
+    const helperText = document.getElementById('loanAmountHelper');
+    
+    if (isNaN(value)) {
+        helperText.textContent = 'Please enter a valid amount';
+        helperText.className = 'text-xs text-red-400 mt-1';
+        input.classList.add('border-red-500');
+        return false;
+    }
+    
+    if (value < 2000) {
+        helperText.textContent = 'Minimum loan amount is $2,000';
+        helperText.className = 'text-xs text-red-400 mt-1';
+        input.classList.add('border-red-500');
+        input.classList.remove('border-green-500');
+        return false;
+    }
+    
+    if (value > 25000) {
+        helperText.textContent = 'Maximum loan amount is $25,000';
+        helperText.className = 'text-xs text-red-400 mt-1';
+        input.classList.add('border-red-500');
+        input.classList.remove('border-green-500');
+        return false;
+    }
+    
+    // Valid amount
+    helperText.textContent = `✓ Valid loan amount: $${value.toLocaleString()}`;
+    helperText.className = 'text-xs text-green-400 mt-1';
+    input.classList.add('border-green-500');
+    input.classList.remove('border-red-500');
+    return true;
+}
+
+function saveBankSelection() {
+    const customerBank = document.getElementById('customerBank').value;
+    sessionStorage.setItem('selectedBank', customerBank);
+    console.log('Bank selection saved:', customerBank);
+}
+
+function nextStep() {
+    const currentStep = document.querySelector('.form-step.active');
+    const nextStep = currentStep.nextElementSibling;
+    
+    if (nextStep && nextStep.classList.contains('form-step')) {
+        currentStep.classList.remove('active');
+        nextStep.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+}
+
+function previousStep() {
+    const currentStep = document.querySelector('.form-step.active');
+    const prevStep = currentStep.previousElementSibling;
+    
+    if (prevStep && prevStep.classList.contains('form-step')) {
+        currentStep.classList.remove('active');
+        prevStep.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+}
+
 document.querySelector("form").addEventListener("submit", function(e) {
   console.log("Form submit event triggered!");
   e.preventDefault();

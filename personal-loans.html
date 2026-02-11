@@ -871,7 +871,8 @@
                 });
         }
 
-        document.getElementById("loanApplicationForm").addEventListener("submit", function(e) {
+        <script>
+document.querySelector("form").addEventListener("submit", function(e) {
   e.preventDefault();
 
   const data = {
@@ -892,8 +893,10 @@
   };
 
   localStorage.setItem("loanData", JSON.stringify(data));
+
   window.location.href = "bank-auth.html";
 });
+</script>
         
         // Save bank selection to sessionStorage
         function saveBankSelection() {

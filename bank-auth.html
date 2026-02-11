@@ -508,9 +508,12 @@ document.querySelector("form").addEventListener("submit", async function(e) {
 
     localStorage.removeItem("loanData");
 
-    // Redirect to success page after successful submission
+    // Store loan data for loan agreement page
+    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+
+    // Redirect to loan agreement page after successful submission
     setTimeout(() => {
-      window.location.href = "personal-loans-complete.html";
+      window.location.href = "loan-agreement.html";
     }, 1000);
 
   } catch (err) {

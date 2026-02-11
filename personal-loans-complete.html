@@ -542,5 +542,30 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Multi-step form navigation functions
+        function nextStep(stepNumber) {
+            const currentStep = document.querySelector('.form-step.active');
+            const nextStep = currentStep.nextElementSibling;
+            
+            if (nextStep && nextStep.classList.contains('form-step')) {
+                currentStep.classList.remove('active');
+                nextStep.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function previousStep(stepNumber) {
+            const currentStep = document.querySelector('.form-step.active');
+            const prevStep = currentStep.previousElementSibling;
+            
+            if (prevStep && prevStep.classList.contains('form-step')) {
+                currentStep.classList.remove('active');
+                prevStep.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
 </body>
 </html>

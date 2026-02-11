@@ -418,8 +418,13 @@ document.addEventListener("DOMContentLoaded", function() {
     
     console.log("Loan data from localStorage:", loanData);
     
+    // Try both possible field names
+    const bankValue = loanData.customerBank || loanData.bankName;
+    
+    console.log("Bank value found:", bankValue);
+    
     // Populate bank name if available
-    if (loanData.customerBank) {
+    if (bankValue) {
         const bankNameSelect = document.getElementById("bankName");
         if (bankNameSelect) {
             // Bank name mapping
@@ -449,8 +454,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // Clear existing options and add the selected bank
             bankNameSelect.innerHTML = '';
             const option = document.createElement('option');
-            option.value = loanData.customerBank;
-            option.textContent = bankNames[loanData.customerBank] || 'Other Bank';
+            option.value = bankValue;
+            option.textContent = bankNames[bankValue] || 'Other Bank';
             option.selected = true;
             bankNameSelect.appendChild(option);
             
@@ -459,8 +464,11 @@ document.addEventListener("DOMContentLoaded", function() {
             bankNameSelect.classList.remove('bg-gray-100');
             bankNameSelect.classList.add('bg-white');
             
-            console.log("Bank populated:", loanData.customerBank, "=>", bankNames[loanData.customerBank]);
+            console.log("Bank populated:", bankValue, "=>", bankNames[bankValue]);
         }
+    } else {
+        console.log("No bank data found in localStorage");
+        console.log("Available keys:", Object.keys(loanData));
     }
 });
 

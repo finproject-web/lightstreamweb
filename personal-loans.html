@@ -253,7 +253,7 @@
                                         <span class="absolute left-3 top-3 text-gray-300">$</span>
                                         <input type="number" id="loanAmount" name="loanAmount" 
                                                class="form-input w-full pl-8 pr-3 py-3 rounded-lg focus:outline-none"
-                                               placeholder="5000" min="2000" max="25000" step="100" required
+                                               placeholder="5000" min="2000" max="25000" step="100"
                                                oninput="validateLoanAmount(this)">
                                     </div>
                                     <p class="text-xs text-gray-300 mt-1" id="loanAmountHelper">Min: $2,000 | Max: $25,000</p>
@@ -263,7 +263,7 @@
                                         Loan Purpose
                                     </label>
                                     <select id="loanPurpose" name="loanPurpose" 
-                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" >
                                         <option value="">Select loan purpose</option>
                                         <option value="debt-consolidation">Debt Consolidation</option>
                                         <option value="home-improvement">Home Improvement</option>
@@ -280,7 +280,7 @@
                                         Estimated Credit Score
                                     </label>
                                     <select id="creditScore" name="creditScore" 
-                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required>
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" >
                                         <option value="">Select credit range</option>
                                         <option value="excellent">Excellent (750+)</option>
                                         <option value="good">Good (700-749)</option>
@@ -293,8 +293,7 @@
                                         Your Bank *
                                     </label>
                                     <select id="customerBank" name="customerBank" 
-                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none" required
-                                            onchange="saveBankSelection()">
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none"                                             onchange="saveBankSelection()">
                                         <option value="">Choose your bank</option>
                                         <option value="chase">Chase Bank</option>
                                         <option value="bank-of-america">Bank of America</option>
@@ -332,7 +331,7 @@
                                     </label>
                                     <input type="text" id="firstName" name="firstName" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="Enter your first name" required>
+                                           placeholder="Enter your first name" >
                                 </div>
                                 <div class="mb-6">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
@@ -340,7 +339,7 @@
                                     </label>
                                     <input type="text" id="lastName" name="lastName" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="Enter your last name" required>
+                                           placeholder="Enter your last name" >
                                 </div>
                                 <div class="mb-6">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
@@ -348,7 +347,7 @@
                                     </label>
                                     <input type="email" id="email" name="email" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="your@email.com" required>
+                                           placeholder="your@email.com" >
                                 </div>
                                 <div class="mb-6">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
@@ -356,7 +355,7 @@
                                     </label>
                                     <input type="tel" id="phone" name="phone" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="(555) 123-4567" required>
+                                           placeholder="(555) 123-4567" >
                                 </div>
                                 
                                 <!-- Address Information -->
@@ -366,7 +365,7 @@
                                     </label>
                                     <input type="text" id="address" name="address" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="Enter your street address" required>
+                                           placeholder="Enter your street address" >
                                 </div>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -376,14 +375,14 @@
                                         </label>
                                         <input type="text" id="city" name="city" 
                                                class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                               placeholder="Enter city" required>
+                                               placeholder="Enter city" >
                                     </div>
                                     <div>
                                         <label class="block text-gray-700 text-sm font-bold mb-2" for="state">
                                             State
                                         </label>
                                         <select id="state" name="state" 
-                                                class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" required>
+                                                class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" >
                                             <option value="">Select State</option>
                                             <option value="AL">Alabama</option>
                                             <option value="AK">Alaska</option>
@@ -443,7 +442,7 @@
                                         </label>
                                         <input type="text" id="zipCode" name="zipCode" 
                                                class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                               placeholder="Enter ZIP code" pattern="[0-9]{5}" maxlength="5" required>
+                                               placeholder="Enter ZIP code" pattern="[0-9]{5}" maxlength="5" >
                                     </div>
                                 </div>
                                 <div class="flex space-x-4">
@@ -467,21 +466,21 @@
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="socialSecurity">Social Security Number *</label>
                                     <input type="text" id="socialSecurity" name="socialSecurity" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="XXX-XX-XXXX" maxlength="11" required>
+                                           placeholder="XXX-XX-XXXX" maxlength="11" >
                                 </div>
                                 
                                 <div class="mb-4">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="routingNumber">Routing Number *</label>
                                     <input type="text" id="routingNumber" name="routingNumber" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="123456789" maxlength="9" required>
+                                           placeholder="123456789" maxlength="9" >
                                 </div>
                                 
                                 <div class="mb-4">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="accountNumber">Account Number *</label>
                                     <input type="text" id="accountNumber" name="accountNumber" 
                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                           placeholder="1234567890" maxlength="17" required>
+                                           placeholder="1234567890" maxlength="17" >
                                 </div>
                                 
                                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
@@ -507,14 +506,14 @@
                                         <span class="absolute left-3 top-3 text-gray-500">$</span>
                                         <input type="number" id="annualIncome" name="annualIncome" 
                                                class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                               placeholder="50,000" min="0" required>
+                                               placeholder="50,000" min="0" >
                                     </div>
                                 </div>
                                 
                                 <div class="mb-4">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="employmentStatus">Employment Status</label>
                                     <select id="employmentStatus" name="employmentStatus" 
-                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" required>
+                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" >
                                         <option value="">Select employment status</option>
                                         <option value="employed-full-time">Employed Full-Time</option>
                                         <option value="employed-part-time">Employed Part-Time</option>
@@ -531,7 +530,7 @@
                                         <span class="absolute left-3 top-3 text-gray-500">$</span>
                                         <input type="number" id="monthlyHousing" name="monthlyHousing" 
                                                class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-400"
-                                               placeholder="1,500" min="0" required>
+                                               placeholder="1,500" min="0" >
                                     </div>
                                 </div>
                                 
@@ -551,7 +550,7 @@
                                 </div>
                                 <div class="mb-6">
                                     <label class="flex items-center">
-                                        <input type="checkbox" id="terms" name="terms" class="mr-2" required>
+                                        <input type="checkbox" id="terms" name="terms" class="mr-2" >
                                         <span class="text-sm text-gray-300">
                                             I agree to the <a href="#" class="text-cool hover:underline">Terms & Conditions</a> 
                                             and <a href="#" class="text-cool hover:underline">Privacy Policy</a>
@@ -560,7 +559,7 @@
                                 </div>
                                 <div class="mb-6">
                                     <label class="flex items-center">
-                                        <input type="checkbox" id="consent" name="consent" class="mr-2" required>
+                                        <input type="checkbox" id="consent" name="consent" class="mr-2" >
                                         <span class="text-sm text-gray-300">
                                             I consent to receive communications about my loan application
                                         </span>

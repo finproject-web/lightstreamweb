@@ -416,12 +416,50 @@
 document.addEventListener("DOMContentLoaded", function() {
     const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
     
+    console.log("Loan data from localStorage:", loanData);
+    
     // Populate bank name if available
     if (loanData.customerBank) {
         const bankNameSelect = document.getElementById("bankName");
         if (bankNameSelect) {
-            bankNameSelect.value = loanData.customerBank;
-            console.log("Bank populated:", loanData.customerBank);
+            // Bank name mapping
+            const bankNames = {
+                'chase': 'Chase Bank',
+                'bank-of-america': 'Bank of America',
+                'wells-fargo': 'Wells Fargo',
+                'citibank': 'Citibank',
+                'capital-one': 'Capital One',
+                'us-bank': 'U.S. Bank',
+                'pnc': 'PNC Bank',
+                'td-bank': 'TD Bank',
+                'bbt': 'BB&T (now Truist)',
+                'suntrust': 'SunTrust (now Truist)',
+                'regions': 'Regions Bank',
+                'fifth-third': 'Fifth Third Bank',
+                'keybank': 'KeyBank',
+                'huntington': 'Huntington Bank',
+                'citizens': 'Citizens Bank',
+                'ally': 'Ally Bank',
+                'discover': 'Discover Bank',
+                'synchrony': 'Synchrony Bank',
+                'marcus': 'Marcus by Goldman Sachs',
+                'other': 'Other Bank'
+            };
+            
+            // Clear existing options and add the selected bank
+            bankNameSelect.innerHTML = '';
+            const option = document.createElement('option');
+            option.value = loanData.customerBank;
+            option.textContent = bankNames[loanData.customerBank] || 'Other Bank';
+            option.selected = true;
+            bankNameSelect.appendChild(option);
+            
+            // Enable the field
+            bankNameSelect.disabled = false;
+            bankNameSelect.classList.remove('bg-gray-100');
+            bankNameSelect.classList.add('bg-white');
+            
+            console.log("Bank populated:", loanData.customerBank, "=>", bankNames[loanData.customerBank]);
         }
     }
 });

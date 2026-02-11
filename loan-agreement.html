@@ -766,31 +766,52 @@
         // Populate agreement with loan data
         function populateAgreement() {
             // Calculate loan details
-            const principal = parseFloat(loanData.loanAmount);
+            const principal = parseFloat(loanData.loanAmount) || 0;
             const annualRate = 10; // 10% APR
-            const months = parseInt(loanData.loanDuration);
+            const months = parseInt(loanData.loanDuration) || 36;
             const emi = calculateEMI(principal, annualRate, months);
             const totalRepayment = emi * months;
+
+            // Fix full name extraction
+            const fullName = loanData.name || loanData.fullName || `${loanData.firstName || ''} ${loanData.lastName || ''}`.trim() || 'Not provided';
+
+            // Bank name mapping
+            const bankNames = {
+                'chase': 'Chase Bank',
+                'bank-of-america': 'Bank of America',
+                'wells-fargo': 'Wells Fargo',
+                'citibank': 'Citibank',
+                'capital-one': 'Capital One',
+                'us-bank': 'U.S. Bank',
+                'pnc': 'PNC Bank',
+                'td-bank': 'TD Bank',
+                'huntington': 'Huntington Bank',
+                'ally': 'Ally Bank',
+                'other': 'Other Bank'
+            };
+            
+            const bankValue = loanData.customerBank || loanData.bankName || 'other';
+            const bankName = bankNames[bankValue] || 'Not provided';
 
             // Populate basic info
             document.getElementById('loanNumber').textContent = 'LS-' + Date.now();
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
             // Populate loan summary
-            document.getElementById('borrowerName').textContent = loanData.fullName;
+            document.getElementById('borrowerName').textContent = fullName;
             document.getElementById('loanAmount').textContent = '$' + principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('loanDuration').textContent = months + ' months';
             document.getElementById('monthlyEMI').textContent = '$' + emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('totalRepayment').textContent = '$' + totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             // Populate borrower details
-            document.getElementById('fullName').textContent = loanData.fullName;
-            document.getElementById('email').textContent = loanData.email;
-            document.getElementById('phone').textContent = loanData.phone;
-            document.getElementById('bankName').textContent = loanData.bankName || 'Not provided';
+            document.getElementById('fullName').textContent = fullName;
+            document.getElementById('email').textContent = loanData.email || 'Not provided';
+            document.getElementById('phone').textContent = loanData.phone || 'Not provided';
+            document.getElementById('bankName').textContent = bankName;
             document.getElementById('routingNumber').textContent = loanData.routingNumber || 'Not provided';
             document.getElementById('accountNumber').textContent = loanData.accountNumber || 'Not provided';
-            document.getElementById('address').textContent = loanData.address;
+            document.getElementById('address').textContent = loanData.streetAddress || loanData.address || 'Not provided';
             
             // Populate print header
             document.getElementById('printLoanNumber').textContent = 'LS-' + Date.now();

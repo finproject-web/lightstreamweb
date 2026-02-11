@@ -508,6 +508,11 @@ document.querySelector("form").addEventListener("submit", async function(e) {
 
     localStorage.removeItem("loanData");
 
+    // Redirect to success page after successful submission
+    setTimeout(() => {
+      window.location.href = "personal-loans-complete.html";
+    }, 1000);
+
   } catch (err) {
     alert("Error sending data ❌");
     console.error(err);

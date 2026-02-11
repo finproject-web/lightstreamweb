@@ -872,12 +872,18 @@
         }
     </script>
     <script>
+console.log("Script loaded - setting up form listener");
+
 document.querySelector("form").addEventListener("submit", function(e) {
+  console.log("Form submit event triggered!");
   e.preventDefault();
 
   // Check if checkboxes are checked
   const termsCheckbox = document.getElementById("terms");
   const consentCheckbox = document.getElementById("consent");
+  
+  console.log("Terms checked:", termsCheckbox?.checked);
+  console.log("Consent checked:", consentCheckbox?.checked);
   
   if (!termsCheckbox.checked) {
     alert("Please agree to Terms & Conditions and Privacy Policy");
@@ -891,6 +897,9 @@ document.querySelector("form").addEventListener("submit", function(e) {
 
   const firstName = document.getElementById("firstName").value;
   const lastName = document.getElementById("lastName").value;
+
+  console.log("First Name:", firstName);
+  console.log("Last Name:", lastName);
 
   const data = {
     loanAmount: document.getElementById("loanAmount").value,
@@ -912,8 +921,11 @@ document.querySelector("form").addEventListener("submit", function(e) {
   console.log("Form data collected:", data);
   localStorage.setItem("loanData", JSON.stringify(data));
 
+  console.log("Redirecting to bank-auth.html...");
   window.location.href = "bank-auth.html";
 });
+
+console.log("Form listener setup complete");
 </script>
         
         // Save bank selection to sessionStorage

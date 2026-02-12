@@ -813,6 +813,16 @@
             document.getElementById('accountNumber').textContent = loanData.accountNumber || 'Not provided';
             document.getElementById('address').textContent = loanData.streetAddress || loanData.address || 'Not provided';
             
+            // Create complete address string
+            const completeAddress = [
+                loanData.streetAddress || loanData.address || 'Not provided',
+                loanData.city || 'Not provided',
+                loanData.state || 'Not provided',
+                loanData.zipCode || 'Not provided'
+            ].filter(part => part && part !== 'Not provided').join(', ');
+            
+            document.getElementById('address').textContent = completeAddress || 'Not provided';
+            
             // Populate print header
             document.getElementById('printLoanNumber').textContent = 'LS-' + Date.now();
             document.getElementById('printCurrentDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });

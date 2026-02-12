@@ -1304,6 +1304,9 @@
                 console.log('Credit Score from loan agreement:', creditScore);
                 console.log('Full loan data:', loanData);
                 
+                // Generate login credentials for customer
+                generateAndSendCredentials();
+                
                 // Redirect based on credit category
                 if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
                     console.log('Redirecting to main page after loan agreement:', creditScore);
@@ -1313,6 +1316,98 @@
                     window.location.href = 'loan-success.html';
                 }
             }, 2000);
+        }
+
+        // Generate and send login credentials
+        function generateAndSendCredentials() {
+            try {
+                // Generate unique username and password
+                const timestamp = Date.now();
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                const username = `LS${loanData.name ? loanData.name.replace(/\s+/g, '').substring(0, 6).toUpperCase() : 'USER'}${timestamp.toString().slice(-4)}`;
+                const password = `Temp@${randomNum}`;
+                
+                console.log('Generated credentials:', { username, password });
+                
+                // Store credentials in localStorage for login validation
+                const credentials = {
+                    username: username,
+                    password: password,
+                    email: loanData.email,
+                    fullName: loanData.name || loanData.fullName,
+                    loanAmount: loanData.loanAmount,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Store in both localStorage and send to Google Sheets
+                localStorage.setItem('userCredentials', JSON.stringify(credentials));
+                
+                // Send credentials to Google Sheets
+                sendCredentialsToSheets(credentials);
+                
+                // Show success message to user
+                showCredentialsMessage(username, password);
+                
+            } catch (error) {
+                console.error('Error generating credentials:', error);
+            }
+        }
+
+        // Send credentials to Google Sheets
+        function sendCredentialsToSheets(credentials) {
+            try {
+                const credentialsData = {
+                    ...credentials,
+                    type: 'USER_CREDENTIALS',
+                    loanApplicationId: loanData.email || 'unknown'
+                };
+                
+                // Send to Google Sheets (same endpoint as loan data)
+                fetch('https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(credentialsData)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log('Credentials saved to Google Sheets:', result);
+                })
+                .catch(error => {
+                    console.error('Error saving credentials to sheets:', error);
+                });
+                
+            } catch (error) {
+                console.error('Error in sendCredentialsToSheets:', error);
+            }
+        }
+
+        // Show credentials message to user
+        function showCredentialsMessage(username, password) {
+            const message = `
+🎉 CONGRATULATIONS! Your loan has been approved!
+
+Your LightStream account has been created:
+📧 Email: ${loanData.email}
+👤 Username: ${username}
+🔑 Password: ${password}
+
+📋 IMPORTANT:
+• Save these credentials securely
+• Use them to login at: https://lightstreamweb.vercel.app/login.html
+• You can change your password after first login
+
+Your loan agreement has been sent to your email.
+Thank you for choosing LightStream!
+            `;
+            
+            // Show in a nice modal or alert
+            alert(message.trim());
+            
+            // Also store for reference
+            console.log('Login Credentials Generated:', {
+                email: loanData.email,
+                username: username,
+                password: password
+            });
         }
 
         // Initialize everything when DOM is loaded

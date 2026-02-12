@@ -510,7 +510,7 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     const result = await res.text();
     console.log("Google Sheet Response:", result);
 
-    alert("Form submitted successfully ✅");
+    alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
 
     localStorage.removeItem("loanData");
 

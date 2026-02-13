@@ -328,20 +328,19 @@
 
         function loadCustomerDashboard() {
             try {
-                // Get current user from sessionStorage
-                const currentUser = sessionStorage.getItem('currentUser');
+                // Get loan application data from localStorage (this has all the details)
                 const loanApplicationData = localStorage.getItem('loanApplicationData');
+                const currentUser = sessionStorage.getItem('currentUser');
                 
-                if (!currentUser && !loanApplicationData) {
-                    alert('No user session found. Please login again.');
-                    window.location.href = 'login.html';
+                if (!loanApplicationData) {
+                    alert('No loan application data found. Please complete your application first.');
+                    window.location.href = 'personal-loans.html';
                     return;
                 }
                 
-                // Parse user data
-                const userData = currentUser ? JSON.parse(currentUser) : JSON.parse(loanApplicationData);
-                
-                console.log('Loading dashboard with data:', userData);
+                // Parse loan application data (this has all the customer details)
+                const userData = JSON.parse(loanApplicationData);
+                console.log('Loading dashboard with loan data:', userData);
                 
                 // Populate personal information
                 document.getElementById('customerName').textContent = userData.fullName || userData.name || 'Customer';
@@ -380,9 +379,10 @@
                 document.getElementById('accountNumber').textContent = userData.accountNumber ? `****${userData.accountNumber.slice(-4)}` : 'Not provided';
                 document.getElementById('annualIncome').textContent = userData.annualIncome ? `$${parseFloat(userData.annualIncome).toLocaleString()}` : 'Not provided';
                 
-                // Populate account security
-                document.getElementById('username').textContent = userData.username || 'Not provided';
-                document.getElementById('accountCreated').textContent = userData.createdAt ? new Date(userData.createdAt).toLocaleDateString() : 'Not provided';
+                // Populate account security (from currentUser if available, otherwise from loan data)
+                const credentials = currentUser ? JSON.parse(currentUser) : userData;
+                document.getElementById('username').textContent = credentials.username || 'Not provided';
+                document.getElementById('accountCreated').textContent = credentials.createdAt || userData.createdAt ? new Date(credentials.createdAt || userData.createdAt).toLocaleDateString() : 'Not provided';
                 
                 // Update status based on agreement data
                 const agreementData = sessionStorage.getItem('loanAgreementData');

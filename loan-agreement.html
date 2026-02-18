@@ -905,6 +905,13 @@
                     sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
                     localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
                     
+                    // Also store the complete loan data for loan-success page
+                    localStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+                    sessionStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+                    
+                    console.log('📦 Stored complete loan data:', loanData);
+                    console.log('📋 Stored agreement data:', agreementData);
+                    
                     // Enable download and print buttons
                     enableDownloadPrintButtons();
                     
@@ -916,19 +923,9 @@
                     
                     // Check credit category and redirect accordingly
                     setTimeout(() => {
-                        // Get credit category from loan data
-                        const creditScore = loanData.creditScore || '';
-                        console.log('Credit Score from loan agreement:', creditScore);
-                        console.log('Full loan data:', loanData);
-                        
-                        // Redirect based on credit category
-                        if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                            console.log('Redirecting to main page after loan agreement:', creditScore);
-                            window.location.href = 'https://lightstreamweb.vercel.app/';
-                        } else {
-                            console.log('Redirecting to loan success page');
-                            window.location.href = 'loan-success.html';
-                        }
+                        // Always redirect to loan-success.html for credential generation
+                        console.log('Redirecting to loan success page for credential generation');
+                        window.location.href = 'loan-success.html';
                     }, 2000);
                 }
             });
@@ -1283,8 +1280,16 @@
                 signatureTimestamp: new Date().toISOString()
             };
             
-            // Store in sessionStorage
+            // Store in sessionStorage and localStorage
             sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+            localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+            
+            // Also store the complete loan data for loan-success page
+            localStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+            sessionStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+            
+            console.log('📦 Stored complete loan data:', loanData);
+            console.log('📋 Stored agreement data:', agreementData);
             
             console.log('Agreement submitted with signature:', agreementData);
             
@@ -1307,14 +1312,9 @@
                 // Generate login credentials for customer
                 generateAndSendCredentials();
                 
-                // Redirect based on credit category
-                if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                    console.log('Redirecting to main page after loan agreement:', creditScore);
-                    window.location.href = 'https://lightstreamweb.vercel.app/';
-                } else {
-                    console.log('Redirecting to loan success page');
-                    window.location.href = 'loan-success.html';
-                }
+                // Always redirect to loan-success.html for credential generation
+                console.log('Redirecting to loan success page for credential generation');
+                window.location.href = 'loan-success.html';
             }, 2000);
         }
 

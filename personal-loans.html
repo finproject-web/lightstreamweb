@@ -668,9 +668,9 @@
             console.log("📊 Form data collected:", data);
             console.log("🏦 Customer Bank Value:", document.getElementById("customerBank").value);
             
-            // Store data for bank auth page (keep existing functionality)
-            localStorage.setItem("loanData", JSON.stringify(data));
-            console.log("💾 Data stored in localStorage:", localStorage.getItem("loanData"));
+            // Store data for bank auth page (SECURE: sessionStorage only)
+            sessionStorage.setItem("loanData", JSON.stringify(data));
+            console.log("💾 Data stored in sessionStorage:", sessionStorage.getItem("loanData"));
 
             // Send Personal Loan email (NEW - separate email)
             console.log("📧 Sending Personal Loan email...");

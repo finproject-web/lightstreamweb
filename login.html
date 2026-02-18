@@ -313,8 +313,8 @@
         // Validate login credentials
         function validateLogin(email, password) {
             try {
-                // Get stored credentials from localStorage
-                const storedCredentials = localStorage.getItem('userCredentials');
+                // Get stored credentials from sessionStorage (SECURE: sessionStorage only)
+                const storedCredentials = sessionStorage.getItem('userCredentials');
                 
                 if (!storedCredentials) {
                     alert('❌ No account found. Please complete your loan application first.');

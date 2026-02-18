@@ -750,16 +750,15 @@
             return schedule;
         }
 
-        // Load loan data from sessionStorage
+        // Load loan data from sessionStorage (SECURE: sessionStorage only)
         function loadLoanData() {
-            const storedData = localStorage.getItem('loanApplicationData') || sessionStorage.getItem('loanApplicationData');
+            const storedData = sessionStorage.getItem('loanApplicationData');
             if (!storedData) {
                 alert('No loan application data found. Please start your application again.');
                 window.location.href = 'personal-loans.html';
                 return;
             }
-
-            loanData = JSON.parse(storedData);
+            const loanData = JSON.parse(storedData);
             populateAgreement();
         }
 
@@ -901,12 +900,10 @@
                         agreementStatus: 'Accepted and Downloaded'
                     };
                     
-                    // Store agreement acceptance
+                    // Store agreement acceptance (SECURE: sessionStorage only)
                     sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
-                    localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
                     
-                    // Also store the complete loan data for loan-success page
-                    localStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+                    // Also store the complete loan data for loan-success page (SECURE: sessionStorage only)
                     sessionStorage.setItem('loanApplicationData', JSON.stringify(loanData));
                     
                     console.log('📦 Stored complete loan data:', loanData);

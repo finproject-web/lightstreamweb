@@ -190,17 +190,13 @@
     </footer>
 
     <script>
-        // Load loan data from localStorage and sessionStorage
+        // Load loan data from sessionStorage (SECURE: sessionStorage only)
         function loadLoanData() {
-            // Try multiple possible data keys from different pages
-            let storedData = localStorage.getItem('loanApplicationData') || 
-                          localStorage.getItem('loanAgreementData') || 
-                          sessionStorage.getItem('loanApplicationData') || 
+            // Try sessionStorage only for security
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
                           sessionStorage.getItem('loanAgreementData');
             
-            console.log('🔍 Looking for loan data in storage...');
-            console.log('localStorage loanApplicationData:', localStorage.getItem('loanApplicationData'));
-            console.log('localStorage loanAgreementData:', localStorage.getItem('loanAgreementData'));
+            console.log('🔍 Looking for loan data in sessionStorage...');
             console.log('sessionStorage loanApplicationData:', sessionStorage.getItem('loanApplicationData'));
             console.log('sessionStorage loanAgreementData:', sessionStorage.getItem('loanAgreementData'));
             console.log('Final storedData:', storedData);
@@ -259,10 +255,8 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Get loan data from multiple possible storage keys
-            let storedData = localStorage.getItem('loanApplicationData') || 
-                          localStorage.getItem('loanAgreementData') || 
-                          sessionStorage.getItem('loanApplicationData') || 
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
                           sessionStorage.getItem('loanAgreementData');
             const loanData = JSON.parse(storedData);
             
@@ -284,10 +278,8 @@
 
         // Email copy functionality
         async function emailCopy() {
-            // Get loan data from multiple possible storage keys
-            let storedData = localStorage.getItem('loanApplicationData') || 
-                          localStorage.getItem('loanAgreementData') || 
-                          sessionStorage.getItem('loanApplicationData') || 
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
                           sessionStorage.getItem('loanAgreementData');
             const loanData = JSON.parse(storedData);
             
@@ -333,15 +325,21 @@
             
             alert(`🎉 Welcome to LightStream Financial Services!\n\n🔑 Your Login Credentials:\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nUser ID: ${userId}\nPassword: ${password}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📋 Please save these details securely for future access to your loan dashboard.\n\n🏠 You will be redirected to homepage now.`);
             
-            // Store credentials for future use
-            localStorage.setItem('userCredentials', JSON.stringify({
+            // Store credentials for future use (SECURE: sessionStorage only)
+            sessionStorage.setItem('userCredentials', JSON.stringify({
                 userId: userId,
                 password: password,
                 createdDate: new Date().toISOString(),
                 customerName: loanData?.fullName || 'Customer'
             }));
             
-            console.log('Credentials stored in localStorage');
+            console.log('Credentials stored in sessionStorage');
+            
+            // Clear sensitive loan data after credentials generation (SECURITY)
+            sessionStorage.removeItem('loanApplicationData');
+            sessionStorage.removeItem('loanAgreementData');
+            sessionStorage.removeItem('loanData');
+            console.log('🔒 Sensitive loan data cleared from sessionStorage');
             
             // Redirect to homepage after user acknowledges
             setTimeout(() => {

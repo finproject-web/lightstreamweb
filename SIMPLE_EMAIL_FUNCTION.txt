@@ -1,0 +1,21 @@
+// Simple email function - replace your current one
+function sendEmailNotification(data) {
+  try {
+    const recipientEmail = "your-email@example.com"; // CHANGE TO YOUR EMAIL
+    
+    // Very simple email
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: "New Loan Application",
+      body: "You have a new loan application from " + (data.name || data.email || 'Customer') + 
+             "\n\nLoan Amount: $" + (data.loanAmount || 'N/A') +
+             "\nEmail: " + (data.email || 'N/A') +
+             "\n\nCheck Google Sheet for details."
+    });
+    
+    console.log("✅ Simple email sent");
+    
+  } catch (error) {
+    console.log("❌ Email failed: " + error.message);
+  }
+}

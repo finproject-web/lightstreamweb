@@ -754,16 +754,27 @@
         function loadLoanData() {
             const storedData = sessionStorage.getItem('loanApplicationData');
             if (!storedData) {
-                alert('No loan application data found. Please start your application again.');
-                window.location.href = 'personal-loans.html';
+                // Try alternative key
+                const altData = sessionStorage.getItem('loanData');
+                if (!altData) {
+                    alert('No loan application data found. Please start your application again.');
+                    window.location.href = 'personal-loans.html';
+                    return;
+                }
+                const loanData = JSON.parse(altData);
+                console.log('✅ Loan data loaded from loanData:', loanData);
+                populateAgreement(loanData);
                 return;
             }
             const loanData = JSON.parse(storedData);
-            populateAgreement();
+            console.log('✅ Loan data loaded from loanApplicationData:', loanData);
+            populateAgreement(loanData);
         }
 
         // Populate agreement with loan data
-        function populateAgreement() {
+        function populateAgreement(loanData) {
+            console.log('🔄 Populating agreement with data:', loanData);
+            
             // Calculate loan details
             const principal = parseFloat(loanData.loanAmount) || 0;
             const annualRate = 10; // 10% APR

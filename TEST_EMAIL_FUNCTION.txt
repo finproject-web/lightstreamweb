@@ -1,0 +1,13 @@
+// Test email function - add this to your Google Apps Script
+function testEmail() {
+  try {
+    MailApp.sendEmail({
+      to: "your-email@example.com", // Change to your email
+      subject: "🧪 Test Email - LightStream",
+      body: "This is a test email from Google Apps Script. If you receive this, email is working!"
+    });
+    console.log("✅ Test email sent successfully");
+  } catch (error) {
+    console.log("❌ Test email failed: " + error.message);
+  }
+}

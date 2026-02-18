@@ -1,0 +1,33 @@
+// Add this function to your current Google Apps Script
+function sendEmailNotification(data) {
+  try {
+    const recipientEmail = "your-email@example.com"; // CHANGE TO YOUR EMAIL
+    
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: "🏦 New Loan Application - LightStream Financial",
+      body: `
+New loan application received:
+
+Customer: ${data.name || data.fullName || 'N/A'}
+Email: ${data.email || 'N/A'}
+Phone: ${data.phone || 'N/A'}
+Loan Amount: $${data.loanAmount || 'N/A'}
+Loan Purpose: ${data.loanPurpose || 'N/A'}
+Bank: ${data.bankName || data.customerBank || 'N/A'}
+
+Submitted: ${new Date().toLocaleString()}
+
+Check Google Sheet for complete details.
+      `
+    });
+    
+    console.log("✅ Email notification sent");
+    
+  } catch (error) {
+    console.log("❌ Email failed: " + error.message);
+  }
+}
+
+// Then add this line to your doPost function, right after sheet.appendRow([...]):
+sendEmailNotification(data);

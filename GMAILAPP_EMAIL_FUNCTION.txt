@@ -1,0 +1,25 @@
+// GmailApp version - try this if MailApp doesn't work
+function sendEmailNotification(data) {
+  try {
+    const recipientEmail = "your-email@example.com"; // CHANGE TO YOUR EMAIL
+    
+    // Using GmailApp instead of MailApp
+    GmailApp.sendEmail(
+      recipientEmail,
+      "New Loan Application - LightStream",
+      "New application received:\n\nName: " + (data.name || 'N/A') + 
+      "\nEmail: " + (data.email || 'N/A') + 
+      "\nLoan Amount: $" + (data.loanAmount || 'N/A')
+    );
+    
+    console.log("✅ GmailApp email sent");
+    
+  } catch (error) {
+    console.log("❌ GmailApp failed: " + error.message);
+    
+    // Last resort - log to console
+    console.log("📧 Email would be sent to: " + recipientEmail);
+    console.log("📧 Customer: " + (data.name || data.email || 'N/A'));
+    console.log("📧 Loan Amount: $" + (data.loanAmount || 'N/A'));
+  }
+}

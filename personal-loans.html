@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Loans</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            important: true,
-            plugins: []
-        }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
@@ -751,24 +745,18 @@
         function submitPersonalLoanForm() {
             console.log('submitPersonalLoanForm() called!');
             
-            // Collect form data as JSON (not FormData)
-            const data = {};
+            // Collect form data
             const formData = new FormData(document.getElementById('loanApplicationForm'));
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
             
             // Add additional fields
-            data.timestamp = new Date().toISOString();
-            data.type = 'personal_loan';
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('type', 'personal_loan');
             
-            // Send to Google Apps Script as JSON
+            // Send to Google Apps Script using FormData (no CORS issues)
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
+                body: formData,
+                mode: 'no-cors'
             })
             .then(response => response.text())
             .then(result => {

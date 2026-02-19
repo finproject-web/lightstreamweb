@@ -47,33 +47,45 @@ function doPost(e) {
   }
 }
 
-// 📧 SIMPLE EMAIL FUNCTION (ORIGINAL WORKING VERSION)
+// 📧 SIMPLE EMAIL FUNCTION (UPDATED FOR CURRENT FIELDS)
 function sendEmailNotification(data) {
   try {
-    const recipientEmail = "finnfoxpersonalloan@gmail.com";
+    Logger.log("📧 Starting email function...");
+    Logger.log("📧 Data received: " + JSON.stringify(data));
     
-    MailApp.sendEmail({
-      to: recipientEmail,
-      subject: "🏦 New Loan Application - LightStream Financial",
-      body: `
-New loan application received:
+    const recipientEmail = "finnfoxpersonalloan@gmail.com";
+    Logger.log("📧 Recipient: " + recipientEmail);
+    
+    const subject = "🏦 New " + (data.type || "Loan") + " Application - LightStream Financial";
+    Logger.log("📧 Subject: " + subject);
+    
+    const body = `
+New ${data.type || "loan"} application received:
 
-Customer: ${data.name || data.fullName || 'N/A'}
+Customer: ${data.firstName || ''} ${data.lastName || ''}
 Email: ${data.email || 'N/A'}
 Phone: ${data.phone || 'N/A'}
 Loan Amount: $${data.loanAmount || 'N/A'}
 Loan Purpose: ${data.loanPurpose || 'N/A'}
-Bank: ${data.bankName || data.customerBank || 'N/A'}
+Bank: ${data.bankName || 'N/A'}
 
 Submitted: ${new Date().toLocaleString()}
 
 Check Google Sheet for complete details.
-      `
+    `;
+    
+    Logger.log("📧 Body prepared, sending email...");
+    
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: subject,
+      body: body
     });
     
-    console.log("✅ Email notification sent");
+    Logger.log("✅ Email notification sent successfully");
     
   } catch (error) {
-    console.log("❌ Email failed: " + error.message);
+    Logger.log("❌ Email failed: " + error.message);
+    Logger.log("❌ Error details: " + error.toString());
   }
 }

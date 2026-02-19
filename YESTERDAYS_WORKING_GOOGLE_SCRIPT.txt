@@ -6,7 +6,7 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Sheet1");
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Loan Applications");
     const data = JSON.parse(e.postData.contents);
 
     console.log("Received data:", data);

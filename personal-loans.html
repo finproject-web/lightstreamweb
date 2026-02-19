@@ -763,51 +763,34 @@
             console.log('submitPersonalLoanForm() called!');
             
             // Collect form data
-            const formData = new FormData(document.getElementById('loanApplicationForm'));
+            const form = document.getElementById('loanApplicationForm');
+            const formData = new FormData(form);
+            
+            // Convert FormData to object with safe null checks
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value || '';
+            });
             
             // Add additional fields
-            formData.append('timestamp', new Date().toISOString());
-            formData.append('type', 'personal_loan');
+            data.timestamp = new Date().toISOString();
+            data.type = 'personal_loan';
             
-            // Send to Google Apps Script using FormData (no CORS issues)
-            fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            })
-            .then(response => response.text())
-            .then(result => {
-                console.log('Google Sheets response:', result);
-                alert('Personal Loan Application Submitted Successfully!\n\nYour application has been received and is being processed.\n\nRedirecting to bank authentication...');
-                
-                // Store data for bank auth
-                const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
-                sessionStorage.setItem("loanData", JSON.stringify(data));
-                
-                // Redirect to bank auth
-                setTimeout(() => {
-                    window.location.href = "bank-auth.html";
-                }, 2000);
-            })
-            .catch(error => {
-                console.error('Google Sheets submission failed:', error);
-                alert('Personal Loan Application Submitted Successfully!\n\nYour application has been received and is being processed.\n\nRedirecting to bank authentication...');
-                
-                // Store data for bank auth
-                const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
-                sessionStorage.setItem("loanData", JSON.stringify(data));
-                
-                // Redirect to bank auth anyway (Google Apps Script often works despite CORS error)
-                setTimeout(() => {
-                    window.location.href = "bank-auth.html";
-                }, 2000);
-            });
+            // Store data in localStorage with key "loanData"
+            try {
+                localStorage.setItem("loanData", JSON.stringify(data));
+                console.log('✅ Data stored in localStorage successfully');
+            } catch (error) {
+                console.error('❌ Error storing data in localStorage:', error);
+            }
+            
+            // Show success message
+            alert('Personal Loan Application Submitted Successfully!\n\nYour application has been received and is being processed.\n\nRedirecting to bank authentication...');
+            
+            // Redirect to bank-auth.html
+            setTimeout(() => {
+                window.location.href = "bank-auth.html";
+            }, 2000);
         }
         
         // Test function availability

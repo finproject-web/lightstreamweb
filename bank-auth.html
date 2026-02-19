@@ -398,16 +398,16 @@
     </footer>
 
     <script>
-        // Load bank name from sessionStorage when page loads
+        // Load bank name from localStorage when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔍 Loading bank name from sessionStorage...');
+            console.log('🔍 Loading bank name from localStorage...');
             
             // Try multiple possible keys for bank name
-            const loanData = sessionStorage.getItem('loanData');
-            const bankName = sessionStorage.getItem('bankName');
-            const customerBank = sessionStorage.getItem('customerBank');
+            const loanData = localStorage.getItem('loanData');
+            const bankName = localStorage.getItem('bankName');
+            const customerBank = localStorage.getItem('customerBank');
             
-            console.log('📊 Available sessionStorage keys:', Object.keys(sessionStorage));
+            console.log('📊 Available localStorage keys:', Object.keys(localStorage));
             console.log('📊 loanData:', loanData);
             console.log('📊 bankName:', bankName);
             console.log('📊 customerBank:', customerBank);
@@ -445,7 +445,7 @@
                     console.error('❌ Bank dropdown not found');
                 }
             } else {
-                console.log('⚠️ No bank name found in sessionStorage');
+                console.log('⚠️ No bank name found in localStorage');
             }
         });
 
@@ -549,7 +549,7 @@
                 console.log('Google Sheets response:', result);
                 
                 // Check if user came from personal loan form
-                const loanData = sessionStorage.getItem('loanData');
+                const loanData = localStorage.getItem('loanData');
                 const hasLoanData = loanData && JSON.parse(loanData).loanAmount;
                 
                 console.log('🔍 Has loan data:', hasLoanData);
@@ -561,7 +561,7 @@
                     // Store combined data for loan agreement
                     const combinedData = JSON.parse(loanData);
                     combinedData.bankAuthCompleted = true;
-                    sessionStorage.setItem("loanApplicationData", JSON.stringify(combinedData));
+                    localStorage.setItem("loanApplicationData", JSON.stringify(combinedData));
                     
                     // Redirect to loan agreement page
                     setTimeout(() => {

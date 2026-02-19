@@ -1,0 +1,17 @@
+// Test email function - run this to verify email works
+function testEmailNow() {
+  try {
+    const recipientEmail = "finnfoxpersonalloan@gmail.com";
+    
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: "🧪 TEST EMAIL - LightStream Script Working",
+      body: "This is a test email from Google Apps Script. If you receive this, email notifications are working! 🎉"
+    });
+    
+    console.log("✅ Test email sent to " + recipientEmail);
+    
+  } catch (error) {
+    console.log("❌ Test email failed: " + error.message);
+  }
+}

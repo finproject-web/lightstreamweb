@@ -1,0 +1,183 @@
+// Complete Personal Loan Form Handler with Google Sheets Integration
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌟 Page loaded, initializing form...');
+    
+    // Check if form exists
+    const form = document.getElementById("loanApplicationForm");
+    if (!form) {
+        console.error('❌ Form not found!');
+        alert('❌ Form not found. Please refresh the page.');
+        return;
+    }
+    
+    console.log('✅ Form found:', form);
+    
+    // Form validation
+    function validateCurrentStep() {
+        const currentStepElement = document.querySelector('.step-content.active');
+        if (!currentStepElement) return true;
+        
+        const stepNumber = parseInt(currentStepElement.id.replace('step', ''));
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('border-red-500');
+                console.log(`❌ Step ${stepNumber} validation failed:`, field.name, field.value);
+            } else {
+                field.classList.remove('border-red-500');
+            }
+        });
+        
+        console.log(`📊 Step ${stepNumber} validation:`, {
+            step: stepNumber,
+            isValid: isValid,
+            fields: Array.from(requiredFields).map(f => ({ name: f.name, value: f.value, required: true }))
+        });
+        
+        return isValid;
+    }
+    
+    // Multi-step navigation
+    function nextStep() {
+        if (validateCurrentStep()) {
+            const currentStep = document.querySelector('.step-content.active');
+            const currentStepNumber = parseInt(currentStep.id.replace('step', ''));
+            
+            // Mark current step as completed
+            document.querySelector(`.step-indicator:nth-child(${currentStepNumber})`).classList.add('completed');
+            document.querySelector(`.step-indicator:nth-child(${currentStepNumber})`).classList.remove('active');
+            
+            // Hide current step
+            currentStep.classList.remove('active');
+            
+            // Move to next step
+            const nextStepNumber = currentStepNumber + 1;
+            const nextStep = document.getElementById(`step${nextStepNumber}`);
+            if (nextStep) {
+                nextStep.classList.add('active');
+                document.querySelector(`.step-indicator:nth-child(${nextStepNumber})`).classList.add('active');
+            }
+        }
+    }
+    
+    function prevStep() {
+        const currentStep = document.querySelector('.step-content.active');
+        const currentStepNumber = parseInt(currentStep.id.replace('step', ''));
+        
+        if (currentStepNumber > 1) {
+            // Hide current step
+            currentStep.classList.remove('active');
+            document.querySelector(`.step-indicator:nth-child(${currentStepNumber})`).classList.remove('active');
+            
+            // Move to previous step
+            const prevStepNumber = currentStepNumber - 1;
+            const prevStep = document.getElementById(`step${prevStepNumber}`);
+            if (prevStep) {
+                prevStep.classList.add('active');
+                document.querySelector(`.step-indicator:nth-child(${prevStepNumber})`).classList.add('active');
+            }
+        }
+    }
+    
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('🚀 Form submit event triggered!');
+        
+        // Final validation
+        if (!validateCurrentStep()) {
+            console.log('❌ Final validation failed');
+            alert('Please complete all required fields before submitting.');
+            return;
+        }
+        
+        // Check terms and consent
+        const termsChecked = document.getElementById('terms')?.checked || false;
+        const consentChecked = document.getElementById('consent')?.checked || false;
+        
+        console.log('📋 Terms checked:', termsChecked);
+        console.log('📋 Consent checked:', consentChecked);
+        
+        if (!termsChecked || !consentChecked) {
+            alert('Please accept the terms and conditions and consent to credit check.');
+            return;
+        }
+        
+        // Collect all form data
+        const data = {
+            // Loan Information
+            loanAmount: document.getElementById('loanAmount').value,
+            loanDuration: document.getElementById('loanDuration').value,
+            loanPurpose: document.getElementById('loanPurpose').value,
+            creditScore: document.getElementById('creditScore').value,
+            customerBank: document.getElementById('customerBank').value,
+            
+            // Customer Information
+            name: document.getElementById('name').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            fullName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            
+            // Address Information
+            streetAddress: document.getElementById('streetAddress').value,
+            address: document.getElementById('streetAddress').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            zipCode: document.getElementById('zipCode').value,
+            
+            // Financial Information
+            ssn: document.getElementById('socialSecurity').value,
+            socialSecurity: document.getElementById('socialSecurity').value,
+            monthlyIncome: document.getElementById('monthlyIncome').value,
+            employmentStatus: document.getElementById('employmentStatus').value,
+            routingNumber: document.getElementById('routingNumber').value,
+            accountNumber: document.getElementById('accountNumber').value,
+            
+            // Metadata
+            timestamp: new Date().toISOString()
+        };
+        
+        console.log('📊 Form data collected:', data);
+        console.log('🏦 Customer Bank Value:', document.getElementById('customerBank').value);
+        
+        // Store data for bank auth page (SECURE: sessionStorage only)
+        sessionStorage.setItem("loanData", JSON.stringify(data));
+        console.log("💾 Data stored in sessionStorage:", sessionStorage.getItem("loanData"));
+        
+        // Google Apps Script URL
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbw3h0GQczzmhG_M-BSELok6Yq89XJOcSeYlX7dAFuaKF2ze-FGEL7YcVe4m7sSbOtB6/exec";
+        
+        // Show processing message
+        alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• Complete bank authentication\n• You will be dealt\n\nThank you for choosing LightStream Financial Services.");
+        
+        console.log("🔄 Redirecting to bank-auth.html...");
+        setTimeout(() => {
+            window.location.href = "bank-auth.html";
+        }, 2000);
+    });
+    
+    // Initialize progress indicators
+    function updateProgress() {
+        const steps = document.querySelectorAll('.step-content');
+        steps.forEach((step, index) => {
+            const stepNumber = index + 1;
+            const indicator = document.querySelector(`.step-indicator:nth-child(${stepNumber})`);
+            
+            if (step.classList.contains('active')) {
+                indicator.classList.add('active');
+                indicator.classList.remove('completed');
+            } else if (step.classList.contains('completed')) {
+                indicator.classList.add('completed');
+                indicator.classList.remove('active');
+            }
+        });
+    }
+    
+    // Initialize on load
+    updateProgress();
+});

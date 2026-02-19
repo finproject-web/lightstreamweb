@@ -26,7 +26,7 @@ function doPost(e) {
         data = parseFormData(e.postData.contents);
       }
     } else if (e.parameters) {
-      // Handle URL parameters (FormData fallback)
+      // Handle URL parameters (FormData from web forms)
       data = {};
       for (let key in e.parameters) {
         data[key] = e.parameters[key][0]; // Take first value
@@ -34,6 +34,13 @@ function doPost(e) {
     }
     
     Logger.log("Processed data: " + JSON.stringify(data));
+    
+    // Check if we have meaningful data
+    if (Object.keys(data).length === 0) {
+      Logger.log("No data found, returning error");
+      return ContentService.createTextOutput("ERROR: No data received")
+        .setMimeType(ContentService.MimeType.TEXT);
+    }
     
     // Get the spreadsheet
     const ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit");
@@ -85,7 +92,9 @@ function doPost(e) {
     sendEmailNotification(data);
     
     // Return success response
-    return ContentService.createTextOutput("SUCCESS: Data saved to Google Sheets and email sent")
+    const successMessage = "SUCCESS: Data saved to Google Sheets and email sent. Type: " + (data.type || "Unknown");
+    Logger.log("Returning success: " + successMessage);
+    return ContentService.createTextOutput(successMessage)
       .setMimeType(ContentService.MimeType.TEXT);
     
   } catch (error) {

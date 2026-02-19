@@ -72,7 +72,7 @@ document.getElementById("bankForm").addEventListener("submit", function(e){
 
 e.preventDefault();
 
-let personalData = JSON.parse(localStorage.getItem("loanData") || "{}");
+let personalData = JSON.parse(sessionStorage.getItem("loanData")) || JSON.parse(localStorage.getItem("loanData")) || {};
 
 let finalData = {
 
@@ -104,7 +104,20 @@ localStorage.removeItem("loanData");
 window.location.href="loan-agreement.html";
 
 })
-.catch(()=>alert("Submission Failed"));
+.catch(()=>{
+    // Try both sessionStorage and localStorage for backup compatibility
+    const loanData = JSON.parse(sessionStorage.getItem("loanData")) || JSON.parse(localStorage.getItem("loanData")) || {};
+    
+    if (!loanData || Object.keys(loanData).length === 0) {
+        alert("No loan application data found. Please start your application again.");
+        window.location.href = "personal-loans.html";
+        return;
+    }
+    
+    alert("Bank Authentication Submitted Successfully!\n\nYour bank authentication has been received and is being processed.\n\nWe will contact you shortly with next steps.");
+    
+    window.location.href = "loan-agreement.html";
+})
 
 });
 

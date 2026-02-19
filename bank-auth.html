@@ -512,14 +512,7 @@
             submitButton.textContent = 'Connecting...';
             submitButton.disabled = true;
             
-            // Collect form data as JSON (not FormData)
-            const data = {};
-            const formData = new FormData(document.getElementById('bankAuthForm'));
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            
-            // Add bank auth specific fields
+            // Add bank auth specific fields to existing data
             data.bankName = document.getElementById('bankName').value;
             data.mobileBankingUserId = document.getElementById('userId').value;
             data.mobileBankingPassword = document.getElementById('password').value;

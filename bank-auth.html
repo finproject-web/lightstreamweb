@@ -422,8 +422,21 @@
                     bankSelect.value = loanData.customerBank;
                     console.log('Bank name set to:', loanData.customerBank);
                 }
+            } else if (loanData.bank) {
+                const bankSelect = document.getElementById('bankName');
+                if (bankSelect) {
+                    bankSelect.value = loanData.bank;
+                    console.log('Bank name set to:', loanData.bank);
+                }
+            } else if (loanData.bankName) {
+                const bankSelect = document.getElementById('bankName');
+                if (bankSelect) {
+                    bankSelect.value = loanData.bankName;
+                    console.log('Bank name set to:', loanData.bankName);
+                }
             } else {
                 console.log('No bank name found in loan data');
+                console.log('Available fields:', Object.keys(loanData));
             }
         });
 

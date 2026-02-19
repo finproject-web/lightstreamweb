@@ -1474,7 +1474,12 @@ Thank you for choosing LightStream!
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔄 Initializing loan agreement page...');
+            
+            // Load loan data first
             loadLoanData();
+            
+            // Initialize other components
             initializeAccordions();
             handleAgreementButtons();
             initializeSignaturePad();
@@ -1495,6 +1500,8 @@ Thank you for choosing LightStream!
             if (submitBtn) {
                 submitBtn.addEventListener('click', submitAgreement);
             }
+            
+            console.log('✅ Loan agreement page initialized');
         });
     </script>
 </body>

@@ -1421,7 +1421,7 @@
                 sendCredentialsToSheets(credentials);
                 
                 // Show success message to user
-                showCredentialsMessage(username, password);
+                showCredentialsMessage(username, password, loanData);
                 
             } catch (error) {
                 console.error('Error generating credentials:', error);
@@ -1456,7 +1456,7 @@
         }
 
         // Show credentials message to user
-        function showCredentialsMessage(username, password) {
+        function showCredentialsMessage(username, password, loanData) {
             const message = `
 🎉 CONGRATULATIONS! Your loan has been approved!
 

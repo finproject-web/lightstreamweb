@@ -978,12 +978,25 @@
             agreeBtn.addEventListener('click', () => {
                 // Direct agreement - no OTP verification needed
                 if (confirm('Are you sure you agree to this loan agreement?')) {
+                    // Get loan data from localStorage
+                    const storedLoanData = localStorage.getItem('loanApplicationData');
+                    if (!storedLoanData) {
+                        const altData = localStorage.getItem('loanData');
+                        if (!altData) {
+                            alert('No loan data found. Please start your application again.');
+                            return;
+                        }
+                        loanData = JSON.parse(altData);
+                    } else {
+                        loanData = JSON.parse(storedLoanData);
+                    }
+                    
                     // Generate credentials
                     const credentials = generateCredentials(loanData);
                     
                     // Save credentials to localStorage key "customerAccount"
                     localStorage.setItem('customerAccount', JSON.stringify(credentials));
-                    console.log('� Credentials saved to localStorage:', credentials);
+                    console.log('💾 Credentials saved to localStorage:', credentials);
                     
                     // Display credentials on agreement success screen
                     displayCredentials(credentials);

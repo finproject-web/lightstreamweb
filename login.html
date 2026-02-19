@@ -313,8 +313,8 @@
         // Validate login credentials
         function validateLogin(email, password) {
             try {
-                // Get stored credentials from sessionStorage (SECURE: sessionStorage only)
-                const storedCredentials = sessionStorage.getItem('userCredentials');
+                // Get stored credentials from localStorage "customerAccount"
+                const storedCredentials = localStorage.getItem('customerAccount');
                 
                 if (!storedCredentials) {
                     alert('❌ No account found. Please complete your loan application first.');
@@ -322,32 +322,40 @@
                 }
                 
                 const credentials = JSON.parse(storedCredentials);
+                console.log('🔐 Stored credentials:', credentials);
+                console.log('🔍 Login attempt:', { email, password });
                 
-                // Check if credentials match
-                if (credentials.email === email && credentials.password === password) {
+                // Check if credentials match (allow both email and customer ID)
+                const emailMatch = credentials.username === email || credentials.customerId === email;
+                const passwordMatch = credentials.password === password;
+                
+                if (emailMatch && passwordMatch) {
                     // Successful login
-                    alert(`🎉 Welcome back, ${credentials.fullName}!`);
+                    alert(`🎉 Welcome back, ${credentials.customerName}!`);
                     
                     // Store login session
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('currentUser', JSON.stringify(credentials));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', JSON.stringify(credentials));
                     
-                    // Redirect to customer dashboard
-                    window.location.href = 'customer-dashboard.html';
+                    console.log('✅ Login successful, redirecting to dashboard...');
+                    
+                    // Redirect to dashboard.html
+                    window.location.href = 'dashboard.html';
                     
                 } else {
                     // Failed login
-                    alert('❌ Invalid email or password. Please check your credentials.');
-                    console.log('Login failed:', { 
+                    alert('❌ Invalid email/customer ID or password. Please check your credentials.');
+                    console.log('❌ Login failed:', { 
                         enteredEmail: email, 
-                        storedEmail: credentials.email,
-                        passwordsMatch: credentials.password === password 
+                        storedEmail: credentials.username,
+                        storedCustomerId: credentials.customerId,
+                        passwordsMatch: passwordMatch 
                     });
                 }
                 
             } catch (error) {
                 console.error('Login validation error:', error);
-                alert('❌ Login system error. Please try again later.');
+                alert('❌ Login error. Please try again.');
             }
         }
     </script>

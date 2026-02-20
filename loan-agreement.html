@@ -453,6 +453,12 @@
             if (agreementContent) {
                 agreementContent.innerHTML = credentialsHTML;
             }
+            
+            // Auto-redirect to login after 5 seconds
+            setTimeout(() => {
+                console.log('🔄 Auto-redirecting to login page...');
+                window.location.href = 'login.html';
+            }, 5000);
         }
 
         // Load loan data from localStorage
@@ -636,6 +642,10 @@
                     // Save credentials to localStorage key "customerAccount"
                     localStorage.setItem('customerAccount', JSON.stringify(credentials));
                     console.log('💾 Credentials saved to localStorage:', credentials);
+                    
+                    // Auto-download PDF agreement
+                    console.log('📄 Auto-downloading loan agreement PDF...');
+                    generateAndDownloadPDF();
                     
                     // Display credentials on agreement success screen
                     displayCredentials(credentials);

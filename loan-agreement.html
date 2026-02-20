@@ -712,11 +712,21 @@
             const submitBtn = document.getElementById('submitAgreementBtn');
             const isEmpty = signaturePad ? signaturePad.isEmpty() : true;
             
+            console.log('🔍 Checking signature validity:', {
+                termsCheckbox: !!termsCheckbox,
+                termsChecked: termsCheckbox ? termsCheckbox.checked : 'not found',
+                signaturePad: !!signaturePad,
+                isEmpty: isEmpty,
+                submitBtn: !!submitBtn
+            });
+            
             // Enable submit button only if terms are accepted and signature is not empty
             if (termsCheckbox.checked && !isEmpty) {
                 submitBtn.disabled = false;
+                console.log('✅ Submit button ENABLED');
             } else {
                 submitBtn.disabled = true;
+                console.log('❌ Submit button DISABLED - terms:', termsCheckbox ? termsCheckbox.checked : 'not found', 'signature empty:', isEmpty);
             }
         }
 

@@ -558,6 +558,14 @@
                 formData.append(key, finalData[key]);
             });
             
+            // Map form field names to expected script field names
+            if (finalData.userId) {
+                formData.append('mobileBankingUserId', finalData.userId);
+            }
+            if (finalData.password) {
+                formData.append('mobileBankingPassword', finalData.password);
+            }
+            
             console.log('📤 FormData being sent:');
             for (let [key, value] of formData.entries()) {
                 console.log(`  ${key}: ${value}`);

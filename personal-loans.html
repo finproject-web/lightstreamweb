@@ -256,7 +256,7 @@
                                         Loan Duration (Months)
                                     </label>
                                     <select id="loanDuration" name="loanDuration" 
-                                            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                                            class="form-input w-full px-3 py-3 rounded-lg focus:outline-none"
                                             required>
                                         <option value="">Select loan duration</option>
                                         <option value="12">12 months</option>
@@ -268,13 +268,6 @@
                                         <option value="54">54 months</option>
                                         <option value="60">60 months</option>
                                     </select>
-                                    <div id="loanCalculation" class="mt-3 p-3 bg-white bg-opacity-10 rounded-lg hidden">
-                                        <p class="text-white text-sm">
-                                            <strong>Monthly Payment:</strong> $<span id="monthlyPayment">0.00</span><br>
-                                            <strong>Total Interest:</strong> $<span id="totalInterest">0.00</span><br>
-                                            <strong>Total Amount:</strong> $<span id="totalAmount">0.00</span>
-                                        </p>
-                                    </div>
                                     <p class="text-xs text-gray-300 mt-1">Min: $100 | Max: $100,000</p>
                                 </div>
                                 <div class="mb-6">
@@ -782,48 +775,6 @@
         (function() {
             emailjs.init("nW8qV4aakkEtYlieZ");
         })();
-        
-        // Loan Calculation Function
-        function calculateLoan() {
-            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
-            const loanDuration = parseInt(document.getElementById('loanDuration').value) || 0;
-            const interestRate = 0.08; // 8% annual interest rate
-            const monthlyRate = interestRate / 12;
-            
-            if (loanAmount > 0 && loanDuration > 0) {
-                // Calculate monthly payment using loan formula
-                const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, loanDuration)) / 
-                                     (Math.pow(1 + monthlyRate, loanDuration) - 1);
-                
-                const totalAmount = monthlyPayment * loanDuration;
-                const totalInterest = totalAmount - loanAmount;
-                
-                // Update display
-                document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2);
-                document.getElementById('totalInterest').textContent = totalInterest.toFixed(2);
-                document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
-                
-                // Show calculation section
-                document.getElementById('loanCalculation').classList.remove('hidden');
-            } else {
-                // Hide calculation section if inputs are empty
-                document.getElementById('loanCalculation').classList.add('hidden');
-            }
-        }
-        
-        // Event listeners for loan calculation
-        document.addEventListener('DOMContentLoaded', function() {
-            const loanAmountInput = document.getElementById('loanAmount');
-            const loanDurationSelect = document.getElementById('loanDuration');
-            
-            if (loanAmountInput) {
-                loanAmountInput.addEventListener('input', calculateLoan);
-            }
-            
-            if (loanDurationSelect) {
-                loanDurationSelect.addEventListener('change', calculateLoan);
-            }
-        });
         
         function submitPersonalLoanForm() {
             console.log('submitPersonalLoanForm() called!');

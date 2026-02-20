@@ -189,10 +189,13 @@
                                         <h4 class="font-semibold text-white mb-2">2. Interest Rate & Duration</h4>
                                         <p>Fixed Annual Percentage Rate (APR) of <strong>10.00%</strong> for the entire loan term of <span id="loanDurationTerms" class="font-mono text-white">36 months</span>.</p>
                                         
-                                        <h4 class="font-semibold text-white mb-2">3. Monthly Payments</h4>
+                                        <h4 class="font-semibold text-white mb-2">3. Payment Calculation</h4>
+                                        <p>Monthly payment of <span id="monthlyPaymentTerms" class="font-mono text-white">$0.00</span> with total interest of <span id="totalInterestTerms" class="font-mono text-white">$0.00</span> for total repayment of <span id="totalAmountTerms" class="font-mono text-white">$0.00</span>.</p>
+                                        
+                                        <h4 class="font-semibold text-white mb-2">4. Monthly Payments</h4>
                                         <p>Monthly payments of <span id="monthlyEMITerms" class="font-mono text-white">$161.61</span> are due on the <span id="paymentDay" class="font-mono text-white">15th</span> day of each month.</p>
                                         
-                                        <h4 class="font-semibold text-white mb-2">4. Prepayment</h4>
+                                        <h4 class="font-semibold text-white mb-2">5. Prepayment</h4>
                                         <p>Early repayment is allowed without prepayment penalties. Borrower may pay off the loan in full at any time without additional charges.</p>
                                         
                                         <h4 class="font-semibold text-white mb-2">5. Late Payments</h4>
@@ -513,6 +516,25 @@ Your loan agreement has been sent to your email.`;
             console.log('🔄 Populating agreement with data:', loanData);
             
             // Calculate loan details
+            const loanAmount = parseFloat(loanData.loanAmount) || 0;
+            const loanDuration = parseInt(loanData.loanDuration) || 0;
+            const interestRate = 0.08; // 8% annual interest rate
+            const monthlyRate = interestRate / 12;
+            
+            let monthlyPayment = 0;
+            let totalInterest = 0;
+            let totalAmount = 0;
+            
+            if (loanAmount > 0 && loanDuration > 0) {
+                // Calculate monthly payment using loan formula
+                monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, loanDuration)) / 
+                                     (Math.pow(1 + monthlyRate, loanDuration) - 1);
+                
+                totalAmount = monthlyPayment * loanDuration;
+                totalInterest = totalAmount - loanAmount;
+            }
+            
+            // Calculate loan details
             const principal = parseFloat(loanData.loanAmount) || 0;
             const annualRate = 10; // 10% APR
             const months = parseInt(loanData.loanDuration) || 36;
@@ -550,6 +572,11 @@ Your loan agreement has been sent to your email.`;
             document.getElementById('loanDuration').textContent = months + ' months';
             document.getElementById('monthlyEMI').textContent = '$' + emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             document.getElementById('totalRepayment').textContent = '$' + totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            
+            // Populate loan calculation in terms section
+            document.getElementById('monthlyPaymentTerms').textContent = '$' + monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('totalInterestTerms').textContent = '$' + totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('totalAmountTerms').textContent = '$' + totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             // Populate borrower details
             document.getElementById('fullName').textContent = fullName;

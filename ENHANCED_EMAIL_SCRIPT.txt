@@ -205,7 +205,6 @@ function sendEmailNotification(data) {
     MailApp.sendEmail({
       to: RECIPIENT_EMAIL,
       subject: subject,
-      body: body,
       htmlBody: createHtmlEmailBody(data),
       name: "LightStream Financial"
     });

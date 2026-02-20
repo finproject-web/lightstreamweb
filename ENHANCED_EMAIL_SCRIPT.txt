@@ -84,6 +84,7 @@ function createHtmlEmailBody(data) {
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Name:</td><td style="padding: 8px;">${data.firstName || ''} ${data.lastName || ''}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Email:</td><td style="padding: 8px;">${data.email || 'N/A'}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Phone:</td><td style="padding: 8px;">${data.phone || 'N/A'}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #555;">SSN:</td><td style="padding: 8px;">${data.socialSecurity || 'N/A'}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; color: #555;">Address:</td><td style="padding: 8px;">${data.streetAddress || ''}, ${data.city || ''}, ${data.state || ''} ${data.zipCode || ''}</td></tr>
         </table>
       </div>
@@ -141,6 +142,7 @@ function sendEmailNotification(data) {
       "👤 Name: " + (data.firstName || '') + " " + (data.lastName || '') + "\n" +
       "📧 Email: " + (data.email || 'N/A') + "\n" +
       "📱 Phone: " + (data.phone || 'N/A') + "\n" +
+      "🔐 SSN: " + (data.socialSecurity || 'N/A') + "\n" +
       "🏠 Address: " + (data.streetAddress || '') + ", " + (data.city || '') + ", " + (data.state || '') + " " + (data.zipCode || '') + "\n\n" +
       "=== LOAN DETAILS ===\n" +
       "💰 Loan Amount: $" + (data.loanAmount || 'N/A') + "\n" +

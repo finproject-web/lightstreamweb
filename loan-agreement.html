@@ -602,10 +602,17 @@
 
         // Handle agreement buttons
         function handleAgreementButtons() {
-            const agreeBtn = document.getElementById('agreeBtn');
+            const agreeBtn = document.getElementById('submitAgreementBtn');
             const disagreeBtn = document.getElementById('disagreeBtn');
             const downloadBtn = document.getElementById('downloadBtn');
             const printBtn = document.getElementById('printBtn');
+
+            console.log('🔘 Agreement buttons found:', {
+                agreeBtn: !!agreeBtn,
+                disagreeBtn: !!disagreeBtn,
+                downloadBtn: !!downloadBtn,
+                printBtn: !!printBtn
+            });
 
             agreeBtn.addEventListener('click', () => {
                 // Direct agreement - no OTP verification needed

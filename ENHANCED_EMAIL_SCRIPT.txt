@@ -1,6 +1,6 @@
 // Enhanced Google Apps Script for Loan Applications with Better Email Handling
 // February 19, 2026 - Enhanced for debugging and reliability
-// DEPLOYMENT URL: https://script.google.com/macros/s/AKfycbwyP5zoJfvPWj9nm2lw11U09azqlk0rpWW_-lmo_aukimJATd_5c6yXYAJwEH7luu0cLA/exec
+// DEPLOYMENT URL: https://script.google.com/macros/s/AKfycbzTrHfpid6me5aGs2qXQT5-XNeKLVfXts5n96-Cd3z6zpOoLnUgvBUZQDK-VUJXvZrn/exec
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
 const RECIPIENT_EMAIL = "finnfoxpersonalloan@gmail.com";

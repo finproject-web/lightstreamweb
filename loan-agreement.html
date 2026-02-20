@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="block text-white mb-2">Sign Below:</label>
-                                    <div id="signaturePad" class="border-2 border-gray-300 rounded-lg bg-white"></div>
+                                    <canvas id="signaturePad" class="border-2 border-gray-300 rounded-lg bg-white" width="400" height="200"></canvas>
                                 </div>
                                 <div class="flex space-x-4">
                                     <button type="button" id="clearSignatureBtn" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
@@ -332,6 +332,9 @@
         (function() {
             emailjs.init("nW8qV4aakkEtYlieZ");
         })();
+
+        // Global signature pad variable
+        let signaturePad = null;
 
         // Calculate EMI using US loan formula
         function calculateEMI(principal, annualRate, months) {
@@ -652,7 +655,7 @@
             const canvas = document.getElementById('signaturePad');
             if (!canvas) return;
 
-            const signaturePad = new SignaturePad(canvas, {
+            signaturePad = new SignaturePad(canvas, {
                 backgroundColor: 'rgb(255, 255, 255)',
                 penColor: 'rgb(0, 0, 0)'
             });

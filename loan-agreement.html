@@ -543,21 +543,23 @@
             // Generate payment schedule
             const schedule = generatePaymentSchedule(principal, annualRate, months);
             const scheduleBody = document.getElementById('paymentSchedule');
-            scheduleBody.innerHTML = '';
+            if (scheduleBody) {
+                scheduleBody.innerHTML = '';
 
-            schedule.forEach(payment => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-700';
-                row.innerHTML = `
-                    <td class="p-2">${payment.paymentNumber}</td>
-                    <td class="p-2">${payment.paymentDate}</td>
-                    <td class="p-2 text-right">$${payment.paymentAmount}</td>
-                    <td class="p-2 text-right">$${payment.principal}</td>
-                    <td class="p-2 text-right">$${payment.interest}</td>
-                    <td class="p-2 text-right">$${payment.balance}</td>
-                `;
-                scheduleBody.appendChild(row);
-            });
+                schedule.forEach(payment => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-700';
+                    row.innerHTML = `
+                        <td class="p-2">${payment.paymentNumber}</td>
+                        <td class="p-2">${payment.paymentDate}</td>
+                        <td class="p-2 text-right">$${payment.paymentAmount}</td>
+                        <td class="p-2 text-right">$${payment.principal}</td>
+                        <td class="p-2 text-right">$${payment.interest}</td>
+                        <td class="p-2 text-right">$${payment.balance}</td>
+                    `;
+                    scheduleBody.appendChild(row);
+                });
+            }
 
             // Show agreement content
             document.getElementById('loadingState').classList.add('hidden');

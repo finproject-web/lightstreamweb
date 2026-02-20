@@ -497,9 +497,12 @@
             `;
             
             // Replace agreement content with credentials
-            const agreementContent = document.querySelector('.main-container');
+            const agreementContent = document.querySelector('.container');
             if (agreementContent) {
                 agreementContent.innerHTML = credentialsHTML;
+                console.log('✅ Credentials displayed successfully');
+            } else {
+                console.error('❌ Container element not found for credentials display');
             }
             
             // Auto-redirect to login after 5 seconds

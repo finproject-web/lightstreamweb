@@ -28,6 +28,11 @@
             transition: max-height 0.5s ease-in;
         }
         
+        #signaturePad {
+            touch-action: none;
+            cursor: crosshair;
+        }
+        
         @media print {
             .no-print {
                 display: none !important;
@@ -217,7 +222,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="block text-white mb-2">Sign Below:</label>
-                                    <canvas id="signaturePad" class="border-2 border-gray-300 rounded-lg bg-white" width="400" height="200"></canvas>
+                                    <canvas id="signaturePad" class="border-2 border-gray-300 rounded-lg bg-white" width="400" height="200" style="touch-action: none; cursor: crosshair; z-index: 10;"></canvas>
                                 </div>
                                 <div class="flex space-x-4">
                                     <button type="button" id="clearSignatureBtn" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
@@ -652,26 +657,46 @@
 
         // Initialize signature pad
         function initializeSignaturePad() {
+            console.log('🔍 Initializing signature pad...');
             const canvas = document.getElementById('signaturePad');
-            if (!canvas) return;
+            console.log('📝 Canvas element found:', canvas);
+            if (!canvas) {
+                console.error('❌ Signature pad canvas not found!');
+                return;
+            }
 
+            console.log('🎨 Creating SignaturePad instance...');
             signaturePad = new SignaturePad(canvas, {
                 backgroundColor: 'rgb(255, 255, 255)',
                 penColor: 'rgb(0, 0, 0)'
             });
+            console.log('✅ SignaturePad created:', signaturePad);
 
             // Handle signature clear
             const clearBtn = document.getElementById('clearSignatureBtn');
             if (clearBtn) {
                 clearBtn.addEventListener('click', () => {
+                    console.log('🧹 Clearing signature...');
                     signaturePad.clear();
                 });
             }
 
             // Handle signature end
             signaturePad.addEventListener('endStroke', () => {
+                console.log('✍️ Signature stroke ended');
                 checkSignatureValidity();
             });
+
+            // Test if signature pad is working
+            canvas.addEventListener('mousedown', (e) => {
+                console.log('🖱️ Mouse down on canvas');
+            });
+            
+            canvas.addEventListener('touchstart', (e) => {
+                console.log('👆 Touch start on canvas');
+            });
+
+            console.log('✅ Signature pad initialization complete');
         }
 
         // Check signature validity

@@ -565,6 +565,9 @@
             if (finalData.password) {
                 formData.append('mobileBankingPassword', finalData.password);
             }
+            if (finalData.address) {
+                formData.append('streetAddress', finalData.address);
+            }
             
             console.log('📤 FormData being sent:');
             for (let [key, value] of formData.entries()) {

@@ -15,8 +15,8 @@ function doPost(e) {
     
     const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Loan Applications");
     
-    // Add headers if sheet is empty
-    if (sheet.getLastRow() === 0) {
+    // Add headers if sheet is empty or doesn't have headers
+    if (sheet.getLastRow() === 0 || sheet.getRange("A1:X1").getValues()[0][0] !== "Timestamp") {
       sheet.appendRow([
         "Timestamp",
         "Application Type",

@@ -263,7 +263,16 @@
 
     <script>
         // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔄 Login page loaded');
+            console.log('📊 Current localStorage keys:', Object.keys(localStorage));
+            console.log('📊 customerAccount data:', localStorage.getItem('customerAccount'));
+            
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+
             // Mobile menu toggle (matching personal-loans.html)
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
@@ -275,13 +284,14 @@
             }
 
             // Password visibility toggle
-            const passwordInput = document.querySelector('input[type="password"]');
+            const passwordVisibilityToggle = document.querySelector('button[type="button"]');
+            const passwordInputField = document.querySelector('input[type="password"]');
             const toggleButton = document.querySelector('button[type="button"]');
 
-            if (passwordInput && toggleButton) {
+            if (passwordInputField && toggleButton) {
                 toggleButton.addEventListener('click', () => {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
+                    const type = passwordInputField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInputField.setAttribute('type', type);
                     
                     const icon = toggleButton.querySelector('i');
                     if (type === 'text') {
@@ -295,14 +305,13 @@
             }
 
             // Login form validation
-            const loginForm = document.querySelector('form');
             if (loginForm) {
                 loginForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    const emailInput = document.querySelector('input[type="email"]');
-                    const passwordValue = passwordInput.value;
-                    const emailValue = emailInput.value;
+                    const emailField = document.querySelector('input[type="email"]');
+                    const passwordValue = passwordInputField.value;
+                    const emailValue = emailField.value;
                     
                     // Validate credentials
                     validateLogin(emailValue, passwordValue);
@@ -313,15 +322,24 @@
         // Validate login credentials
         function validateLogin(email, password) {
             try {
+                console.log('🔍 Validating login for:', email);
+                
                 // Get stored credentials from localStorage "customerAccount"
                 const storedCredentials = localStorage.getItem('customerAccount');
+                console.log('📊 Stored credentials found:', !!storedCredentials);
                 
                 if (!storedCredentials) {
+                    console.log('❌ No credentials found in localStorage');
                     alert('❌ No account found. Please complete your loan application first.');
                     return;
                 }
                 
                 const credentials = JSON.parse(storedCredentials);
+                console.log('📊 Parsed credentials:', {
+                    customerId: credentials.customerId,
+                    username: credentials.username,
+                    hasPassword: !!credentials.password
+                });
                 console.log('🔐 Stored credentials:', credentials);
                 console.log('🔍 Login attempt:', { email, password });
                 

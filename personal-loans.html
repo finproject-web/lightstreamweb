@@ -158,9 +158,10 @@
                                     <span class="absolute left-3 top-3 text-gray-500">$</span>
                                     <input type="number" id="loanAmount" name="loanAmount" required autocomplete="off"
                                            class="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="5,000" min="2000" max="15000">
+                                           placeholder="5,000" min="2000" max="15000" oninput="validateLoanAmount()">
                                 </div>
                                 <p class="text-sm text-gray-500 mt-1">Minimum: $2,000 | Maximum: $15,000</p>
+                                <p id="loanAmountError" class="text-sm text-red-500 mt-1 hidden">Loan amount must be between $2,000 and $15,000</p>
                             </div>
 
                             <div class="mb-6">
@@ -525,6 +526,23 @@
                 } else {
                     indicator.classList.remove('active');
                 }
+            }
+        }
+
+        // Real-time loan amount validation
+        function validateLoanAmount() {
+            const loanAmount = document.getElementById('loanAmount');
+            const loanAmountError = document.getElementById('loanAmountError');
+            const value = parseFloat(loanAmount.value);
+            
+            if (loanAmount.value && (value < 2000 || value > 15000)) {
+                loanAmountError.classList.remove('hidden');
+                loanAmount.classList.add('border-red-500');
+                loanAmount.classList.remove('border-gray-300');
+            } else {
+                loanAmountError.classList.add('hidden');
+                loanAmount.classList.remove('border-red-500');
+                loanAmount.classList.add('border-gray-300');
             }
         }
 

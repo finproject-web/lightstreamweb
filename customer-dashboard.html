@@ -352,11 +352,34 @@
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             
+            // Function to close mobile menu
+            function closeMobileMenu() {
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+            
+            // Toggle mobile menu
             if (mobileMenuBtn && mobileMenu) {
                 mobileMenuBtn.addEventListener('click', () => {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+            
+            // Close mobile menu when clicking on any link
+            const mobileMenuLinks = mobileMenu?.querySelectorAll('a, button');
+            mobileMenuLinks?.forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(closeMobileMenu, 100); // Small delay to allow navigation
+                });
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn?.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            });
         });
 
         function loadCustomerDashboard() {

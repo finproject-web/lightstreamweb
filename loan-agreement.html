@@ -750,21 +750,22 @@
             return schedule;
         }
 
-        // Load loan data from sessionStorage
+        // Load loan data from sessionStorage (SECURE: sessionStorage only)
         function loadLoanData() {
-            const storedData = localStorage.getItem('loanApplicationData') || sessionStorage.getItem('loanApplicationData');
+            const storedData = sessionStorage.getItem('loanApplicationData');
+            
             if (!storedData) {
                 alert('No loan application data found. Please start your application again.');
                 window.location.href = 'personal-loans.html';
                 return;
             }
-
-            loanData = JSON.parse(storedData);
-            populateAgreement();
+            
+            const loanData = JSON.parse(storedData);
+            populateAgreement(loanData);
         }
 
         // Populate agreement with loan data
-        function populateAgreement() {
+        function populateAgreement(loanData) {
             // Calculate loan details
             const principal = parseFloat(loanData.loanAmount) || 0;
             const annualRate = 10; // 10% APR
@@ -785,8 +786,17 @@
                 'us-bank': 'U.S. Bank',
                 'pnc': 'PNC Bank',
                 'td-bank': 'TD Bank',
+                'bbt': 'BB&T (now Truist)',
+                'suntrust': 'SunTrust (now Truist)',
+                'regions': 'Regions Bank',
+                'fifth-third': 'Fifth Third Bank',
+                'keybank': 'KeyBank',
                 'huntington': 'Huntington Bank',
+                'citizens': 'Citizens Bank',
                 'ally': 'Ally Bank',
+                'discover': 'Discover Bank',
+                'synchrony': 'Synchrony Bank',
+                'marcus': 'Marcus by Goldman Sachs',
                 'other': 'Other Bank'
             };
             
@@ -901,9 +911,14 @@
                         agreementStatus: 'Accepted and Downloaded'
                     };
                     
-                    // Store agreement acceptance
+                    // Store agreement acceptance (SECURE: sessionStorage only)
                     sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
-                    localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+                    
+                    // Also store the complete loan data for loan-success page (SECURE: sessionStorage only)
+                    sessionStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+                    
+                    console.log('📦 Stored complete loan data:', loanData);
+                    console.log('📋 Stored agreement data:', agreementData);
                     
                     // Enable download and print buttons
                     enableDownloadPrintButtons();
@@ -916,19 +931,9 @@
                     
                     // Check credit category and redirect accordingly
                     setTimeout(() => {
-                        // Get credit category from loan data
-                        const creditScore = loanData.creditScore || '';
-                        console.log('Credit Score from loan agreement:', creditScore);
-                        console.log('Full loan data:', loanData);
-                        
-                        // Redirect based on credit category
-                        if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                            console.log('Redirecting to main page after loan agreement:', creditScore);
-                            window.location.href = 'https://lightstreamweb.vercel.app/';
-                        } else {
-                            console.log('Redirecting to loan success page');
-                            window.location.href = 'loan-success.html';
-                        }
+                        // Always redirect to loan-success.html for credential generation
+                        console.log('Redirecting to loan success page for credential generation');
+                        window.location.href = 'loan-success.html';
                     }, 2000);
                 }
             });
@@ -981,9 +986,26 @@
 
         // Enhanced PDF generation and download
         function generateAndDownloadPDF() {
+            console.log('🔄 Starting PDF generation...');
+            
             try {
+                // Get loan data from sessionStorage
+                console.log('📦 Getting loan data from sessionStorage...');
+                const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData')) || {};
+                
+                console.log('📊 Loan data retrieved:', loanData);
+                
+                if (!loanData || Object.keys(loanData).length === 0) {
+                    console.log('❌ No loan data available');
+                    alert('No loan data available for PDF generation.');
+                    return;
+                }
+                
+                console.log('✅ Loan data valid, creating PDF...');
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
+                
+                console.log('📄 PDF document created');
                 
                 // Calculate loan details
                 const principal = parseFloat(loanData.loanAmount);
@@ -992,6 +1014,8 @@
                 const emi = calculateEMI(principal, annualRate, months);
                 const totalRepayment = emi * months;
                 const totalInterest = totalRepayment - principal;
+                
+                console.log('💰 Loan calculations completed:', { principal, months, emi, totalRepayment });
                 
                 let yPosition = 20;
                 const lineHeight = 7;
@@ -1165,15 +1189,28 @@
                     if (parsedAgreementData.digitalSignature && parsedAgreementData.digitalSignature !== '') {
                         try {
                             console.log('Adding signature to PDF');
+                            // Add signature line first
+                            doc.text('_________________________', 20, yPosition - 10);
                             doc.addImage(parsedAgreementData.digitalSignature, 'PNG', 20, yPosition - 20, 60, 30);
                             yPosition += 35;
                         } catch (error) {
                             console.log('Error adding signature to PDF:', error);
+                            doc.text('_________________________', 20, yPosition - 10);
+                            yPosition += 20;
                         }
+                    } else {
+                        doc.text('_________________________', 20, yPosition - 10);
+                        yPosition += 20;
                     }
+                } else {
+                    doc.text('_________________________', 20, yPosition - 10);
+                    yPosition += 20;
                 }
                 
-                doc.text(`${loanData.fullName}`, 20, yPosition);
+                // Add customer name
+                const fullName = loanData.name || loanData.fullName || `${loanData.firstName || ''} ${loanData.lastName || ''}`.trim() || 'Not provided';
+                doc.text(`${fullName}`, 20, yPosition);
+                yPosition += lineHeight * 2;
                 
                 // Footer on each page
                 const totalPages = doc.internal.getNumberOfPages();
@@ -1187,13 +1224,15 @@
                 
                 // Save the PDF
                 const fileName = `LightStream-Loan-Agreement-${new Date().toISOString().split('T')[0]}.pdf`;
+                
+                console.log('💾 Saving PDF...');
                 doc.save(fileName);
                 
-                // Show success message
+                console.log('✅ PDF generation completed successfully!');
                 alert(`Complete loan agreement downloaded as ${fileName}`);
                 
             } catch (error) {
-                console.error('Error generating PDF:', error);
+                console.error('❌ Error generating PDF:', error);
                 alert('Failed to generate PDF. Please try the print function instead.');
             }
         }
@@ -1259,6 +1298,9 @@
             const termsCheckbox = document.getElementById('termsCheckbox');
             const isEmpty = signaturePad ? signaturePad.isEmpty() : true;
             
+            // Get loan data from sessionStorage
+            const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData')) || {};
+            
             // Validation
             if (!termsCheckbox.checked) {
                 alert('Please accept the Terms & Conditions before submitting.');
@@ -1283,19 +1325,29 @@
                 signatureTimestamp: new Date().toISOString()
             };
             
-            // Store in sessionStorage
+            // Store in sessionStorage and localStorage
             sessionStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+            localStorage.setItem('loanAgreementData', JSON.stringify(agreementData));
+            
+            // Also store the complete loan data for loan-success page
+            localStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+            sessionStorage.setItem('loanApplicationData', JSON.stringify(loanData));
+            
+            console.log('📦 Stored complete loan data:', loanData);
+            console.log('📋 Stored agreement data:', agreementData);
             
             console.log('Agreement submitted with signature:', agreementData);
             
             // Show success message
-            alert('Loan agreement submitted successfully! Your digital signature has been recorded.');
+            alert("📋 Agreement Signed Successfully!\n\nYour loan agreement has been executed and recorded.\n\nWhat happens next:\n• Your signed agreement is being processed\n• You will receive your login credentials on the next page\n• A confirmation email will be sent shortly\n• Funds disbursement begins within 1-2 business days\n\nThank you for your business with LightStream Financial.");
             
             // Enable download and print buttons
             enableDownloadPrintButtons();
             
-            // Auto-download agreement
-            generateAndDownloadPDF();
+            // Auto-download agreement with a small delay to ensure signature is stored
+            setTimeout(() => {
+                generateAndDownloadPDF();
+            }, 500);
             
             // Check credit category and redirect accordingly
             setTimeout(() => {
@@ -1304,15 +1356,105 @@
                 console.log('Credit Score from loan agreement:', creditScore);
                 console.log('Full loan data:', loanData);
                 
-                // Redirect based on credit category
-                if (creditScore && ['poor', 'fair', 'good'].includes(creditScore.toLowerCase())) {
-                    console.log('Redirecting to main page after loan agreement:', creditScore);
-                    window.location.href = 'https://lightstreamweb.vercel.app/';
-                } else {
-                    console.log('Redirecting to loan success page');
-                    window.location.href = 'loan-success.html';
-                }
+                // Generate login credentials for customer
+                generateAndSendCredentials();
+                
+                // Always redirect to login-details.html for credential display
+                console.log('Redirecting to login details page');
+                window.location.href = 'login-details.html';
             }, 2000);
+        }
+
+        // Generate and send login credentials
+        function generateAndSendCredentials() {
+            try {
+                // Generate unique username and password
+                const timestamp = Date.now();
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                const username = `LS${loanData.name ? loanData.name.replace(/\s+/g, '').substring(0, 6).toUpperCase() : 'USER'}${timestamp.toString().slice(-4)}`;
+                const password = `Temp@${randomNum}`;
+                
+                console.log('Generated credentials:', { username, password });
+                
+                // Store credentials in localStorage for login validation
+                const credentials = {
+                    username: username,
+                    password: password,
+                    email: loanData.email,
+                    fullName: loanData.name || loanData.fullName,
+                    loanAmount: loanData.loanAmount,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Store in both localStorage and send to Google Sheets
+                localStorage.setItem('userCredentials', JSON.stringify(credentials));
+                
+                // Send credentials to Google Sheets
+                sendCredentialsToSheets(credentials);
+                
+                // Show success message to user
+                showCredentialsMessage(username, password);
+                
+            } catch (error) {
+                console.error('Error generating credentials:', error);
+            }
+        }
+
+        // Send credentials to Google Sheets
+        function sendCredentialsToSheets(credentials) {
+            try {
+                const credentialsData = {
+                    ...credentials,
+                    type: 'USER_CREDENTIALS',
+                    loanApplicationId: loanData.email || 'unknown'
+                };
+                
+                // Send to Google Sheets (same endpoint as loan data)
+                fetch('https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUxqGnHzb4yDDW58SyvpNPQ2wZoQhqk0H082kuJ_eHNObF44KjA/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(credentialsData)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log('Credentials saved to Google Sheets:', result);
+                })
+                .catch(error => {
+                    console.error('Error saving credentials to sheets:', error);
+                });
+                
+            } catch (error) {
+                console.error('Error in sendCredentialsToSheets:', error);
+            }
+        }
+
+        // Show credentials message to user
+        function showCredentialsMessage(username, password) {
+            const message = `
+🎉 CONGRATULATIONS! Your loan has been approved!
+
+Your LightStream account has been created:
+📧 Email: ${loanData.email}
+👤 Username: ${username}
+🔑 Password: ${password}
+
+📋 IMPORTANT:
+• Save these credentials securely
+• Use them to login at: https://lightstreamweb.vercel.app/login.html
+• You can change your password after first login
+
+Your loan agreement has been sent to your email.
+Thank you for choosing LightStream!
+            `;
+            
+            // Show in a nice modal or alert
+            alert(message.trim());
+            
+            // Also store for reference
+            console.log('Login Credentials Generated:', {
+                email: loanData.email,
+                username: username,
+                password: password
+            });
         }
 
         // Initialize everything when DOM is loaded

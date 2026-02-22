@@ -134,7 +134,7 @@
                     <i class="fas fa-envelope mr-2"></i> Email Copy to Yourself
                 </button>
                 <button id="dashboardBtn" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-black py-4 px-6 rounded-lg font-semibold transition">
-                    <i class="fas fa-tachometer-alt mr-2"></i> Go to Dashboard
+                    <i class="fas fa-tachometer-alt mr-2"></i> Get Login Credentials
                 </button>
             </div>
 
@@ -190,9 +190,17 @@
     </footer>
 
     <script>
-        // Load loan data from sessionStorage
+        // Load loan data from sessionStorage (SECURE: sessionStorage only)
         function loadLoanData() {
-            const storedData = sessionStorage.getItem('loanApplicationData');
+            // Try sessionStorage only for security
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            
+            console.log('🔍 Looking for loan data in sessionStorage...');
+            console.log('sessionStorage loanApplicationData:', sessionStorage.getItem('loanApplicationData'));
+            console.log('sessionStorage loanAgreementData:', sessionStorage.getItem('loanAgreementData'));
+            console.log('Final storedData:', storedData);
+            
             if (!storedData) {
                 alert('No loan data found.');
                 window.location.href = 'personal-loans.html';
@@ -247,8 +255,10 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Get loan data
-            const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData'));
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            const loanData = JSON.parse(storedData);
             
             // Add content to PDF
             doc.setFontSize(20);
@@ -268,7 +278,10 @@
 
         // Email copy functionality
         async function emailCopy() {
-            const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData'));
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            const loanData = JSON.parse(storedData);
             
             // This would integrate with EmailJS to send a copy
             alert('A copy of your loan agreement has been sent to your email address.');
@@ -276,12 +289,63 @@
 
         // Initialize event listeners
         function initializeEventListeners() {
-            document.getElementById('downloadPDFBtn').addEventListener('click', downloadPDF);
-            document.getElementById('emailCopyBtn').addEventListener('click', emailCopy);
-            document.getElementById('dashboardBtn').addEventListener('click', () => {
-                // Redirect to dashboard (would need to be created)
-                alert('Dashboard feature coming soon!');
+            console.log('🔧 Initializing event listeners...');
+            
+            const downloadBtn = document.getElementById('downloadPDFBtn');
+            const emailBtn = document.getElementById('emailCopyBtn');
+            const dashboardBtn = document.getElementById('dashboardBtn');
+            
+            console.log('Buttons found:', {
+                downloadBtn: !!downloadBtn,
+                emailBtn: !!emailBtn,
+                dashboardBtn: !!dashboardBtn
             });
+            
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', downloadPDF);
+            }
+            if (emailBtn) {
+                emailBtn.addEventListener('click', emailCopy);
+            }
+            if (dashboardBtn) {
+                dashboardBtn.addEventListener('click', () => {
+                    console.log('🔑 Dashboard button clicked!');
+                    generateCredentialsAndRedirect();
+                });
+            }
+        }
+
+        function generateCredentialsAndRedirect() {
+            console.log('🔑 Generating user credentials...');
+            
+            const userId = 'LS' + Date.now(); // Simple unique ID
+            const password = Math.random().toString(36).slice(-8); // Random 8-char password
+            
+            console.log('Generated credentials:', { userId, password });
+            
+            alert(`🎉 Welcome to LightStream Financial Services!\n\n🔑 Your Login Credentials:\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nUser ID: ${userId}\nPassword: ${password}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📋 Please save these details securely for future access to your loan dashboard.\n\n🏠 You will be redirected to homepage now.`);
+            
+            // Store credentials for future use (SECURE: sessionStorage only)
+            sessionStorage.setItem('userCredentials', JSON.stringify({
+                userId: userId,
+                password: password,
+                createdDate: new Date().toISOString(),
+                customerName: loanData?.fullName || 'Customer'
+            }));
+            
+            console.log('Credentials stored in sessionStorage');
+            
+            // Clear sensitive loan data after credentials generation (SECURITY)
+            sessionStorage.removeItem('loanApplicationData');
+            sessionStorage.removeItem('loanAgreementData');
+            sessionStorage.removeItem('loanData');
+            console.log('🔒 Sensitive loan data cleared from sessionStorage');
+            
+            // Redirect to homepage after user acknowledges
+            setTimeout(() => {
+                console.log('Redirecting to homepage...');
+                window.location.href = 'index.html';
+            }, 2000);
         }
 
         // Initialize when DOM is loaded

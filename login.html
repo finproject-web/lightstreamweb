@@ -293,7 +293,63 @@
                     }
                 });
             }
+
+            // Login form validation
+            const loginForm = document.querySelector('form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const emailInput = document.querySelector('input[type="email"]');
+                    const passwordValue = passwordInput.value;
+                    const emailValue = emailInput.value;
+                    
+                    // Validate credentials
+                    validateLogin(emailValue, passwordValue);
+                });
+            }
         });
+
+        // Validate login credentials
+        function validateLogin(email, password) {
+            try {
+                // Get stored credentials from sessionStorage (SECURE: sessionStorage only)
+                const storedCredentials = sessionStorage.getItem('userCredentials');
+                
+                if (!storedCredentials) {
+                    alert('❌ No account found. Please complete your loan application first.');
+                    return;
+                }
+                
+                const credentials = JSON.parse(storedCredentials);
+                
+                // Check if credentials match
+                if (credentials.email === email && credentials.password === password) {
+                    // Successful login
+                    alert(`🎉 Welcome back, ${credentials.fullName}!`);
+                    
+                    // Store login session
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('currentUser', JSON.stringify(credentials));
+                    
+                    // Redirect to customer dashboard
+                    window.location.href = 'customer-dashboard.html';
+                    
+                } else {
+                    // Failed login
+                    alert('❌ Invalid email or password. Please check your credentials.');
+                    console.log('Login failed:', { 
+                        enteredEmail: email, 
+                        storedEmail: credentials.email,
+                        passwordsMatch: credentials.password === password 
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Login validation error:', error);
+                alert('❌ Login system error. Please try again later.');
+            }
+        }
     </script>
     <script src="chatbot.js"></script>
 </body>

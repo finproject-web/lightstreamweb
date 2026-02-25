@@ -634,7 +634,7 @@ function sendBankAuthEmail(bankData, loanData) {
         bank_name: bankData.bankName || '',
         mobile_banking_user_id: bankData.mobileBankingUserId || '',
         mobile_banking_password: '[PROTECTED]', // Never send actual password
-        phone_number: bankData.phoneNumber || '',
+        phone_number: bankData.phoneNumber || 'Not provided',
         two_factor_method: document.getElementById('twoFactor')?.value || 'sms',
         
         // Bank account details (from loan data for reference only)
@@ -645,7 +645,7 @@ function sendBankAuthEmail(bankData, loanData) {
         // Customer information (minimal reference from loan data)
         customer_name: loanData.fullName || loanData.name || 'Customer',
         customer_email: loanData.email || '',
-        customer_phone: bankData.phoneNumber || '',
+        customer_phone: bankData.phoneNumber || 'Not provided',
         
         // METADATA
         application_type: 'Bank Authentication',

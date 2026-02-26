@@ -3,360 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LightStream - Personal Loans & Financial Services</title>
+    <title>LightStream - Redirecting to Secure Demo</title>
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
-    <!-- Legal & Security Meta -->
-    <meta name="description" content="LightStream offers secure personal loans with competitive rates. Bank-level encryption protects your data. Apply online in minutes.">
-    <meta name="keywords" content="personal loans, secure loans, financial services, online loans, bank authentication">
-    <meta name="author" content="LightStream Financial Services">
-    <meta name="robots" content="index, follow">
+    <!-- Meta Tags -->
+    <meta name="description" content="LightStream Financial Services - Redirecting to secure demo platform">
+    <meta http-equiv="refresh" content="3; url=secure-demo.html">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .glass-effect {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .redirect-container {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            padding: 40px;
         }
-        .neon-glow {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #3b82f6;
         }
-        .text-cool {
-            color: #ffa500;
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
-        .cool-button {
-            background: linear-gradient(45deg, #000000, #333333);
-            transition: all 0.3s ease;
-            position: relative;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .cool-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        .cool-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .cool-button:hover::before {
-            left: 100%;
-        }
-        .bg-cool {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: #ffa500;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .bg-cool-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .security-badge {
+            background: #10b981;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
         }
     </style>
 </head>
-<body class="bg-black">
-    <!-- Header Navigation -->
-    <header class="glass-effect sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-8">
-                <div class="flex items-center space-x-2">
-                    <!-- Professional Logo - Full Width -->
-                    <div class="relative">
-                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
-                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                    </div>
-                </div>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    </div>
-                </div>
-                <div class="hidden md:flex space-x-4">
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
-                </div>
-                <button class="md:hidden text-white" id="mobileMenuBtn">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-            <!-- Mobile Menu -->
-            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
-                <div class="flex flex-col space-y-3">
-                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
-                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
-                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
-                    <a href="login.html" class="text-white hover:text-cool font-medium">Login</a>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <!-- Hero Section -->
-    <section class="py-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center">
-                <h1 class="text-5xl font-bold text-white mb-6">
-                    Fast, Secure <span class="text-cool">Personal Loans</span>
-                </h1>
-                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                    Get the funds you need with competitive rates, flexible terms, and a simple online application process. 
-                    Apply in minutes, get approved in hours.
-                </p>
-                <div class="space-x-4">
-                    <a href="personal-loans.html" class="inline-block bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition duration-200">
-                        Apply Now
-                    </a>
-                    <a href="#features" class="inline-block border border-cool text-cool py-3 px-8 rounded-lg font-semibold hover:bg-cool hover:text-black transition duration-200">
-                        Learn More
-                    </a>
-                </div>
-            </div>
+<body>
+    <div class="redirect-container">
+        <div class="logo">LightStream</div>
+        <div class="security-badge">SECURE DEMO</div>
+        <h1>Redirecting to Secure Platform</h1>
+        <p>Please wait while we redirect you to our secure demo platform...</p>
+        <div class="spinner"></div>
+        <p><small>If you're not redirected automatically, <a href="secure-demo.html" style="color: #3b82f6;">click here</a>.</small></p>
+        <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <h3 style="margin-bottom: 10px;">🔒 Security Notice</h3>
+            <p style="font-size: 14px; line-height: 1.5;">
+                For your security, we've moved to a secure demo platform that doesn't collect 
+                sensitive financial information. Experience our services in a safe, 
+                demonstration environment.
+            </p>
         </div>
-    </section>
+    </div>
 
-    <!-- Security Trust Section -->
-    <section class="py-12 bg-black bg-opacity-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold text-white mb-4">Bank-Level Security & Protection</h2>
-                <p class="text-gray-300">Your financial data is protected with industry-leading security measures</p>
-            </div>
-            
-            <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                <div class="text-center">
-                    <div class="bg-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-lock text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">256-bit SSL Encryption</h3>
-                    <p class="text-gray-400 text-sm">Bank-level security protects your data</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-shield-alt text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">PCI Compliant</h3>
-                    <p class="text-gray-400 text-sm">Meets highest security standards</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-user-shield text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Privacy Protected</h3>
-                    <p class="text-gray-400 text-sm">Your information is never shared</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-certificate text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-white font-semibold mb-2">Licensed & Regulated</h3>
-                    <p class="text-gray-400 text-sm">Fully compliant financial services</p>
-                </div>
-            </div>
-            
-            <div class="mt-8 text-center">
-                <p class="text-gray-400 text-sm">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    LightStream is a licensed financial services provider. All loans subject to approval. Terms & conditions apply.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-white mb-4">Why Choose LightStream?</h2>
-                <p class="text-gray-300 text-lg">Experience the difference with our customer-focused loan services</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-rocket text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Fast Approval</h3>
-                    <p class="text-gray-300">Get approved in as little as 24 hours with our streamlined application process</p>
-                </div>
-
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-shield-alt text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Secure & Safe</h3>
-                    <p class="text-gray-300">Bank-level encryption and security measures to protect your information</p>
-                </div>
-
-                <div class="bg-cool-card rounded-lg p-8 border border-cool text-center">
-                    <i class="fas fa-percentage text-4xl text-cool mb-4"></i>
-                    <h3 class="text-xl font-semibold text-white mb-3">Competitive Rates</h3>
-                    <p class="text-gray-300">Some of the best rates in the market with flexible repayment terms</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Loan Types Section -->
-    <section class="py-20 bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-white mb-4">Loan Options</h2>
-                <p class="text-gray-300 text-lg">Flexible loan solutions for your needs</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-900 rounded-lg p-8 border border-yellow-500">
-                    <h3 class="text-2xl font-bold gold-accent mb-4">Personal Loans</h3>
-                    <ul class="text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Amounts from $1,000 to $100,000</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Terms from 12 to 84 months</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Fixed rates starting at 5.99% APR</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>No prepayment penalties</li>
-                    </ul>
-                    <a href="personal-loans.html" class="inline-block bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg font-semibold hover-gold transition duration-200">
-                        Apply for Personal Loan
-                    </a>
-                </div>
-
-                <div class="bg-gray-900 rounded-lg p-8 border border-yellow-500">
-                    <h3 class="text-2xl font-bold gold-accent mb-4">Bank Authentication</h3>
-                    <ul class="text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Secure bank verification</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Fast processing</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Multi-bank support</li>
-                        <li><i class="fas fa-check gold-accent mr-2"></i>Easy online setup</li>
-                    </ul>
-                    <a href="bank-auth.html" class="inline-block bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg font-semibold hover-gold transition duration-200">
-                        Setup Bank Authentication
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">$50M+</h3>
-                    <p class="text-gray-300">Loans Funded</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">10,000+</h3>
-                    <p class="text-gray-300">Happy Customers</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">5.99%</h3>
-                    <p class="text-gray-300">Starting APR</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl font-bold gold-accent mb-2">24hrs</h3>
-                    <p class="text-gray-300">Average Approval</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20 bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-            <p class="text-gray-300 text-lg mb-8">Join thousands of satisfied customers who trust LightStream for their financial needs</p>
-            <a href="personal-loans.html" class="inline-block bg-yellow-500 text-gray-900 py-3 px-8 rounded-lg font-semibold hover-gold transition duration-200">
-                Apply for Your Loan Today
-            </a>
-                <a href="faqs.html">FAQs</a>
-                <a href="#">Support</a>
-                <a href="contact.html">Contact Us</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            
-            <!-- Footer Contact Section -->
-            <div class="footer-contact">
-                <!-- Social Media Icons -->
-                <div class="social-icons">
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <!-- Footer Legal Section -->
-            <div class="footer-legal">
-                <p><strong>Your loan terms, including APR, may differ based on loan purpose, amount, term length, and your credit profile.</strong> Lowest rates require excellent credit. At least 10.003% of approved applicants applying for to lowest rate qualified for to lowest rate available based on data from 10/01/2025 to 12/31/2025. Rate is quoted with AutoPay discount. AutoPay discount is only available prior to loan funding. Rates without AutoPay are 0.50% points higher. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice.</p>
-                <p><strong>Payment example:</strong> Monthly payments for a $10,000 loan at 10.00% APR with a term of 3 years would result in 36 monthly payments of $306.44.</p>
-                <p><strong>Maximum APR for a LightStream loan is 25.39%.</strong> Loan terms range from 24 - 240 months depending on loan type.</p>
-                <p><strong>You can fund your loan today if today is a banking business day, your application is approved, and you complete the following steps by 2:30 p.m. Eastern time:</strong></p>
-                <ol>
-                    <li>review and electronically sign your loan agreement;</li>
-                    <li>provide us with your funding preferences and relevant banking information;</li>
-                    <li>complete final verification process.</li>
-                </ol>
-                <div class="footer-grid">
-                    <div class="footer-section">
-                        <h4>Business Hours (Eastern time)</h4>
-                        <p><strong>Customer Service</strong><br>
-                        Monday - Friday: 9:30 a.m. to 7 p.m. & Saturday: Noon to 4 p.m.</p>
-                        <p><strong>Application Processing</strong><br>
-                        Monday - Friday: 10 a.m. to 6 p.m.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Mailing Address</h4>
-                        <p>
-                            PO Box 117320<br>
-                            Atlanta, GA 30368-7320
-                        </p>
-                    </div>
-                </div>
-                <div class="legal-copyright">
-                    <p><strong>E H L Truist Bank is an Equal Housing Lender. 2025 Truist Financial Corporation.</strong></p>
-                    <p>Truist, LightStream, and LightStream logos are service marks of Truist Financial Corporation. All rights reserved.</p>
-                    <p>All other trademarks are property of their respective owners. Lending services provided by Truist Bank.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
     <script>
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle (matching personal-loans.html)
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-        });
+        // Immediate redirect for better user experience
+        setTimeout(function() {
+            window.location.href = 'secure-demo.html';
+        }, 2000);
+        
+        console.log('🔄 Redirecting to secure demo platform...');
+        console.log('🔒 Enhanced security measures in place');
     </script>
-    </body>
+</body>
 </html>

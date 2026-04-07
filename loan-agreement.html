@@ -191,16 +191,22 @@
 
                 <!-- Agreement Header -->
                 <div class="glass-effect rounded-lg p-6 mb-6">
-                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">Loan Agreement Preview</h1>
+                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">Lender Offer & Agreement</h1>
                     <p class="text-gray-300">Agreement Number: <span id="loanNumber"></span></p>
                     <p class="text-gray-300">Date: <span id="currentDate"></span></p>
                 </div>
 
-                <!-- Lender Notice -->
-                <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4 mb-6">
-                    <p class="text-sm text-yellow-800">
-                        <strong>Final agreement is provided by lending partner.</strong> We only facilitate the process.
-                    </p>
+                <!-- Application Review Notice -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                        <div>
+                            <h3 class="font-semibold text-blue-900 mb-1">Application Review</h3>
+                            <p class="text-blue-800 text-sm">
+                                Our system reviews your application and matches you with suitable lenders.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Loan Summary -->
@@ -506,7 +512,7 @@
                 <ol>
                     <li>review and electronically sign your loan agreement;</li>
                     <li>provide us with your funding preferences and relevant banking information;</li>
-                    <li>complete final verification process.</li>
+                    <li>complete final application review.</li>
                 </ol>
                 <div class="footer-grid">
                     <div class="footer-section">
@@ -917,7 +923,7 @@
             const printBtn = document.getElementById('printBtn');
 
             agreeBtn.addEventListener('click', () => {
-                // Direct agreement - no OTP verification needed
+                // Direct agreement - no review needed
                 if (confirm('Are you sure you agree to this loan agreement?')) {
                     // Mark agreement as accepted
                     const agreementData = {

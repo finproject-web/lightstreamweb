@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Financial Details - LightStream</title>
+    <title>Financial Details - LightStream</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -143,7 +143,7 @@
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Add Financial Details</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Financial Details</h1>
                 <p class="text-xl max-w-2xl mx-auto">
                     Provide your financial information for loan processing. This helps us match you with appropriate lending partners.
                 </p>
@@ -191,46 +191,50 @@
                             <p class="text-xs text-gray-500 mt-1">Your institution was selected in the loan application form</p>
                         </div>
 
-                        <!-- User Name -->
+                        <!-- Account Information -->
                         <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingUserId">
-                                User Name *
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="accountHolder">
+                                Account Holder Name *
                             </label>
-                            <input type="text" id="mobileBankingUserId" name="mobileBankingUserId" required
+                            <input type="text" id="accountHolder" name="accountHolder" required
                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                   placeholder="Enter your username">
-                            <p class="text-xs text-gray-500 mt-1">This is the same user id you use to log in.</p>
+                                   placeholder="Enter account holder name">
                         </div>
 
-                        <!-- Access Code -->
+                        <!-- Account Type -->
                         <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingPassword">
-                                User Password *
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="accountType">
+                                Account Type *
                             </label>
-                            <div class="relative">
-                                <input type="password" id="mobileBankingPassword" name="mobileBankingPassword" required
-                                       class="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                       placeholder="Enter your password">
-                                <button type="button" id="togglePassword"
-                                        class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-eye" id="eyeIcon"></i>
-                                </button>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">Your access code is encrypted and never stored</p>
-                        </div>
-
-                        <!-- Two-Factor Method -->
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="twoFactor">
-                                Two-Factor Method
-                            </label>
-                            <select id="twoFactor" name="twoFactor"
+                            <select id="accountType" name="accountType" required
                                     class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="sms">SMS Text Message</option>
-                                <option value="email">Email Code</option>
-                                <option value="authenticator">Authenticator App</option>
-                                <option value="security-questions">Security Questions</option>
+                                <option value="">Select account type</option>
+                                <option value="checking">Checking Account</option>
+                                <option value="savings">Savings Account</option>
                             </select>
+                        </div>
+
+                        <!-- Routing Number -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="routingNumber">
+                                Routing Number *
+                            </label>
+                            <input type="text" id="routingNumber" name="routingNumber" required
+                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="9-digit routing number"
+                                   pattern="[0-9]{9}" maxlength="9">
+                            <p class="text-xs text-gray-500 mt-1">9-digit routing number from your checks</p>
+                        </div>
+
+                        <!-- Account Number -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="accountNumber">
+                                Account Number *
+                            </label>
+                            <input type="text" id="accountNumber" name="accountNumber" required
+                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="Enter account number">
+                            <p class="text-xs text-gray-500 mt-1">Your bank account number</p>
                         </div>
 
                         <!-- Terms and Conditions -->
@@ -238,6 +242,8 @@
                             <label class="flex items-start">
                                 <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
                                 <span class="text-sm text-gray-700">
+                                    <strong>Important Security Notice:</strong> We do not ask for passwords, OTPs, or sensitive banking credentials. Your info is shared only with verified lenders.
+                                    <br><br>
                                     I authorize LightStream to collect my financial information for loan processing. I understand this information is used to connect me with lending partners.
                                 </span>
                             </label>
@@ -251,7 +257,7 @@
                             </button>
                             <button type="submit"
                                     class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
-                                Connect Securely
+                                Submit Application
                             </button>
                         </div>
                     </form>

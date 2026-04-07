@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .cool-button {
+            background: linear-gradient(45deg, #000000, #333333);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        .step-number {
+            background: linear-gradient(45deg, #ffa500, #ff8c00);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-2">
+                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
+                        <div class="text-2xl font-bold text-white">
+                            <span class="text-cool">LightStream</span>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Details</a>
+                        <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Account</a>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">Process</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Details</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Information</a>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Account</a>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">Process</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Information</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Trust & Transparency Banner -->
+    <section class="bg-blue-900 text-white py-3 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">
+                <strong>This is a loan facilitation platform.</strong> We connect users with lending partners. We do not provide loans directly.
+            </p>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold text-white mb-6">
+                    How It <span class="text-cool">Works</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Our simple process connects you with lending partners to find the best loan options for your needs.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Steps -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/4 mb-6 md:mb-0">
+                        <div class="step-number mx-auto md:mx-0">1</div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-2xl font-bold text-white mb-4">Submit your application</h3>
+                        <p class="text-gray-300 text-lg">
+                            Fill out our simple loan application form with your personal information, income details, and loan requirements. The process takes just a few minutes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/4 mb-6 md:mb-0">
+                        <div class="step-number mx-auto md:mx-0">2</div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-2xl font-bold text-white mb-4">We evaluate eligibility</h3>
+                        <p class="text-gray-300 text-lg">
+                            Our system reviews your application and matches you with lending partners that fit your profile and loan requirements. We use protected, encrypted processes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/4 mb-6 md:mb-0">
+                        <div class="step-number mx-auto md:mx-0">3</div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-2xl font-bold text-white mb-4">We connect you with lenders</h3>
+                        <p class="text-gray-300 text-lg">
+                            We forward your application to our network of trusted lending partners who will review your information and make lending decisions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/4 mb-6 md:mb-0">
+                        <div class="step-number mx-auto md:mx-0">4</div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-2xl font-bold text-white mb-4">Lender completes review</h3>
+                        <p class="text-gray-300 text-lg">
+                            The selected lender will complete their own review process and may contact you directly for additional information if needed.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/4 mb-6 md:mb-0">
+                        <div class="step-number mx-auto md:mx-0">5</div>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-2xl font-bold text-white mb-4">You receive loan offer from lender</h3>
+                        <p class="text-gray-300 text-lg">
+                            Once reviewed, you'll receive a loan offer directly from the lender with terms, rates, and next steps for funding.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Notice -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="bg-yellow-900 bg-opacity-50 border border-yellow-600 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold text-yellow-400 mb-4">Important Notice</h3>
+                    <p class="text-yellow-200 text-lg mb-4">
+                        LightStream is a loan facilitation service, not a direct lender. We connect borrowers with lending partners but do not make lending decisions ourselves.
+                    </p>
+                    <p class="text-yellow-200">
+                        Final loan terms, rates, and approval are determined by the individual lending partners.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4 text-cool">About LightStream</h4>
+                    <p class="text-gray-400">
+                        We are a loan facilitation service helping users connect with lenders. We do not provide loans directly.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4 text-cool">Contact</h4>
+                    <p class="text-gray-400 mb-2">
+                        <i class="fas fa-envelope mr-2"></i> support@lightstream.com
+                    </p>
+                    <p class="text-gray-400">
+                        <i class="fas fa-phone mr-2"></i> 1-800-LOAN-HELP
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4 text-cool">Important</h4>
+                    <p class="text-gray-400">
+                        This is not a direct lending service. We facilitate connections between borrowers and lending partners.
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    &copy; 2026 LightStream. All rights reserved. | This is a loan facilitation platform.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

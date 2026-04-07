@@ -148,7 +148,7 @@
                 <div class="hidden md:flex space-x-6">
                     <a href="index.html" class="text-white hover:text-yellow-500 font-medium">Home</a>
                     <a href="personal-loans.html" class="text-white hover:text-yellow-500 font-medium">Personal Loans</a>
-                    <a href="bank-auth.html" class="text-white hover:text-yellow-500 font-medium">Bank Authentication</a>
+                    <a href="bank-auth.html" class="text-white hover:text-yellow-500 font-medium">Financial Details</a>
                     <a href="how-it-works.html" class="text-white hover:text-yellow-500 font-medium">How it Works</a>
                     <a href="faqs.html" class="text-white hover:text-yellow-500 font-medium">FAQs</a>
                     <a href="contact.html" class="text-white hover:text-yellow-500 font-medium">Contact</a>
@@ -160,6 +160,15 @@
             </div>
         </nav>
     </header>
+
+    <!-- Trust & Transparency Banner -->
+    <section class="bg-blue-900 text-white py-3 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">
+                <strong>This is a loan facilitation platform.</strong> We connect users with lending partners. We do not provide loans directly.
+            </p>
+        </div>
+    </section>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 agreement-container">
@@ -182,9 +191,16 @@
 
                 <!-- Agreement Header -->
                 <div class="glass-effect rounded-lg p-6 mb-6">
-                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">Unsecured Personal Loan Agreement</h1>
-                    <p class="text-gray-300">Loan Agreement Number: <span id="loanNumber"></span></p>
+                    <h1 class="text-3xl font-bold text-yellow-500 mb-2">Loan Agreement Preview</h1>
+                    <p class="text-gray-300">Agreement Number: <span id="loanNumber"></span></p>
                     <p class="text-gray-300">Date: <span id="currentDate"></span></p>
+                </div>
+
+                <!-- Lender Notice -->
+                <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Final agreement is provided by lending partner.</strong> We only facilitate the process.
+                    </p>
                 </div>
 
                 <!-- Loan Summary -->
@@ -235,11 +251,11 @@
                             <p class="font-semibold" id="phone"></p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Bank Name</p>
+                            <p class="text-sm text-gray-400">Financial Institution</p>
                             <p class="font-semibold" id="bankName"></p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Routing Number</p>
+                            <p class="text-sm text-gray-400">Account Routing Number</p>
                             <p class="font-semibold" id="routingNumber"></p>
                         </div>
                         <div>
@@ -318,13 +334,13 @@
                             <div class="p-6 pt-0">
                                 <div class="space-y-4 text-sm">
                                     <h4 class="font-semibold text-white">1. Data Protection</h4>
-                                    <p class="text-gray-300">All personal and financial information is protected using industry-standard SSL encryption and secure data storage protocols. We comply with all applicable data protection laws.</p>
+                                    <p class="text-gray-300">All personal and financial information is protected using industry-standard SSL encryption and data protection protocols. We comply with all applicable data protection laws.</p>
                                     
                                     <h4 class="font-semibold text-white">2. Information Sharing</h4>
                                     <p class="text-gray-300">We may share your information with: (a) Credit bureaus for reporting purposes; (b) Government agencies as required by law; (c) Service providers who assist in loan processing.</p>
                                     
                                     <h4 class="font-semibold text-white">3. Security Measures</h4>
-                                    <p class="text-gray-300">Our website uses 256-bit SSL encryption, firewalls, and regular security audits to protect your data. All sensitive information is encrypted both in transit and at rest.</p>
+                                    <p class="text-gray-300">Our website uses 256-bit SSL encryption, firewalls, and regular protection audits to protect your data. All sensitive information is encrypted both in transit and at rest.</p>
                                 </div>
                             </div>
                         </div>
@@ -342,7 +358,7 @@
                                     <h4 class="font-semibold text-white">1. Truth in Lending Act (TILA) Compliance</h4>
                                     <p class="text-gray-300">This agreement complies with the Truth in Lending Act. All APR, fees, and terms have been clearly disclosed. Borrower has the right to rescind this agreement within 3 business days.</p>
                                     
-                                    <h4 class="font-semibold text-white">2. E-SIGN Act Compliance</h4>
+                                    <h4 class="font-semibold text-white">2. Electronic Agreement Act Compliance</h4>
                                     <p class="text-gray-300">This electronic agreement has the same legal effect as a paper document. By signing electronically, Borrower consents to conduct business electronically.</p>
                                     
                                     <h4 class="font-semibold text-white">3. Governing Law</h4>
@@ -390,7 +406,7 @@
 
                 <!-- Electronic Consent -->
                 <div class="glass-effect rounded-lg p-6 mt-8">
-                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Electronic Consent & Signature</h3>
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Electronic Consent & Agreement</h3>
                     <div class="space-y-4 text-sm">
                         <p class="text-gray-300">By clicking "I Agree" below, I certify that:</p>
                         <ul class="list-disc list-inside text-gray-300 space-y-2">
@@ -398,14 +414,14 @@
                             <li>All information provided is true and accurate to the best of my knowledge</li>
                             <li>I understand this is a legally binding agreement</li>
                             <li>I consent to receive loan documents and communications electronically</li>
-                            <li>I understand that my electronic signature has the same legal effect as a handwritten signature</li>
+                            <li>I understand that my electronic agreement has the same legal effect as a handwritten signature</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Digital Signature Section -->
+                <!-- Digital Agreement Section -->
                 <div class="glass-effect rounded-lg p-6 mt-8">
-                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Digital Signature</h3>
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">Digital Agreement</h3>
                     
                     <!-- Terms & Conditions Checkbox -->
                     <div class="mb-6">
@@ -417,9 +433,9 @@
 
                     <!-- Signature Canvas -->
                     <div class="mb-4">
-                        <label class="block text-gray-300 text-sm font-medium mb-2">Draw your signature below:</label>
+                        <label class="block text-gray-300 text-sm font-medium mb-2">Draw your agreement below:</label>
                         <div class="relative bg-white rounded-lg border-2 border-gray-300">
-                            <canvas id="signatureCanvas" class="w-full h-32 rounded-lg cursor-crosshair"></canvas>
+                            <canvas id="agreementCanvas" class="w-full h-32 rounded-lg cursor-crosshair"></canvas>
                             <div id="signaturePlaceholder" class="absolute inset-0 flex items-center justify-center text-gray-400 pointer-events-none">
                                 <span class="text-sm">Sign here with mouse or finger</span>
                             </div>

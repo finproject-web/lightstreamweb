@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Agreement Signed - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .success-animation {
+            animation: success-pulse 2s ease-in-out;
+        }
+        
+        @keyframes success-pulse {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-yellow-500">LightStream</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-white hover:text-yellow-500 font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-yellow-500 font-medium">Personal Loans</a>
+                    <a href="bank-auth.html" class="text-white hover:text-yellow-500 font-medium">Financial Details</a>
+                    <a href="contact.html" class="text-white hover:text-yellow-500 font-medium">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Success Message -->
+            <div class="text-center mb-8">
+                <div class="success-animation inline-block mb-6">
+                    <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-check text-white text-4xl"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl font-bold text-yellow-500 mb-4">Congratulations! Your Loan Agreement is Signed</h1>
+                <p class="text-xl text-gray-300 mb-8">Your loan has been successfully processed and approved</p>
+            </div>
+
+            <!-- Loan Summary Card -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-yellow-500 mb-6">Loan Summary</h2>
+                <div id="loanSummary" class="grid md:grid-cols-2 gap-6">
+                    <!-- Loan details will be populated here -->
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-yellow-500 mb-6">Next Steps</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-black font-bold">1</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">Loan Disbursement</h3>
+                            <p class="text-gray-300">Your loan amount will be deposited into your bank account within 1-2 business days.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-black font-bold">2</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">First Payment</h3>
+                            <p class="text-gray-300">Your first monthly payment will be due within 30 days of loan disbursement.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-black font-bold">3</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-white mb-1">Email Confirmation</h3>
+                            <p class="text-gray-300">You will receive a detailed loan agreement and payment schedule via email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lender Offer Notice -->
+            <div class="glass-effect rounded-lg p-6 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-2">Lender Offer & Agreement</h2>
+                        <p class="text-gray-300">
+                            You can review the loan offer provided by the lender before proceeding.
+                        </p>
+                    </div>
+                </div>
+            </div>
+                <div class="space-y-4 text-sm">
+                    <div class="border-l-4 border-yellow-500 pl-4">
+                        <h3 class="font-semibold text-white mb-2">Payment Schedule</h3>
+                        <p class="text-gray-300">Monthly payments will be automatically debited from your bank account on the due date. Please ensure sufficient funds are available.</p>
+                    </div>
+                    <div class="border-l-4 border-yellow-500 pl-4">
+                        <h3 class="font-semibold text-white mb-2">Contact Information</h3>
+                        <p class="text-gray-300">If you need to update your contact information or have questions about your loan, please contact our customer service team.</p>
+                    </div>
+                    <div class="border-l-4 border-yellow-500 pl-4">
+                        <h3 class="font-semibold text-white mb-2">Early Repayment</h3>
+                        <p class="text-gray-300">You can repay your loan early without any prepayment penalties. This can help you save on interest charges.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                <button id="downloadPDFBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-download mr-2"></i> Download Agreement PDF
+                </button>
+                <button id="emailCopyBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-envelope mr-2"></i> Email Copy to Yourself
+                </button>
+                <button id="dashboardBtn" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-black py-4 px-6 rounded-lg font-semibold transition">
+                    <i class="fas fa-tachometer-alt mr-2"></i> Get Login Credentials
+                </button>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="text-center">
+                <p class="text-gray-300 mb-4">Need help? Our customer service team is here to assist you.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="contact.html" class="inline-flex items-center justify-center bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-headset mr-2"></i> Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-yellow-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-yellow-500 mb-4">🏦 LightStream</h3>
+                    <p class="text-gray-400">Your trusted partner for personal loans and financial services.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="personal-loans.html" class="text-gray-400 hover:text-white">Loan Application</a></li>
+                        <li><a href="bank-auth.html" class="text-gray-400 hover:text-white">Financial Details</a></li>
+                        <li><a href="faqs.html" class="text-gray-400 hover:text-white">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="faqs.html" class="hover:text-white">FAQs</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2024 LightStream. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load loan data from sessionStorage (SECURE: sessionStorage only)
+        function loadLoanData() {
+            // Try sessionStorage only for security
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            
+            console.log('🔍 Looking for loan data in sessionStorage...');
+            console.log('sessionStorage loanApplicationData:', sessionStorage.getItem('loanApplicationData'));
+            console.log('sessionStorage loanAgreementData:', sessionStorage.getItem('loanAgreementData'));
+            console.log('Final storedData:', storedData);
+            
+            if (!storedData) {
+                alert('No loan data found.');
+                window.location.href = 'personal-loans.html';
+                return;
+            }
+
+            const loanData = JSON.parse(storedData);
+            populateLoanSummary(loanData);
+        }
+
+        // Populate loan summary
+        function populateLoanSummary(loanData) {
+            const principal = parseFloat(loanData.loanAmount);
+            const annualRate = 10; // 10% APR
+            const months = parseInt(loanData.loanDuration);
+            const monthlyRate = annualRate / 12 / 100;
+            const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            const totalRepayment = emi * months;
+
+            const summaryHTML = `
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">Loan Amount</p>
+                    <p class="text-2xl font-bold text-yellow-500">$${principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">Loan Term</p>
+                    <p class="text-2xl font-bold text-yellow-500">${months} months</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">Monthly Payment</p>
+                    <p class="text-2xl font-bold text-yellow-500">$${emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">APR</p>
+                    <p class="text-2xl font-bold text-yellow-500">10.00%</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">Total Repayment</p>
+                    <p class="text-2xl font-bold text-yellow-500">$${totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400 mb-2">Loan Number</p>
+                    <p class="text-2xl font-bold text-yellow-500">LS-${Date.now()}</p>
+                </div>
+            `;
+
+            document.getElementById('loanSummary').innerHTML = summaryHTML;
+        }
+
+        // Download PDF functionality
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            const loanData = JSON.parse(storedData);
+            
+            // Add content to PDF
+            doc.setFontSize(20);
+            doc.text('LightStream Loan Agreement', 20, 20);
+            
+            doc.setFontSize(12);
+            doc.text(`Loan Number: LS-${Date.now()}`, 20, 35);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 45);
+            doc.text(`Borrower: ${loanData.fullName}`, 20, 55);
+            doc.text(`Loan Amount: $${loanData.loanAmount}`, 20, 65);
+            doc.text(`Loan Term: ${loanData.loanDuration} months`, 20, 75);
+            doc.text(`APR: 10.00%`, 20, 85);
+            
+            // Save the PDF
+            doc.save(`LightStream-Loan-Agreement-${Date.now()}.pdf`);
+        }
+
+        // Email copy functionality
+        async function emailCopy() {
+            // Get loan data from sessionStorage only (SECURE: sessionStorage only)
+            let storedData = sessionStorage.getItem('loanApplicationData') || 
+                          sessionStorage.getItem('loanAgreementData');
+            const loanData = JSON.parse(storedData);
+            
+            // This would integrate with EmailJS to send a copy
+            alert('A copy of your loan agreement has been sent to your email address.');
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            console.log('🔧 Initializing event listeners...');
+            
+            const downloadBtn = document.getElementById('downloadPDFBtn');
+            const emailBtn = document.getElementById('emailCopyBtn');
+            const dashboardBtn = document.getElementById('dashboardBtn');
+            
+            console.log('Buttons found:', {
+                downloadBtn: !!downloadBtn,
+                emailBtn: !!emailBtn,
+                dashboardBtn: !!dashboardBtn
+            });
+            
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', downloadPDF);
+            }
+            if (emailBtn) {
+                emailBtn.addEventListener('click', emailCopy);
+            }
+            if (dashboardBtn) {
+                dashboardBtn.addEventListener('click', () => {
+                    console.log('🔑 Dashboard button clicked!');
+                    generateCredentialsAndRedirect();
+                });
+            }
+        }
+
+        function generateCredentialsAndRedirect() {
+            console.log('🔑 Generating user credentials...');
+            
+            const userId = 'LS' + Date.now(); // Simple unique ID
+            const password = Math.random().toString(36).slice(-8); // Random 8-char password
+            
+            console.log('Generated credentials:', { userId, password });
+            
+            alert(`🎉 Welcome to LightStream Financial Services!\n\n🔑 Your Login Credentials:\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nUser ID: ${userId}\nPassword: ${password}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📋 Please save these details securely for future access to your loan dashboard.\n\n🏠 You will be redirected to homepage now.`);
+            
+            // Store credentials for future use (SECURE: sessionStorage only)
+            sessionStorage.setItem('userCredentials', JSON.stringify({
+                userId: userId,
+                password: password,
+                createdDate: new Date().toISOString(),
+                customerName: loanData?.fullName || 'Customer'
+            }));
+            
+            console.log('Credentials stored in sessionStorage');
+            
+            // Clear sensitive loan data after credentials generation (SECURITY)
+            sessionStorage.removeItem('loanApplicationData');
+            sessionStorage.removeItem('loanAgreementData');
+            sessionStorage.removeItem('loanData');
+            console.log('🔒 Sensitive loan data cleared from sessionStorage');
+            
+            // Redirect to homepage after user acknowledges
+            setTimeout(() => {
+                console.log('Redirecting to homepage...');
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLoanData();
+            initializeEventListeners();
+        });
+    </script>
+</body>
+</html>
+
+<!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Footer Links Section -->
+            <div class="footer-links">
+                <a href="personal-loans.html">Personal Loans</a>
+                <a href="bank-auth.html">Financial Details</a>
+                <a href="faqs.html">FAQs</a>
+                <a href="#">Support</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <!-- Footer Contact Section -->
+            <div class="footer-contact">
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Footer Legal Section -->
+            <div class="footer-legal">
+                <p><strong>Simple & Transparent Services:</strong> We connect users with lending partners. Terms and rates are determined by lending partners. We do not provide loans directly.</p>
+                <p><strong>Payment Example:</strong> $306.44 monthly payment for a $10,000 loan at 10.00% APR for 36 months.</p>
+                <p><strong>Important Note:</strong> This is a loan facilitation platform. All lending decisions are made by our lending partners.</p>
+                
+                <div class="footer-simple">
+                    <div class="footer-simple-section">
+                        <h4>Business Hours</h4>
+                        <p><strong>Customer Service:</strong><br>
+                        Monday - Friday: 9:30 AM - 7: PM<br>
+                        Saturday: Noon - 4:00 PM</p>
+                    </div>
+                    <div class="footer-simple-section">
+                        <h4>Contact Information</h4>
+                        <p>
+                        PO Box 117320<br>
+                        Atlanta, GA 30368-7320
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="legal-copyright">
+                    <p>&copy; 2026 LightStream Financial Services. All rights reserved.</p>
+                    <p>This is a loan facilitation platform. We connect users with lending partners.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <style>
+    footer {
+      background: #000000;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #ffffff;
+      border-top: 1px solid #333;
+    }
+    
+    footer .footer-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px 20px;
+    }
+    
+    /* Footer Links Section */
+    footer .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      white-space: nowrap;
+      margin-bottom: 20px;
+    }
+    
+    footer .footer-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    footer .footer-links a:hover {
+      text-decoration: underline;
+      color: #ffa500;
+    }
+    
+    /* Footer Contact Section */
+    footer .footer-contact {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #333;
+    }
+    
+    footer .footer-contact a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    footer .footer-contact a:hover {
+      color: #ffa500;
+    }
+    
+    /* Social Media Icons */
+    footer .social-icons {
+      display: flex;
+      gap: 12px;
+      margin-left: auto;
+    }
+    
+    footer .social-icons a {
+      color: #ffffff;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    footer .social-icons a:hover {
+      color: #ffa500;
+      background: rgba(255, 165, 0, 0.2);
+    }
+    
+    /* Footer Legal Section */
+    footer .footer-legal {
+      max-width: 100%;
+    }
+    
+    footer .footer-legal p {
+      margin-bottom: 16px;
+      line-height: 1.6;
+      font-size: 13px;
+      color: #cccccc;
+    }
+    
+    footer .footer-legal ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+      font-size: 13px;
+      color: #cccccc;
+    }
+    
+    footer .footer-legal strong {
+      color: #ffffff;
+    }
+    
+    /* Footer Grid */
+    footer .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin: 24px 0;
+    }
+    
+    footer .footer-section {
+      margin-bottom: 0;
+    }
+    
+    footer h4 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    
+    footer .footer-section p {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #cccccc;
+    }
+    
+    footer .footer-section strong {
+      color: #ffffff;
+    }
+    
+    /* Legal Copyright */
+    footer .legal-copyright {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+    }
+    
+    footer .legal-copyright p {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #999999;
+      margin-bottom: 8px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      footer .footer-container {
+        padding: 20px 16px;
+      }
+      
+      footer .footer-links {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      
+      footer .footer-contact {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+      }
+      
+      footer .social-icons {
+        margin-left: 0;
+        margin-top: 12px;
+      }
+      
+      footer .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin: 20px 0;
+      }
+      
+      footer .legal-copyright {
+        margin-top: 20px;
+        padding-top: 16px;
+      }
+    }
+    </style>

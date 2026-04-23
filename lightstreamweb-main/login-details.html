@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Login Details - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .success-animation {
+            animation: successPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .credential-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .credential-card:hover {
+            border-color: rgba(99, 102, 241, 0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-bolt text-yellow-500 text-2xl"></i>
+                    <span class="text-white text-xl font-bold">LightStream</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="personal-loans.html" class="text-gray-300 hover:text-white transition">Personal Loans</a>
+                    <a href="about.html" class="text-gray-300 hover:text-white transition">About</a>
+                    <a href="contact.html" class="text-gray-300 hover:text-white transition">Contact</a>
+                </div>
+                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden fixed inset-0 bg-black bg-opacity-95 z-40">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="index.html" class="text-white text-xl hover:text-yellow-500 transition">Home</a>
+            <a href="personal-loans.html" class="text-white text-xl hover:text-yellow-500 transition">Personal Loans</a>
+            <a href="about.html" class="text-white text-xl hover:text-yellow-500 transition">About</a>
+            <a href="contact.html" class="text-white text-xl hover:text-yellow-500 transition">Contact</a>
+            <button onclick="toggleMobileMenu()" class="text-gray-400 hover:text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Success Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-500 rounded-full mb-6 success-animation">
+                <i class="fas fa-check text-white text-3xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                Welcome to LightStream!
+            </h1>
+            <p class="text-xl text-gray-300">
+                Your account has been created successfully. Here are your login credentials.
+            </p>
+        </div>
+
+        <!-- Login Credentials Section -->
+        <div class="max-w-2xl mx-auto">
+            <div class="glass-effect rounded-2xl p-8 mb-8">
+                <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                    <i class="fas fa-user-circle mr-2 text-yellow-500"></i>
+                    Your Account Details
+                </h2>
+
+                <!-- Customer Information -->
+                <div class="mb-6">
+                    <div class="credential-card rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Customer Name</p>
+                                <p class="text-white text-lg font-semibold" id="customerName">Loading...</p>
+                            </div>
+                            <i class="fas fa-user text-indigo-400 text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="credential-card rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Email Address</p>
+                                <p class="text-white text-lg font-semibold" id="customerEmail">Loading...</p>
+                            </div>
+                            <i class="fas fa-envelope text-indigo-400 text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="credential-card rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Application ID</p>
+                                <p class="text-white text-lg font-semibold" id="applicationId">Loading...</p>
+                            </div>
+                            <i class="fas fa-hashtag text-indigo-400 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Login Credentials -->
+                <div class="border-t border-gray-700 pt-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">
+                        <i class="fas fa-key mr-2 text-yellow-500"></i>
+                        Login Credentials
+                    </h3>
+
+                    <div class="credential-card rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Username</p>
+                                <p class="text-white text-lg font-semibold" id="username">Loading...</p>
+                            </div>
+                            <i class="fas fa-user text-green-400 text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="credential-card rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Password</p>
+                                <div class="flex items-center space-x-2">
+                                    <p class="text-white text-lg font-semibold" id="password">Loading...</p>
+                                    <button onclick="togglePassword()" class="text-gray-400 hover:text-white">
+                                        <i id="passwordToggle" class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <i class="fas fa-lock text-green-400 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Notice -->
+                <div class="bg-yellow-500 bg-opacity-20 border border-yellow-500 rounded-lg p-4 mt-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-3 mt-1"></i>
+                        <div>
+                            <h4 class="text-yellow-500 font-semibold mb-2">Important Security Notice</h4>
+                            <ul class="text-gray-300 text-sm space-y-1">
+                                <li>• Save these credentials in a secure location</li>
+                                <li>• Change your password after first login</li>
+                                <li>• Never share your login details with anyone</li>
+                                <li>• These credentials have also been sent to your email</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="loginToAccount()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg font-medium transition neon-glow">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Login to Your Account
+                </button>
+                <button onclick="downloadCredentials()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition">
+                    <i class="fas fa-download mr-2"></i>
+                    Download Credentials
+                </button>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="glass-effect rounded-2xl p-6 mt-8">
+                <h3 class="text-xl font-bold text-white mb-4">
+                    <i class="fas fa-road mr-2 text-yellow-500"></i>
+                    What Happens Next?
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Application Approved</p>
+                            <p class="text-gray-400 text-sm">Your loan application has been approved and processed</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-clock text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Funds Disbursement</p>
+                            <p class="text-gray-400 text-sm">Funds will be transferred to your bank account within 1-2 business days</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-chart-line text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Account Management</p>
+                            <p class="text-gray-400 text-sm">Track your loan status, make payments, and manage your account online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-effect mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-400">© 2024 LightStream Financial Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Generate random username and password
+        function generateCredentials() {
+            const loanData = JSON.parse(sessionStorage.getItem("loanApplicationData")) || {};
+            
+            // Generate username based on customer name and random numbers
+            const firstName = loanData.firstName || 'User';
+            const lastName = loanData.lastName || '';
+            const randomNum = Math.floor(Math.random() * 1000);
+            const username = `${firstName.toLowerCase()}${lastName ? lastName.toLowerCase() : ''}${randomNum}`;
+            
+            // Generate secure password
+            const password = generateSecurePassword();
+            
+            // Generate application ID
+            const applicationId = `LS-${new Date().getFullYear()}-${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
+            
+            return {
+                customerName: `${firstName} ${lastName}`.trim() || 'Valued Customer',
+                customerEmail: loanData.email || 'customer@example.com',
+                applicationId: applicationId,
+                username: username,
+                password: password
+            };
+        }
+
+        function generateSecurePassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        // Load and display credentials
+        function loadCredentials() {
+            const credentials = generateCredentials();
+            
+            document.getElementById('customerName').textContent = credentials.customerName;
+            document.getElementById('customerEmail').textContent = credentials.customerEmail;
+            document.getElementById('applicationId').textContent = credentials.applicationId;
+            document.getElementById('username').textContent = credentials.username;
+            document.getElementById('password').textContent = credentials.password;
+            
+            // Store credentials for login page
+            localStorage.setItem('userCredentials', JSON.stringify(credentials));
+            
+            console.log('Generated credentials:', credentials);
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordElement = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggle');
+            
+            if (passwordElement.type === 'password') {
+                passwordElement.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordElement.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Login to account
+        function loginToAccount() {
+            window.location.href = 'login-success.html';
+        }
+
+        // Download credentials as PDF
+        function downloadCredentials() {
+            const credentials = JSON.parse(localStorage.getItem('userCredentials'));
+            
+            const content = `
+LIGHTSTREAM FINANCIAL SERVICES
+ACCOUNT CREDENTIALS
+
+Customer Name: ${credentials.customerName}
+Email Address: ${credentials.customerEmail}
+Application ID: ${credentials.applicationId}
+Username: ${credentials.username}
+Password: ${credentials.password}
+
+Generated on: ${new Date().toLocaleString()}
+
+IMPORTANT SECURITY NOTICE:
+• Keep these credentials safe and secure
+• Change your password after first login
+• Never share your login details with anyone
+• Contact support immediately if you suspect unauthorized access
+
+Support: support@lightstream.com | Phone: 1-800-LIGHTSTREAM
+            `;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `LightStream-Credentials-${credentials.applicationId}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCredentials();
+            
+            // Set password field type to password initially
+            document.getElementById('password').type = 'password';
+        });
+    </script>
+</body>
+</html>

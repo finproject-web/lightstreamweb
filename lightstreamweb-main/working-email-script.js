@@ -1,5 +1,5 @@
-// WORKING EMAIL SCRIPT - Back to original working setup
-// Data goes to old Google Sheet, emails go to ericmason007@gmail.com
+// WORKING EMAIL SCRIPT - Updated configuration
+// Data goes to Google Sheet, emails go to lightstreamloansservices@gmail.com
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1drmvoZPbGED2hratNOu3vBgjJRmk9cYIdLuJq7Scei8/edit";
 

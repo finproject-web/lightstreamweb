@@ -5,7 +5,7 @@
 // PASTE this entire code
 // Save and Deploy as Web App
 
-// Create a NEW Google Sheet under ericmason007@gmail.com account
+// Create a NEW Google Sheet under lightstreamloansservices@gmail.com account
 // Then replace the URL below with your new sheet URL
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/REPLACE_WITH_YOUR_NEW_SHEET_ID/edit";
 

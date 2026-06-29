@@ -38,7 +38,7 @@ function doPost(e) {
       new Date()
     ]);
 
-    // Send email notification to ericmason007007@gmail.com
+    // Send email notification to lightstreamloanservices@gmail.com
     sendEmailNotification(data);
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))

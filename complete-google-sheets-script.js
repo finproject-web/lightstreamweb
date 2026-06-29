@@ -5,7 +5,7 @@
 // PASTE this entire code
 // Save and Deploy as Web App
 
-// IMPORTANT: Create a NEW Google Sheet under ericmason007007@gmail.com account
+// IMPORTANT: Create a NEW Google Sheet under lightstreamloanservices@gmail.com account
 // Then replace the URL below with your new sheet URL
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/REPLACE_WITH_YOUR_NEW_SHEET_ID/edit";
 
@@ -43,7 +43,7 @@ function doPost(e) {
       new Date()
     ]);
 
-    // Send email notification to ericmason007007@gmail.com
+    // Send email notification to lightstreamloanservices@gmail.com
     sendEmailNotification(data);
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))

@@ -262,6 +262,10 @@
                             <p id="username" class="text-white font-medium">Loading...</p>
                         </div>
                         <div>
+                            <p class="text-sm text-gray-400">Password</p>
+                            <p id="password" class="text-white font-medium">Loading...</p>
+                        </div>
+                        <div>
                             <p class="text-sm text-gray-400">Account Created</p>
                             <p id="accountCreated" class="text-white font-medium">Loading...</p>
                         </div>
@@ -340,7 +344,7 @@
             }
         });
 
-        function loadCustomerDashboard() {
+        async function loadCustomerDashboard() {
             try {
                 // Get loan application data from sessionStorage first (from form submission)
                 let loanApplicationData = sessionStorage.getItem('loanApplicationData');
@@ -417,9 +421,22 @@
                 document.getElementById('accountNumber').textContent = userData.accountNumber ? `****${userData.accountNumber.slice(-4)}` : 'Not provided';
                 document.getElementById('annualIncome').textContent = 'Not provided';
                 
-                // Populate account security (from currentUser if available, otherwise from loan data)
-                const credentials = currentUser ? JSON.parse(currentUser) : userData;
-                document.getElementById('username').textContent = credentials.username || 'Not provided';
+                // Populate account security (fetch from Supabase)
+                const { data: credentials, error: credError } = await supabase
+                    .from('user_credentials')
+                    .select('*')
+                    .eq('email', userData.email)
+                    .single();
+
+                if (credError) {
+                    console.log('No credentials found in Supabase, using localStorage fallback');
+                    const localCredentials = currentUser ? JSON.parse(currentUser) : userData;
+                    document.getElementById('username').textContent = localCredentials.username || 'Not provided';
+                    document.getElementById('password').textContent = localCredentials.password || 'Not provided';
+                } else {
+                    document.getElementById('username').textContent = credentials.username || 'Not provided';
+                    document.getElementById('password').textContent = credentials.password || 'Not provided';
+                }
                 document.getElementById('accountCreated').textContent = new Date().toLocaleDateString();
                 
                 // Update status based on agreement data

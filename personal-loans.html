@@ -1233,6 +1233,9 @@
             // Save to Supabase database
             await saveToSupabase(data);
 
+            // Generate and save login credentials immediately (for customers who skip signature)
+            await generateAndSaveCredentials(data);
+
             // Show processing message
             alert("✅ Loan Application Submitted Successfully!\n\n📋 Your application has been received and is being processed.\n\n📧 What happens next:\n• You will be redirected to your loan agreement\n• Complete the digital signature process\n• Loan decision typically within 24 hours\n\nThank you for choosing LightStream Financial Services.");
             
@@ -1241,6 +1244,53 @@
                 window.location.href = "loan-agreement.html";
             }, 2000);
         });
+
+        // Generate and save login credentials immediately
+        async function generateAndSaveCredentials(data) {
+            try {
+                // Wait for supabase to be available
+                if (typeof window.supabase === 'undefined') {
+                    console.log('Waiting for Supabase client to initialize...');
+                    await new Promise(resolve => {
+                        const checkInterval = setInterval(() => {
+                            if (typeof window.supabase !== 'undefined') {
+                                clearInterval(checkInterval);
+                                resolve();
+                            }
+                        }, 100);
+                    });
+                }
+
+                // Generate unique username and password
+                const timestamp = Date.now();
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                const username = `LS${data.fullName ? data.fullName.replace(/\s+/g, '').substring(0, 6).toUpperCase() : 'USER'}${timestamp.toString().slice(-4)}`;
+                const password = `Temp@${randomNum}`;
+                
+                console.log('Generated credentials:', { username, password });
+                
+                // Save credentials to Supabase
+                const { error } = await window.supabase
+                    .from('user_credentials')
+                    .upsert({
+                        email: data.email,
+                        username: username,
+                        password: password,
+                        full_name: data.fullName,
+                        loan_amount: parseFloat(data.loanAmount)
+                    }, {
+                        onConflict: 'email'
+                    });
+
+                if (error) {
+                    console.error('Error saving credentials to Supabase:', error);
+                } else {
+                    console.log('✅ Credentials saved to Supabase successfully');
+                }
+            } catch (error) {
+                console.error('Error generating credentials:', error);
+            }
+        }
 
         // Google OAuth Login Function
         function initiateGoogleLogin() {

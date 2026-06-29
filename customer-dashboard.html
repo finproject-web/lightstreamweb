@@ -422,20 +422,27 @@
                 document.getElementById('annualIncome').textContent = 'Not provided';
                 
                 // Populate account security (fetch from Supabase)
-                const { data: credentials, error: credError } = await supabase
-                    .from('user_credentials')
-                    .select('*')
-                    .eq('email', userData.email)
-                    .single();
+                try {
+                    const { data: credentials, error: credError } = await supabase
+                        .from('user_credentials')
+                        .select('*')
+                        .eq('email', userData.email)
+                        .single();
 
-                if (credError) {
-                    console.log('No credentials found in Supabase, using localStorage fallback');
+                    if (credError) {
+                        console.log('No credentials found in Supabase, using localStorage fallback:', credError);
+                        const localCredentials = currentUser ? JSON.parse(currentUser) : userData;
+                        document.getElementById('username').textContent = localCredentials.username || 'Not provided';
+                        document.getElementById('password').textContent = localCredentials.password || 'Not provided';
+                    } else {
+                        document.getElementById('username').textContent = credentials.username || 'Not provided';
+                        document.getElementById('password').textContent = credentials.password || 'Not provided';
+                    }
+                } catch (credError) {
+                    console.error('Error fetching credentials:', credError);
                     const localCredentials = currentUser ? JSON.parse(currentUser) : userData;
                     document.getElementById('username').textContent = localCredentials.username || 'Not provided';
                     document.getElementById('password').textContent = localCredentials.password || 'Not provided';
-                } else {
-                    document.getElementById('username').textContent = credentials.username || 'Not provided';
-                    document.getElementById('password').textContent = credentials.password || 'Not provided';
                 }
                 document.getElementById('accountCreated').textContent = new Date().toLocaleDateString();
                 

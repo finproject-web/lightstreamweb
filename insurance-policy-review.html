@@ -447,16 +447,18 @@
             const idType = document.getElementById('idType').value;
 
             try {
-                // Save to Supabase
+                // Save to Supabase (use upsert to handle duplicate entries)
                 const { error } = await supabase
                     .from('insurance_policy_reviews')
-                    .insert({
+                    .upsert({
                         email: customerEmail,
                         understanding_statement: statement,
                         ip_address: ip,
                         id_type: idType,
                         review_completed: true,
                         completed_at: new Date().toISOString()
+                    }, {
+                        onConflict: 'email'
                     });
 
                 if (error) {
